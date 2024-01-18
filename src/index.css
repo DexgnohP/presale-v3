@@ -122,6 +122,7 @@ code {
   display: -webkit-box;
   -webkit-line-clamp: 2; /* number of lines to show */
   line-clamp: 2;
+  min-height: 3.5rem;
   -webkit-box-orient: vertical;
 }
 

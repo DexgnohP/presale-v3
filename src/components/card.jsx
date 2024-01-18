@@ -39,7 +39,8 @@ export default function Card({ data }) {
                 if (snapshot.exists()) {
                     let total = 0
                     let end = snapshot.val().end || false
-                    Object.values(snapshot.val()).tx.forEach(item => {
+                    let listTX =snapshot.val().tx? Object.values(snapshot.val().tx) : []
+                    listTX.forEach(item => {
                         if (Object.keys(item).length)
                             total += item.sol
                     })
@@ -82,7 +83,8 @@ export default function Card({ data }) {
                     if (snapshot.exists()) {
                         let end = snapshot.val().end || false
                         let total = 0
-                        Object.values(snapshot.val().tx).forEach(item => {
+                        let listTX =snapshot.val().tx? Object.values(snapshot.val().tx) : []
+                        listTX.forEach(item => {
                             if (Object.keys(item).length)
                                 total += item.sol
                         })
@@ -203,13 +205,15 @@ export default function Card({ data }) {
 
 
             let trans = await setWalletTransaction(instruction, connection);
-            await signAndSendTransaction(trans);
-            writeUserData(window.solana.publicKey.toString(), valueSol)
-            notification.success({
-                message: `Successful`,
-                description: `Transaction successful!`,
-                placement: "topRight",
-            });
+            let result = await signAndSendTransaction(trans);
+            if(result){
+                writeUserData(window.solana.publicKey.toString(), valueSol)
+                notification.success({
+                    message: `Successful`,
+                    description: `Transaction successful!`,
+                    placement: "topRight",
+                });
+            }
         } catch (e) {
             notification.error({
                 message: `Error`,
@@ -231,7 +235,7 @@ export default function Card({ data }) {
 
     async function signAndSendTransaction(transaction) {
         // Sign transaction, broadcast, and confirm
-        const { signature } = await window.solana.signAndSendTransaction(
+        const {signature} = await window.solana.signAndSendTransaction(
             transaction
         );
         return signature;

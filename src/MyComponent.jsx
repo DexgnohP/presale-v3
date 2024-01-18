@@ -3,12 +3,44 @@ import { Button } from 'antd';
 import background from "./images/background.jpg"
 import logo from "./images/logo.png"
 import { List } from 'antd';
+import maple from "./images/maple.png"
+import fifa from "./images/fifa.png"
 import Card from './components/card';
 
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 export default function MyComponent() {
     const data = [
+        {
+            id: 2,
+            table: "maplestory",
+            name: "MapleStory Finance",
+            logo: maple,
+            des: "MapleStory Finance: Where Gaming Meets DeFi Magic – Unleashing Cuteness, Crafting Profits!",
+            min: 1,
+            max: 5,
+            time: "2024-01-18T13:00:00Z",
+            totalRaised: 300,
+            tele: "t.me/MapleStory_X",
+            tw: "https://twitter.com/MapleStory_X",
+            web: "https://maplestoryfinance.me/",
+            contractPresale: "75m95K4Jb1GbRfn4VX7NJ4X7jg2RCoAxudPFHdBgNTYt",
+        },
+        {
+            id: 1,
+            table: "fifa",
+            name: "ФИФА Заработай",
+            logo: fifa,
+            des: "Conquer the pitch with GameFi FIFA 2024: Where colors and passion collide!",
+            min: 1,
+            max: 5,
+            time: "2024-01-15T13:20:00Z",
+            totalRaised: 300,
+            tele: "https://t.me/FifaEarnX",
+            tw: "https://twitter.com/FifaEarnX",
+            web: "https://fifaearn.pro/",
+            contractPresale: "22ZNv9fUgY2uJTLt1Wkx8r8bNhJcrSzj89yjCVxanNR4",
+        },
         // {
         //     id: 1,
         //     table: "yasuo",
@@ -22,7 +54,7 @@ export default function MyComponent() {
         //     tele: "https://t.me/Yasuo_Finance",
         //     tw: "https://twitter.com/Yasuo_Finance",
         //     web: "https://yasuofinance.xyz/",
-        //     contractPresale: "GJK3vtLifwNNHwcsrnGXfN6CiyswVZh2u9nzQvuGZYba",
+        //     contractPresale: "7NPnmKpgsBrHu9U6T38pwYqe9HCZ4NzmrGBsZZ2Ebt2c",
         // },
     ];
     return (
