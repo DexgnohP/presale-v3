@@ -245,12 +245,15 @@ code {
 }
 
 .container-modal .modal-right .limit {
+  word-break: break-all;
   font-size: 1.2rem;
 }
 
 .container-modal .modal-right .buy-presale {
   display: flex;
   margin-top: 30px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .container-modal
@@ -259,6 +262,9 @@ code {
   .input-sol
   .ant-input-number-input-wrap,
 input {
+  height: 100% !important;
+}
+.container-modal .ant-input-number {
   height: 100% !important;
 }
 
