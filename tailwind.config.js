@@ -14,6 +14,7 @@ export default {
       colors: {
         'cyan-presale-theme': '#0CEEAC',
         'purple-presale-theme': '#D528FE',
+        'pink-presale-theme': '#ffabfc',
       },
       animation: {
         'infinite-scroll': 'infinite-scroll 25s linear infinite',

@@ -13,7 +13,15 @@ import comingIcon from "../images/icons/coming-icon.png";
 import { ArrowRightOutlined, DownOutlined } from "@ant-design/icons";
 import { ref, set, push, child, get } from "firebase/database";
 import web from "../images/web.png";
-import { Button, Modal, InputNumber, notification } from "antd";
+import {
+  Button,
+  Modal,
+  InputNumber,
+  notification,
+  Input,
+  Select,
+  Dropdown,
+} from "antd";
 import * as buffer from "buffer";
 import { database } from "../firebase";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -345,11 +353,56 @@ export default function Card({ data }) {
     }
   };
 
+  const items = [
+    {
+      key: "1",
+      label: (
+        <div
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+          className="flex w-full items-center gap-2 rounded-full px-2 py-2 font-medium !text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme"
+        >
+          <img src={safuIcon} className="w-8 object-contain" alt="img" />
+          <span>@username</span>
+        </div>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <div
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+          className="flex w-full items-center gap-2 rounded-full px-2 py-2 font-medium !text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme"
+        >
+          <img src={safuIcon} className="w-8 object-contain" alt="img" />
+          <span>@username</span>
+        </div>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <div
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+          className="flex w-full items-center gap-2 rounded-full px-2 py-2 font-medium !text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme"
+        >
+          <img src={safuIcon} className="w-8 object-contain" alt="img" />
+          <span>@username</span>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <>
       <div className="card-item">
         <div className="card-logo h-full justify-between gap-2">
-          <div className="h-full flex-col items-center gap-2 md:flex md:flex-row">
+          <div className="h-full flex-col items-center gap-2 lg:flex lg:flex-row">
             {status && (
               <div className="absolute right-4 top-2 mt-0 flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#0CEEAC] px-3 py-1">
                 <img src={liveIcon} alt="img" />
@@ -359,7 +412,7 @@ export default function Card({ data }) {
             <img src={data.logo} alt="img" />
 
             {/* project status buttons */}
-            <div className="mt-4 flex flex-wrap items-center gap-2 md:mt-0">
+            <div className="mt-4 flex flex-wrap items-center gap-2 lg:mt-0">
               <div className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#88FF7D] px-3 py-1">
                 <img src={safuIcon} alt="img" />
                 <span>Safu</span>
@@ -375,22 +428,57 @@ export default function Card({ data }) {
             </div>
           </div>
         </div>
-        <Button className="mt-4 flex h-7 items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px] font-medium lg:hidden">
-          <span className="ml-2">Marketing By</span>
-          <DownOutlined className="mr-2" />
-        </Button>
+        <Dropdown
+          menu={{
+            items,
+          }}
+          dropdownRender={(menu) => (
+            <div style={{}}>
+              {React.cloneElement(menu, {
+                style: {
+                  backgroundColor: "black",
+                  border: "1px solid #D528FE",
+                  text: "white",
+                },
+              })}
+            </div>
+          )}
+        >
+          <div className="mt-4 w-[50%] rounded-3xl border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme py-2 text-white hover:bg-none lg:hidden hover:bg-[#474747]">
+            Marketing By
+            <DownOutlined />
+          </div>
+        </Dropdown>
+
         <div className="card-title">{data.name}</div>
         <div className="card-content">{data.des}</div>
-        <div className="mt-8 flex items-center lg:justify-between justify-center">
-          <Button className="hidden lg:flex h-7 items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px] font-medium">
-            <span className="ml-2">Marketing By</span>
-            <DownOutlined className="mr-2" />
-          </Button>
+        <div className="mt-8 flex items-center justify-center lg:justify-between">
+          <Dropdown
+            menu={{
+              items,
+            }}
+            dropdownRender={(menu) => (
+              <div style={{}}>
+                {React.cloneElement(menu, {
+                  style: {
+                    backgroundColor: "black",
+                    border: "1px solid #D528FE",
+                    text: "white",
+                  },
+                })}
+              </div>
+            )}
+          >
+            <div className="hidden w-[40%] justify-between rounded-3xl border-none bg-[#474747] px-4 py-2 text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:!text-black lg:flex">
+              Marketing By
+              <DownOutlined />
+            </div>
+          </Dropdown>
           <Button
             className="flex h-11 items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px]"
             onClick={showModal}
           >
-            <div className="flex w-full justify-between rounded-full bg-gray-900 p-[10px] font-medium text-white">
+            <div className="flex w-full justify-between rounded-full bg-black p-[10px] font-medium text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
               <span className="ml-2">View Detail</span>
               <ArrowRightOutlined className="mx-2" />
             </div>
@@ -408,9 +496,11 @@ export default function Card({ data }) {
         onCancel={handleCancel}
       >
         <div className="container-modal">
-          <div className="modal-left">
-            <img src={data.logo} alt="img" className="w-1/4"/>
-            <div className="text-2xl lg:text-4xl mt-2 font-bold">{data.name}</div>
+          <div className="modal-left justify-center">
+            <img src={data.logo} alt="img" className="w-1/4" />
+            <div className="mt-2 text-2xl font-bold lg:text-4xl">
+              {data.name}
+            </div>
             {/* project icons */}
             <div className="mt-2 flex justify-center gap-2">
               <div className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#88FF7D] px-3 py-1">
@@ -442,13 +532,13 @@ export default function Card({ data }) {
               </a>
             </div>
           </div>
-          <div className="border-b-2 my-8 lg:hidden"></div>
-          <div className="modal-right flex-col justify-between gap-2 text-center lg:text-start">
+          <div className="my-8 border-b-2 lg:hidden"></div>
+          <div className="modal-right flex-col justify-between gap-8 text-center lg:text-start">
             <div className="description">
               <strong className="text-[#60FF97]">Description:</strong>
               <br></br> {data.des}
             </div>
-            <div className="status flex-col flex lg:flex-row gap-2 lg:gap-4 items-center">
+            <div className="status flex flex-col items-center gap-2 lg:flex-row lg:gap-4">
               <span className="text-[#60FF97]">Status Project:</span>
               <div className="mt-0 flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#0CEEAC] px-3 py-1">
                 <img src={liveIcon} alt="img" />
@@ -463,15 +553,15 @@ export default function Card({ data }) {
               <strong className="text-[#60FF97]">Total Raised:</strong>{" "}
               {Number(totalRaised.toFixed(2))} SOL
             </div>
-            <div className="inline-flex h-12 items-center justify-between rounded-md border border-zinc-800 bg-neutral-900 px-4 py-3">
-              <div className="font-['Inter'] text-base font-normal leading-normal text-zinc-600">
-                Ex: 1 SOL
-              </div>
-              <div className="inline-flex flex-col items-start justify-start rounded-[20px] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-2 py-0.5">
-                <div className="font-['Inter'] text-xs font-semibold leading-[18px] text-black">
-                  Buy Presale
-                </div>
-              </div>
+            <div className="inline-flex h-12 items-center justify-between gap-2 rounded-md border border-zinc-800 bg-neutral-900">
+              <Input
+                bordered={false}
+                placeholder="Ex: 1 SOL"
+                className="h-full bg-neutral-900 text-base font-normal leading-normal text-zinc-600 placeholder-zinc-800"
+              />
+              <a className="w- mr-2 inline-flex h-[70%] w-[100px] flex-col items-center justify-center rounded-[20px] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-2 py-0.5 font-['Inter'] text-xs font-semibold leading-[18px] text-black hover:text-white">
+                Buy Presale
+              </a>
             </div>
             {status === "Coming" && (
               <div className="clock-container">

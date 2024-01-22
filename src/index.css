@@ -47,7 +47,7 @@ code {
 }
 
 .logo {
-  width: 60px;
+  width: 100px;
 }
 
 .nav-left {
@@ -239,9 +239,6 @@ code {
   .buy-presale
   .input-sol
   .ant-input-number-input-wrap,
-input {
-  height: 100% !important;
-}
 .container-modal .ant-input-number {
   height: 100% !important;
 }
@@ -343,4 +340,14 @@ input {
   .container-modal .modal-left {
     border: 0;
   }
+}
+
+.ant-dropdown-menu-item {
+  padding: 0 !important;
+}
+
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
