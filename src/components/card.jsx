@@ -25,6 +25,7 @@ import {
 import * as buffer from "buffer";
 import { database } from "../firebase";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { projectIcon, projectStatus } from "../MyComponent";
 
 window.Buffer = buffer.Buffer;
 
@@ -33,6 +34,7 @@ export default function Card({ data }) {
   const wallet = useWallet();
   const lamports_per_sol = solanaWeb3.LAMPORTS_PER_SOL;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [itemDropdowns, setItemDropdown] = useState([]);
   const [timeRemaining, setTimeRemaining] = useState();
   const [isBuyFinally, setIsBuyFinally] = useState(false);
   const [valueSol, setValueSol] = useState("");
@@ -72,6 +74,26 @@ export default function Card({ data }) {
           mapStatus();
         }
       });
+      let itemDropdown = data.marketing.map((item, index) => ({
+        key: index,
+        label: (
+          <div
+            key={index}
+            target="_blank"
+            rel="noopener noreferrer"
+            href={item.link}
+            className="flex w-full items-center gap-2 rounded-[8px] px-2 py-1 font-medium !text-white hover:bg-gray-700"
+          >
+            <img
+              src={item.icon}
+              className="w-8 rounded-[50%] object-contain"
+              alt="img"
+            />
+            <span>{item.name}</span>
+          </div>
+        ),
+      }));
+      setItemDropdown(itemDropdown);
     }
   }, [data]);
 
@@ -158,15 +180,15 @@ export default function Card({ data }) {
     };
   }
 
-  const projectStatus = [
-    { name: "Safu", icon: safuIcon },
-    { name: "Audit", icon: auditIcon },
-    { name: "Doxx", icon: doxxIcon },
-    { name: "KYC", icon: kycIcon },
-    { name: "Live", icon: liveIcon },
-    { name: "End", icon: endIcon },
-    { name: "Coming", icon: comingIcon },
-  ];
+  // const projectStatus = [
+  //   { name: "Safu", icon: safuIcon },
+  //   { name: "Audit", icon: auditIcon },
+  //   { name: "Doxx", icon: doxxIcon },
+  //   { name: "KYC", icon: kycIcon },
+  //   { name: "Live", icon: liveIcon },
+  //   { name: "End", icon: endIcon },
+  //   { name: "Coming", icon: comingIcon },
+  // ];
 
   async function sendButtonClick() {
     const receiverAddress = data.contractPresale;
@@ -353,84 +375,67 @@ export default function Card({ data }) {
     }
   };
 
-  const items = [
-    {
-      key: "1",
-      label: (
-        <div
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-          className="flex w-full items-center gap-2 rounded-full px-2 py-2 font-medium !text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme"
-        >
-          <img src={safuIcon} className="w-8 object-contain" alt="img" />
-          <span>@username</span>
-        </div>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <div
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-          className="flex w-full items-center gap-2 rounded-full px-2 py-2 font-medium !text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme"
-        >
-          <img src={safuIcon} className="w-8 object-contain" alt="img" />
-          <span>@username</span>
-        </div>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <div
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-          className="flex w-full items-center gap-2 rounded-full px-2 py-2 font-medium !text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme"
-        >
-          <img src={safuIcon} className="w-8 object-contain" alt="img" />
-          <span>@username</span>
-        </div>
-      ),
-    },
-  ];
-
   return (
     <>
       <div className="card-item">
         <div className="card-logo h-full justify-between gap-2">
           <div className="h-full flex-col items-center gap-2 lg:flex lg:flex-row">
             {status && (
-              <div className="absolute right-4 top-2 mt-0 flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#0CEEAC] px-3 py-1">
-                <img src={liveIcon} alt="img" />
-                <span>Live</span>
+              <div
+                className={`absolute right-4 top-2 mt-0 flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border  px-3 py-1`}
+                style={{
+                  borderColor: `${projectStatus.find((item) => item.name === status).borderColor}`,
+                }}
+              >
+                <img
+                  src={
+                    status === "Live"
+                      ? liveIcon
+                      : status === "End"
+                        ? endIcon
+                        : comingIcon
+                  }
+                  alt="img"
+                />
+                <span>{status}</span>
               </div>
             )}
             <img src={data.logo} alt="img" />
 
             {/* project status buttons */}
             <div className="mt-4 flex flex-wrap items-center gap-2 lg:mt-0">
-              <div className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#88FF7D] px-3 py-1">
-                <img src={safuIcon} alt="img" />
-                <span>Safu</span>
-              </div>
-              <div className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#5CE2FF] px-3 py-1">
+              {data.tag.length &&
+                data.tag.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border px-3 py-1"
+                    style={{
+                      borderColor: projectIcon.find((it) => it.name === item)
+                        .borderColor,
+                    }}
+                  >
+                    <img
+                      src={projectIcon.find((it) => it.name === item).icon}
+                      alt="img"
+                    />
+                    <span>{item}</span>
+                  </div>
+                ))}
+
+              {/* <div className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#5CE2FF] px-3 py-1">
                 <img src={auditIcon} alt="img" />
                 <span>Audit</span>
               </div>
               <div className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#F9E212] px-3 py-1">
                 <img src={doxxIcon} alt="img" />
                 <span>Doxx</span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
         <Dropdown
           menu={{
-            items,
+            items: itemDropdowns,
           }}
           dropdownRender={(menu) => (
             <div style={{}}>
@@ -444,7 +449,10 @@ export default function Card({ data }) {
             </div>
           )}
         >
-          <div className="mt-4 w-[50%] rounded-3xl border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme py-2 text-white hover:bg-none lg:hidden hover:bg-[#474747]">
+          <div
+            onClick={(e) => e.preventDefault()}
+            className="mt-4 w-[50%] rounded-3xl border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme py-2 text-white hover:bg-[#474747] hover:bg-none lg:hidden"
+          >
             Marketing By
             <DownOutlined />
           </div>
@@ -455,7 +463,7 @@ export default function Card({ data }) {
         <div className="mt-8 flex items-center justify-center lg:justify-between">
           <Dropdown
             menu={{
-              items,
+              items: itemDropdowns,
             }}
             dropdownRender={(menu) => (
               <div style={{}}>
@@ -469,7 +477,10 @@ export default function Card({ data }) {
               </div>
             )}
           >
-            <div className="hidden w-[40%] justify-between rounded-3xl border-none bg-[#474747] px-4 py-2 text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:!text-black lg:flex">
+            <div
+              onClick={(e) => e.preventDefault()}
+              className="hidden w-[40%] justify-between rounded-3xl border-none bg-[#474747] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-4 py-2 text-white hover:bg-none  lg:flex"
+            >
               Marketing By
               <DownOutlined />
             </div>
@@ -503,18 +514,23 @@ export default function Card({ data }) {
             </div>
             {/* project icons */}
             <div className="mt-2 flex justify-center gap-2">
-              <div className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#88FF7D] px-3 py-1">
-                <img src={safuIcon} alt="img" />
-                <span>Safu</span>
-              </div>
-              <div className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#5CE2FF] px-3 py-1">
-                <img src={auditIcon} alt="img" />
-                <span>Audit</span>
-              </div>
-              <div className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#F9E212] px-3 py-1">
-                <img src={doxxIcon} alt="img" />
-                <span>Doxx</span>
-              </div>
+              {data.tag.length &&
+                data.tag.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border  px-3 py-1"
+                    style={{
+                      borderColor: projectIcon.find((it) => it.name === item)
+                        .borderColor,
+                    }}
+                  >
+                    <img
+                      src={projectIcon.find((it) => it.name === item).icon}
+                      alt="img"
+                    />
+                    <span>{item}</span>
+                  </div>
+                ))}
             </div>
             {/* social network icons */}
             <div className="social">
@@ -527,7 +543,27 @@ export default function Card({ data }) {
               <a href={data.web} target="_blank" rel="noopener noreferrer">
                 <img src={web} alt="img" />
               </a>
-              <a href={data.tele} target="_blank" rel="noopener noreferrer">
+              <a
+                onClick={() => {
+                  if (wallet.connected) {
+                    navigator.clipboard.writeText(
+                      `https://idosol.me/${wallet.publicKey.toString()}`,
+                    );
+                    notification.success({
+                      message: `Successful`,
+                      description: `Coppied successful!`,
+                      placement: "topRight",
+                    });
+                  } else {
+                    notification.error({
+                      message: `Error`,
+                      description: `Please Connect Wallet!`,
+                      placement: "topRight",
+                    });
+                  }
+                }}
+                rel="noopener noreferrer"
+              >
                 <img src={linkIcon} alt="img" />
               </a>
             </div>
@@ -540,9 +576,23 @@ export default function Card({ data }) {
             </div>
             <div className="status flex flex-col items-center gap-2 lg:flex-row lg:gap-4">
               <span className="text-[#60FF97]">Status Project:</span>
-              <div className="mt-0 flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border border-[#0CEEAC] px-3 py-1">
-                <img src={liveIcon} alt="img" />
-                <span>Live</span>
+              <div
+                className="mt-0 flex h-7 w-auto items-center justify-center gap-1 rounded-[20px] border  px-3 py-1"
+                style={{
+                  borderColor: `${projectStatus.find((item) => item.name === status)?.borderColor}`,
+                }}
+              >
+                <img
+                  src={
+                    status === "Live"
+                      ? liveIcon
+                      : status === "End"
+                        ? endIcon
+                        : comingIcon
+                  }
+                  alt="img"
+                />
+                <span>{status}</span>
               </div>
             </div>
             <div className="limit">
@@ -553,16 +603,7 @@ export default function Card({ data }) {
               <strong className="text-[#60FF97]">Total Raised:</strong>{" "}
               {Number(totalRaised.toFixed(2))} SOL
             </div>
-            <div className="inline-flex h-12 items-center justify-between gap-2 rounded-md border border-zinc-800 bg-neutral-900">
-              <Input
-                bordered={false}
-                placeholder="Ex: 1 SOL"
-                className="h-full bg-neutral-900 text-base font-normal leading-normal text-zinc-600 placeholder-zinc-800"
-              />
-              <a className="w- mr-2 inline-flex h-[70%] w-[100px] flex-col items-center justify-center rounded-[20px] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-2 py-0.5 font-['Inter'] text-xs font-semibold leading-[18px] text-black hover:text-white">
-                Buy Presale
-              </a>
-            </div>
+
             {status === "Coming" && (
               <div className="clock-container">
                 <div className="clock-col">
@@ -586,50 +627,26 @@ export default function Card({ data }) {
               </div>
             )}
             {/* force to return false since the figma design doesn't include these buttons */}
-            {status === "Live" && false && (
+            {status === "Live" && (
               <>
-                <div className="buy-presale">
+                <div className="relative h-12 items-center justify-between gap-2 rounded-md border border-zinc-800 bg-neutral-900">
                   <InputNumber
-                    className="input-sol"
+                    type="number"
                     min={data.min}
                     max={data.max}
                     value={valueSol}
                     onChange={changeSol}
+                    bordered={false}
+                    placeholder="Ex: 1 SOL"
+                    className="input-sol h-full bg-neutral-900 text-base font-normal leading-normal text-zinc-600 placeholder-zinc-800"
                   />
-                  <Button
-                    className="button-detail"
-                    style={{ marginLeft: "10px" }}
+                  <a
                     onClick={send}
-                    loading={isBuyFinally}
+                    className="absolute right-2 top-2 inline-flex h-[70%] w-[100px] flex-col items-center justify-center rounded-[20px] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-2 py-0.5 font-['Inter'] text-xs font-semibold leading-[18px] text-black hover:text-white"
                   >
                     Buy Presale
-                  </Button>
+                  </a>
                 </div>
-                <p className="limit" style={{ marginTop: "2rem" }}>
-                  <Button
-                    className="button-detail"
-                    onClick={() => {
-                      if (wallet.connected) {
-                        navigator.clipboard.writeText(
-                          `https://idosol.me/${wallet.publicKey.toString()}`,
-                        );
-                        notification.success({
-                          message: `Successful`,
-                          description: `Coppied successful!`,
-                          placement: "topRight",
-                        });
-                      } else {
-                        notification.error({
-                          message: `Error`,
-                          description: `Please Connect Wallet!`,
-                          placement: "topRight",
-                        });
-                      }
-                    }}
-                  >
-                    Invite Link
-                  </Button>
-                </p>
               </>
             )}
           </div>

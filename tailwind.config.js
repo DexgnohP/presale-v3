@@ -26,7 +26,7 @@ export default {
         }
       },
       backgroundImage: {
-        'background': "url('src/assets/utils/background.svg')",
+        'background': "url('src/assets/utils/background.png')",
       },
     },
   },
