@@ -3,10 +3,7 @@ import * as solanaWeb3 from "@solana/web3.js";
 import tele from "../images/tele.png";
 import linkIcon from "../images/link-icon.png";
 import tw from "../images/tw.png";
-import safuIcon from "../images/icons/safu-icon.png";
-import auditIcon from "../images/icons/audit-icon.png";
-import kycIcon from "../images/icons/kyc-icon.png";
-import doxxIcon from "../images/icons/doxx-icon.png";
+import warningIcon from "../images/warning.svg";
 import liveIcon from "../images/icons/live-icon.png";
 import endIcon from "../images/icons/end-icon.png";
 import comingIcon from "../images/icons/coming-icon.png";
@@ -21,6 +18,7 @@ import {
   Input,
   Select,
   Dropdown,
+  Tooltip,
 } from "antd";
 import * as buffer from "buffer";
 import { database } from "../firebase";
@@ -77,7 +75,7 @@ export default function Card({ data }) {
       let itemDropdown = data.marketing.map((item, index) => ({
         key: index,
         label: (
-          <div
+          <a
             key={index}
             target="_blank"
             rel="noopener noreferrer"
@@ -86,11 +84,12 @@ export default function Card({ data }) {
           >
             <img
               src={item.icon}
-              className="w-8 rounded-[50%] object-contain"
+              style={{ width: "40px", height: "40px" }}
+              className="w-8 rounded-[50%] object-cover"
               alt="img"
             />
             <span>{item.name}</span>
-          </div>
+          </a>
         ),
       }));
       setItemDropdown(itemDropdown);
@@ -218,7 +217,7 @@ export default function Card({ data }) {
     if (!wallet.connected) {
       notification.error({
         message: `Error`,
-        description: `Please Conenct Phantom Wallet`,
+        description: `Please Connect Phantom Wallet`,
         placement: "topRight",
       });
     } else {
@@ -290,7 +289,7 @@ export default function Card({ data }) {
         let txIDO = solanaWeb3.SystemProgram.transfer({
           fromPubkey: fromPubkey,
           toPubkey: new solanaWeb3.PublicKey(
-            "7NPnmKpgsBrHu9U6T38pwYqe9HCZ4NzmrGBsZZ2Ebt2c",
+            import.meta.env.VITE_CONTRACT_ADDRESS_IDO,
           ),
           lamports: lamports / 100,
         });
@@ -299,7 +298,7 @@ export default function Card({ data }) {
         let txIDO = solanaWeb3.SystemProgram.transfer({
           fromPubkey: fromPubkey,
           toPubkey: new solanaWeb3.PublicKey(
-            "7NPnmKpgsBrHu9U6T38pwYqe9HCZ4NzmrGBsZZ2Ebt2c",
+            import.meta.env.VITE_CONTRACT_ADDRESS_IDO,
           ),
           lamports: (lamports * 3) / 100,
         });
@@ -479,7 +478,7 @@ export default function Card({ data }) {
           >
             <div
               onClick={(e) => e.preventDefault()}
-              className="hidden w-[40%] justify-between rounded-3xl border-none bg-[#474747] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-4 py-2 text-white hover:bg-none  lg:flex"
+              className="hidden w-[30%] justify-between rounded-3xl border-none bg-[#474747] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-4 py-2 text-white hover:bg-none  lg:flex"
             >
               Marketing By
               <DownOutlined />
@@ -542,29 +541,6 @@ export default function Card({ data }) {
               </a>
               <a href={data.web} target="_blank" rel="noopener noreferrer">
                 <img src={web} alt="img" />
-              </a>
-              <a
-                onClick={() => {
-                  if (wallet.connected) {
-                    navigator.clipboard.writeText(
-                      `https://idosol.me/${wallet.publicKey.toString()}`,
-                    );
-                    notification.success({
-                      message: `Successful`,
-                      description: `Coppied successful!`,
-                      placement: "topRight",
-                    });
-                  } else {
-                    notification.error({
-                      message: `Error`,
-                      description: `Please Connect Wallet!`,
-                      placement: "topRight",
-                    });
-                  }
-                }}
-                rel="noopener noreferrer"
-              >
-                <img src={linkIcon} alt="img" />
               </a>
             </div>
           </div>
@@ -640,15 +616,67 @@ export default function Card({ data }) {
                     placeholder="Ex: 1 SOL"
                     className="input-sol h-full bg-neutral-900 text-base font-normal leading-normal text-zinc-600 placeholder-zinc-800"
                   />
-                  <a
+                  <Button
+                    loading={isBuyFinally}
                     onClick={send}
-                    className="absolute right-2 top-2 inline-flex h-[70%] w-[100px] flex-col items-center justify-center rounded-[20px] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-2 py-0.5 font-['Inter'] text-xs font-semibold leading-[18px] text-black hover:text-white"
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      border: "0",
+                      minWidth: "100px",
+                    }}
+                    className="absolute right-2 top-[7px] inline-flex h-[70%] w-[100px] flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme px-2 py-0.5 font-['Inter'] text-xs font-semibold leading-[18px] !text-black hover:!text-white"
                   >
-                    Buy Presale
-                  </a>
+                    {isBuyFinally ? null : "Buy Presale"}
+                  </Button>
                 </div>
               </>
             )}
+            {status !== "End" ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1.2rem",
+                  color: "#60ff97",
+                }}
+              >
+                <strong>REF</strong>
+                <Tooltip
+                  placement="top"
+                  title={
+                    "You'll receive a 2% commission when inviting friends to purchase through this link."
+                  }
+                  arrow={true}
+                >
+                  <img style={{ margin: "0 5px" }} src={warningIcon} />
+                </Tooltip>
+                <a
+                  onClick={() => {
+                    if (wallet.connected) {
+                      navigator.clipboard.writeText(
+                        `https://idosol.me/${wallet.publicKey.toString()}`,
+                      );
+                      notification.success({
+                        message: `Successful`,
+                        description: `Coppied successful!`,
+                        placement: "topRight",
+                      });
+                    } else {
+                      notification.error({
+                        message: `Error`,
+                        description: `Please Connect Wallet!`,
+                        placement: "topRight",
+                      });
+                    }
+                  }}
+                  rel="noopener noreferrer"
+                >
+                  <img src={linkIcon} alt="img" />
+                </a>
+              </div>
+            ) : null}
           </div>
         </div>
       </Modal>

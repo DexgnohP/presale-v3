@@ -3,6 +3,9 @@ import { Button, Input, Select } from "antd";
 import logo from "./images/logo.png";
 import { List } from "antd";
 import maple from "./images/maple.png";
+import meme from "./images/meme.png";
+import forsages from "./images/forsages.png";
+import mastercat from "./images/mastercat.jpg";
 import fifa from "./images/fifa.png";
 import Card from "./components/card";
 import { ArrowDownOutlined } from "@ant-design/icons";
@@ -10,6 +13,7 @@ import safuIcon from "./images/icons/safu-icon.png";
 import auditIcon from "./images/icons/audit-icon.png";
 import kycIcon from "./images/icons/kyc-icon.png";
 import doxxIcon from "./images/icons/doxx-icon.png";
+import whitePlusIcon from "./images/icons/white-plus-icon-3.png";
 import liveIcon from "./images/icons/live-icon.png";
 import endIcon from "./images/icons/end-icon.png";
 import comingIcon from "./images/icons/coming-icon.png";
@@ -32,33 +36,49 @@ export const projectStatus = [
 const data = [
   {
     id: 2,
-    table: "maplestorytest",
-    name: "MapleStory Finance",
-    logo: maple,
+    table: "forsages",
+    name: "Forsages",
+    logo: forsages,
     tag: ["Safu", "Audit", "KYC", "Doxx"],
     marketing: [
       {
-        name: "Memex999",
-        icon: maple,
-        link: "https://dexscreener.com/solana/dcjpqqdl1vjt7cwui6txtg3yrf6nd1jzbdaykjzikkk5",
+        name: "Memex9999",
+        icon: meme,
+        link: "https://t.me/memex9999call",
+      },
+      {
+        name: "Master Cat",
+        icon: mastercat,
+        link: "https://t.me/Master_CatX",
+      },
+      {
+        name: "Add more",
+        icon: whitePlusIcon,
+        link: "https://docs.idosol.me/2.-unique-features",
       },
     ],
-    des: "MapleStory Finance: Where Gaming Meets DeFi Magic – Unleashing Cuteness, Crafting Profits!",
-    min: 0.01,
+    des: "Decentralized success, global empowerment! Join the revolution for financial freedom",
+    min: 1,
     max: 5,
-    time: "2024-01-18T13:20:00Z",
-    totalRaised: 10000,
-    tele: "https://t.me/MapleStoryX",
-    tw: "https://twitter.com/MapleStory_X",
-    web: "https://maplestoryfinance.me/",
-    contractPresale: "7NPnmKpgsBrHu9U6T38pwYqe9HCZ4NzmrGBsZZ2Ebt2c",
+    time: "2024-01-23T13:20:00Z",
+    totalRaised: 1000,
+    tele: "https://t.me/Forsage_SOL",
+    tw: "https://twitter.com/forsageofficial/",
+    web: "https://forsages.io/",
+    contractPresale: "2FuFYUJpPbmgN18CqUFKewn4yJQP4ZuYPLRbcbeimU63",
   },
   {
     id: 2,
     table: "maplestory",
-    marketing: [],
+    marketing: [
+      {
+        name: "Memex9999",
+        icon: meme,
+        link: "https://t.me/memex9999call",
+      },
+    ],
     name: "MapleStory Finance",
-    tag: ["Safu", "Audit"],
+    tag: ["Safu", "Audit", "KYC", "Doxx"],
     logo: maple,
     des: "MapleStory Finance: Where Gaming Meets DeFi Magic – Unleashing Cuteness, Crafting Profits!",
     min: 1,
@@ -73,9 +93,15 @@ const data = [
   {
     id: 1,
     table: "fifa",
-    marketing: [],
+    marketing: [
+      {
+        name: "Memex9999",
+        icon: meme,
+        link: "https://t.me/memex9999call",
+      },
+    ],
     name: "ФИФА Заработай",
-    tag: ["Safu", "Audit", "KYC"],
+    tag: ["Safu", "Audit", "KYC", "Doxx"],
     logo: fifa,
     des: "Conquer the pitch with GameFi FIFA 2024: Where colors and passion collide!",
     min: 1,
@@ -87,66 +113,6 @@ const data = [
     web: "https://fifaearn.pro/",
     contractPresale: "22ZNv9fUgY2uJTLt1Wkx8r8bNhJcrSzj89yjCVxanNR4",
   },
-  // {
-  //   id: 2,
-  //   table: "maplestorytest",
-  //   name: "MapleStory Finance",
-  //   logo: maple,
-  //   des: "MapleStory Finance: Where Gaming Meets DeFi Magic – Unleashing Cuteness, Crafting Profits!",
-  //   min: 0.01,
-  //   max: 5,
-  //   time: "2024-01-18T13:20:00Z",
-  //   totalRaised: 10000,
-  //   tele: "https://t.me/MapleStoryX",
-  //   tw: "https://twitter.com/MapleStory_X",
-  //   web: "https://maplestoryfinance.me/",
-  //   contractPresale: "7NPnmKpgsBrHu9U6T38pwYqe9HCZ4NzmrGBsZZ2Ebt2c",
-  // },
-  // {
-  //   id: 2,
-  //   table: "maplestory",
-  //   name: "MapleStory Finance",
-  //   logo: maple,
-  //   des: "MapleStory Finance: Where Gaming Meets DeFi Magic – Unleashing Cuteness, Crafting Profits!",
-  //   min: 1,
-  //   max: 5,
-  //   time: "2024-01-18T13:20:00Z",
-  //   totalRaised: 500,
-  //   tele: "https://t.me/MapleStoryX",
-  //   tw: "https://twitter.com/MapleStory_X",
-  //   web: "https://maplestoryfinance.me/",
-  //   contractPresale: "75m95K4Jb1GbRfn4VX7NJ4X7jg2RCoAxudPFHdBgNTYt",
-  // },
-  // {
-  //   id: 1,
-  //   table: "fifa",
-  //   name: "ФИФА Заработай",
-  //   logo: fifa,
-  //   des: "Conquer the pitch with GameFi FIFA 2024: Where colors and passion collide!",
-  //   min: 1,
-  //   max: 5,
-  //   time: "2024-01-15T13:20:00Z",
-  //   totalRaised: 300,
-  //   tele: "https://t.me/FifaEarnX",
-  //   tw: "https://twitter.com/FifaEarnX",
-  //   web: "https://fifaearn.pro/",
-  //   contractPresale: "22ZNv9fUgY2uJTLt1Wkx8r8bNhJcrSzj89yjCVxanNR4",
-  // },
-  // {
-  //   id: 1,
-  //   table: "yasuo",
-  //   name: "亚索",
-  //   logo: yasuo,
-  //   des: "Welcome to Yasuo Finance - where financial winds blow in your favor!",
-  //   min: 1,
-  //   max: 5,
-  //   time: "2024-01-11T13:20:00Z",
-  //   totalRaised: 500,
-  //   tele: "https://t.me/Yasuo_Finance",
-  //   tw: "https://twitter.com/Yasuo_Finance",
-  //   web: "https://yasuofinance.xyz/",
-  //   contractPresale: "7NPnmKpgsBrHu9U6T38pwYqe9HCZ4NzmrGBsZZ2Ebt2c",
-  // },
 ];
 
 export default function MyComponent() {
@@ -191,17 +157,32 @@ export default function MyComponent() {
         <div className="flex items-center gap-16">
           {/* <Button className='' onClick={() => {}}>Connect Wallet</Button> */}
           <div className="hidden items-center gap-16 lg:flex">
-            <a href="" className="text-lg">
+            <a
+              href="https://docs.idosol.me/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-lg"
+            >
               <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
-                Document
+                Docs
               </span>
             </a>
-            <a href="" className="text-lg">
+            <a
+              href="https://twitter.com/idosolme"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-lg"
+            >
               <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
                 Twitter
               </span>
             </a>
-            <a href="" className="text-lg">
+            <a
+              href="https://t.me/idosolme"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-lg"
+            >
               <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
                 Telegram
               </span>
@@ -215,17 +196,32 @@ export default function MyComponent() {
       </div>
       <div className="content">
         <div className="mb-8 flex items-center justify-center gap-8 lg:hidden">
-          <a href="" className="text-lg">
+          <a
+            href="https://docs.idosol.me/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-lg"
+          >
             <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
-              Document
+              Docs
             </span>
           </a>
-          <a href="" className="text-lg">
+          <a
+            href="https://twitter.com/idosolme"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-lg"
+          >
             <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
               Twitter
             </span>
           </a>
-          <a href="" className="text-lg">
+          <a
+            href="https://t.me/idosolme"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-lg"
+          >
             <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
               Telegram
             </span>
