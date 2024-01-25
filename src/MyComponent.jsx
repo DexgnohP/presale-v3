@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Input, Select } from "antd";
+import { Button, Input } from "antd";
 import logo from "./images/logo.png";
 import { List } from "antd";
 import maple from "./images/maple.png";
@@ -9,28 +9,34 @@ import mastercat from "./images/mastercat.jpg";
 import fifa from "./images/fifa.png";
 import Card from "./components/card";
 import { ArrowDownOutlined } from "@ant-design/icons";
-import safuIcon from "./images/icons/safu-icon.png";
-import auditIcon from "./images/icons/audit-icon.png";
-import kycIcon from "./images/icons/kyc-icon.png";
-import doxxIcon from "./images/icons/doxx-icon.png";
 import whitePlusIcon from "./images/icons/white-plus-icon-3.png";
+import filterIcon from "./images/icons/filter-icon.png";
 import liveIcon from "./images/icons/live-icon.png";
 import endIcon from "./images/icons/end-icon.png";
 import comingIcon from "./images/icons/coming-icon.png";
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-export const projectIcon = [
-  { name: "Safu", icon: safuIcon, borderColor: "#88FF7D" },
-  { name: "Audit", icon: auditIcon, borderColor: "#5CE2FF" },
-  { name: "Doxx", icon: doxxIcon, borderColor: "#F9E212" },
-  { name: "KYC", icon: kycIcon, borderColor: "#FFABFC" },
-];
 
 export const projectStatus = [
-  { name: "Live", icon: liveIcon, borderColor: "#0CEEAC" },
-  { name: "End", icon: endIcon, borderColor: "#F91228" },
-  { name: "Coming", icon: comingIcon, borderColor: "#F9E212" },
+  {
+    name: "Live",
+    icon: liveIcon,
+    borderColor: "#0CEEAC",
+    backgroundColor: "rgba(13, 225, 164, 0.40)",
+  },
+  {
+    name: "End",
+    icon: endIcon,
+    borderColor: "#F91228",
+    backgroundColor: "rgba(249, 18, 40, 0.30)",
+  },
+  {
+    name: "Coming",
+    icon: comingIcon,
+    borderColor: "#F9E212",
+    backgroundColor: "rgba(249, 226, 18, 0.40)",
+  },
 ];
 
 const data = [
@@ -117,8 +123,15 @@ const data = [
 
 export default function MyComponent() {
   const [listPresale, setListPreSale] = useState(data);
-
   const [inputValue, setInputValue] = useState("");
+  const [selectedTabIndex, setSelectedTabIndex] = useState(undefined);
+  const handleChangeTab = (tabIndex) => {
+    if (selectedTabIndex === tabIndex) {
+      setSelectedTabIndex(undefined);
+    } else {
+      setSelectedTabIndex(tabIndex);
+    }
+  };
 
   const debounce = (func, delay) => {
     let timeoutId;
@@ -242,29 +255,22 @@ export default function MyComponent() {
           className="mt-8 h-[35px] w-full border-none bg-black text-center text-white placeholder-gray-400 shadow-sm shadow-cyan-presale-theme md:w-1/2 lg:h-[40px]"
         />
         <div className="mt-8 flex-col justify-center gap-2 md:flex md:flex-row">
-          <div className="flex justify-center gap-2">
-            {projectIcon.map((item, index) => (
-              <div
-                key={index}
-                className={`flex h-7 items-center justify-center  gap-1 rounded-[20px] border px-3 py-1`}
-                style={{ borderColor: item.borderColor }}
-              >
-                <img src={item.icon} alt="img" />
-                <span>{item.name}</span>
-              </div>
-            ))}
-          </div>
-          <div className="border-r-2"></div>
           <div className="mt-4 flex justify-center gap-2 md:mt-0">
+            <img src={filterIcon} alt="img" />
             {projectStatus.map((item, index) => (
-              <div
+              <button
                 key={index}
                 className={`flex h-7 items-center justify-center  gap-1 rounded-[20px] border px-3 py-1`}
-                style={{ borderColor: item.borderColor }}
+                style={{
+                  borderColor: item.borderColor,
+                  backgroundColor:
+                    selectedTabIndex === index && item.backgroundColor,
+                }}
+                onClick={() => handleChangeTab(index)}
               >
                 <img src={item.icon} alt="img" />
                 <span>{item.name}</span>
-              </div>
+              </button>
             ))}
           </div>
         </div>
