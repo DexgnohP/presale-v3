@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Input } from "antd";
 import logo from "./images/logo.png";
 import { List } from "antd";
@@ -11,12 +11,24 @@ import Card from "./components/card";
 import { ArrowDownOutlined } from "@ant-design/icons";
 import whitePlusIcon from "./images/icons/white-plus-icon-3.png";
 import filterIcon from "./images/icons/filter-icon.png";
+import iconSubmit from "./images/icons/iconSubmit.svg";
 import liveIcon from "./images/icons/live-icon.png";
+import safuIcon from "./images/icons/safu-icon.png";
+import auditIcon from "./images/icons/audit-icon.png";
+import kycIcon from "./images/icons/kyc-icon.png";
+import doxxIcon from "./images/icons/doxx-icon.png";
 import endIcon from "./images/icons/end-icon.png";
 import comingIcon from "./images/icons/coming-icon.png";
+import _ from "lodash";
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
+export const projectIcon = [
+  { name: "Safu", icon: safuIcon, borderColor: "#88FF7D" },
+  { name: "Audit", icon: auditIcon, borderColor: "#5CE2FF" },
+  { name: "Doxx", icon: doxxIcon, borderColor: "#F9E212" },
+  { name: "KYC", icon: kycIcon, borderColor: "#FFABFC" },
+];
 
 export const projectStatus = [
   {
@@ -39,7 +51,73 @@ export const projectStatus = [
   },
 ];
 
-const data = [
+export const dataDefault = [
+  {
+    id: 2,
+    table: "forsagesb",
+    name: "Forsagesb",
+    logo: forsages,
+    tag: ["Safu", "Audit", "KYC", "Doxx"],
+    marketing: [
+      {
+        name: "Memex9999",
+        icon: meme,
+        link: "https://t.me/memex9999call",
+      },
+      {
+        name: "Master Cat",
+        icon: mastercat,
+        link: "https://t.me/Master_CatX",
+      },
+      {
+        name: "Add more",
+        icon: whitePlusIcon,
+        link: "https://docs.idosol.me/2.-unique-features",
+      },
+    ],
+    des: "Decentralized success, global empowerment! Join the revolution for financial freedom",
+    min: 1,
+    max: 5,
+    time: "2024-01-27T13:20:00Z",
+    totalRaised: 10000,
+    tele: "https://t.me/Forsage_SOL",
+    tw: "https://twitter.com/forsageofficial/",
+    web: "https://forsages.io/",
+    contractPresale: "2FuFYUJpPbmgN18CqUFKewn4yJQP4ZuYPLRbcbeimU63",
+  },
+  {
+    id: 2,
+    table: "forsagesa",
+    name: "Forsagesa",
+    logo: forsages,
+    tag: ["Safu", "Audit", "KYC", "Doxx"],
+    marketing: [
+      {
+        name: "Memex9999",
+        icon: meme,
+        link: "https://t.me/memex9999call",
+      },
+      {
+        name: "Master Cat",
+        icon: mastercat,
+        link: "https://t.me/Master_CatX",
+      },
+      {
+        name: "Add more",
+        icon: whitePlusIcon,
+        link: "https://docs.idosol.me/2.-unique-features",
+      },
+    ],
+    des: "Decentralized success, global empowerment! Join the revolution for financial freedom",
+    min: 1,
+    max: 5,
+    time: "2024-01-23T13:20:00Z",
+    totalRaised: 10000,
+    tele: "https://t.me/Forsage_SOL",
+    tw: "https://twitter.com/forsageofficial/",
+    web: "https://forsages.io/",
+    contractPresale: "2FuFYUJpPbmgN18CqUFKewn4yJQP4ZuYPLRbcbeimU63",
+  },
   {
     id: 2,
     table: "forsages",
@@ -122,7 +200,8 @@ const data = [
 ];
 
 export default function MyComponent() {
-  const [listPresale, setListPreSale] = useState(data);
+  const [dataTemp, setDataTemp] = useState(dataDefault);
+  const [listPresale, setListPreSale] = useState(dataTemp);
   const [inputValue, setInputValue] = useState("");
   const [selectedTabIndex, setSelectedTabIndex] = useState(undefined);
   const handleChangeTab = (tabIndex) => {
@@ -131,6 +210,13 @@ export default function MyComponent() {
     } else {
       setSelectedTabIndex(tabIndex);
     }
+  };
+
+  const setStatusItem = (table, st) => {
+    let list = _.cloneDeep(dataTemp);
+    let index = list.findIndex((item) => item.table === table);
+    list[index].status = st;
+    setDataTemp(list);
   };
 
   const debounce = (func, delay) => {
@@ -147,8 +233,31 @@ export default function MyComponent() {
     };
   };
 
+  useEffect(() => {
+    let result = dataTemp.filter((item) =>
+      item.name.toLowerCase().includes(inputValue.toLowerCase()),
+    );
+    console.log(dataTemp);
+    switch (selectedTabIndex) {
+      case 0:
+        result = result.filter((item) => item.status === "Live");
+        break;
+
+      case 1:
+        result = result.filter((item) => item.status === "End");
+        break;
+
+      case 2:
+        result = result.filter((item) => item.status === "Coming");
+        break;
+      default:
+        break;
+    }
+    setListPreSale(_.cloneDeep(result));
+  }, [selectedTabIndex]);
+
   const handleInputChange = debounce((value) => {
-    let result = data.filter((item) =>
+    let result = dataTemp.filter((item) =>
       item.name.toLowerCase().includes(value.toLowerCase()),
     );
     setListPreSale(result);
@@ -162,7 +271,7 @@ export default function MyComponent() {
   };
 
   return (
-    <div className='container bg-[url("/background.png")] bg-cover bg-no-repeat'>
+    <div className='container relative bg-[url("/background.png")] bg-cover bg-no-repeat'>
       <div className="header">
         <div className="nav-left">
           <img className="logo" src={logo} alt="img" />
@@ -276,6 +385,7 @@ export default function MyComponent() {
         </div>
         {listPresale.length ? (
           <List
+            rowKey={"table"}
             style={{ marginTop: "30px" }}
             grid={{
               gutter: 16,
@@ -289,7 +399,7 @@ export default function MyComponent() {
             dataSource={listPresale}
             renderItem={(item) => (
               <List.Item>
-                <Card data={item} />
+                <Card data={item} setStatusItem={setStatusItem} />
               </List.Item>
             )}
           />
@@ -305,6 +415,10 @@ export default function MyComponent() {
           </Button>
         </div>
       )}
+      <Button className="fixed bottom-8 right-8 flex items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r  from-cyan-presale-theme to-purple-presale-theme px-[16px] py-[26px] text-[16px] font-semibold text-white  hover:!text-white">
+        <img src={iconSubmit} className="w-[25px] object-contain" /> Submit
+        Project
+      </Button>
     </div>
   );
 }

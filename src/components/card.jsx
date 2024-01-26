@@ -27,7 +27,7 @@ import { projectIcon, projectStatus } from "../MyComponent";
 
 window.Buffer = buffer.Buffer;
 
-export default function Card({ data }) {
+export default function Card({ data, setStatusItem }) {
   const referral = window.location.pathname.replace(/\//g, "");
   const wallet = useWallet();
   const lamports_per_sol = solanaWeb3.LAMPORTS_PER_SOL;
@@ -48,6 +48,7 @@ export default function Card({ data }) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const intervalIds = [];
 
   useEffect(() => {
     if (Object.keys(data).length) {
@@ -94,6 +95,9 @@ export default function Card({ data }) {
       }));
       setItemDropdown(itemDropdown);
     }
+    return () => {
+      intervalIds.forEach((id) => clearInterval(id));
+    };
   }, [data]);
 
   const mapStatus = () => {
@@ -108,15 +112,17 @@ export default function Card({ data }) {
         setStatus("Live");
         clearInterval(intervalId);
       } else {
-        if (status !== "Comming") setStatus("Coming");
+        setStatus("Coming");
       }
     }, 1000);
+    intervalIds.push(intervalId);
     return () => {
       clearInterval(intervalId);
     };
   };
 
   useEffect(() => {
+    setStatusItem(data.table, status);
     if (status === "Live") {
       const intervalIdEnd = setInterval(() => {
         const databaseRef = ref(database);
@@ -142,10 +148,14 @@ export default function Card({ data }) {
             console.error(error);
           });
       }, 10000);
+      intervalIds.push(intervalIdEnd);
       return () => {
         clearInterval(intervalIdEnd);
       };
     }
+    return () => {
+      intervalIds.forEach((id) => clearInterval(id));
+    };
   }, [status]);
 
   function formatTimeUnit(value) {
@@ -330,6 +340,7 @@ export default function Card({ data }) {
           setIsBuyFinally(false);
         }
       }, 5000);
+      intervalIds.push(timeOutStatus);
     } catch (e) {
       notification.error({
         message: `Error`,
