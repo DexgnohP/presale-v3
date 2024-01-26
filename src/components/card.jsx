@@ -210,6 +210,7 @@ export default function Card({ data }) {
       address: address,
       sol: sol,
       time: fullTimestamp,
+      ref: isSolanaWalletAddress(referral) ? referral : "",
     });
   }
 
@@ -478,7 +479,7 @@ export default function Card({ data }) {
           >
             <div
               onClick={(e) => e.preventDefault()}
-              className="hidden w-[30%] justify-between rounded-3xl border-none bg-[#474747] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-4 py-2 text-white hover:bg-none  lg:flex"
+              className="lg hidden w-[35%] justify-between rounded-3xl border-none bg-[#474747] bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-4 py-2 text-white hover:bg-none lg:flex "
             >
               Marketing By
               <DownOutlined />
