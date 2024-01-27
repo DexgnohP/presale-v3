@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Input } from "antd";
 import logo from "./images/logo.png";
 import { List } from "antd";
-import maple from "./images/maple.png";
-import meme from "./images/meme.png";
-import forsages from "./images/forsages.png";
-import mastercat from "./images/mastercat.jpg";
-import fifa from "./images/fifa.png";
+
 import Card from "./components/card";
 import { ArrowDownOutlined } from "@ant-design/icons";
-import whitePlusIcon from "./images/icons/white-plus-icon-3.png";
+
 import filterIcon from "./images/icons/filter-icon.png";
 import liveIcon from "./images/icons/live-icon.png";
+import safuIcon from "./images/icons/safu-icon.png";
+import auditIcon from "./images/icons/audit-icon.png";
+import kycIcon from "./images/icons/kyc-icon.png";
+import doxxIcon from "./images/icons/doxx-icon.png";
 import endIcon from "./images/icons/end-icon.png";
 import comingIcon from "./images/icons/coming-icon.png";
+import { DataProvider,useDataContext } from './dataContext';
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
+export const projectIcon = [
+  { name: "Safu", icon: safuIcon, borderColor: "#88FF7D" },
+  { name: "Audit", icon: auditIcon, borderColor: "#5CE2FF" },
+  { name: "Doxx", icon: doxxIcon, borderColor: "#F9E212" },
+  { name: "KYC", icon: kycIcon, borderColor: "#FFABFC" },
+];
 
 export const projectStatus = [
   {
@@ -39,91 +46,11 @@ export const projectStatus = [
   },
 ];
 
-const data = [
-  {
-    id: 2,
-    table: "forsages",
-    name: "Forsages",
-    logo: forsages,
-    tag: ["Safu", "Audit", "KYC", "Doxx"],
-    marketing: [
-      {
-        name: "Memex9999",
-        icon: meme,
-        link: "https://t.me/memex9999call",
-      },
-      {
-        name: "Master Cat",
-        icon: mastercat,
-        link: "https://t.me/Master_CatX",
-      },
-      {
-        name: "Add more",
-        icon: whitePlusIcon,
-        link: "https://docs.idosol.me/2.-unique-features",
-      },
-    ],
-    des: "Decentralized success, global empowerment! Join the revolution for financial freedom",
-    min: 1,
-    max: 5,
-    time: "2024-01-23T13:20:00Z",
-    totalRaised: 1000,
-    tele: "https://t.me/Forsage_SOL",
-    tw: "https://twitter.com/forsageofficial/",
-    web: "https://forsages.io/",
-    contractPresale: "2FuFYUJpPbmgN18CqUFKewn4yJQP4ZuYPLRbcbeimU63",
-  },
-  {
-    id: 2,
-    table: "maplestory",
-    marketing: [
-      {
-        name: "Memex9999",
-        icon: meme,
-        link: "https://t.me/memex9999call",
-      },
-    ],
-    name: "MapleStory Finance",
-    tag: ["Safu", "Audit", "KYC", "Doxx"],
-    logo: maple,
-    des: "MapleStory Finance: Where Gaming Meets DeFi Magic – Unleashing Cuteness, Crafting Profits!",
-    min: 1,
-    max: 5,
-    time: "2024-01-18T13:20:00Z",
-    totalRaised: 500,
-    tele: "https://t.me/MapleStoryX",
-    tw: "https://twitter.com/MapleStory_X",
-    web: "https://maplestoryfinance.me/",
-    contractPresale: "75m95K4Jb1GbRfn4VX7NJ4X7jg2RCoAxudPFHdBgNTYt",
-  },
-  {
-    id: 1,
-    table: "fifa",
-    marketing: [
-      {
-        name: "Memex9999",
-        icon: meme,
-        link: "https://t.me/memex9999call",
-      },
-    ],
-    name: "ФИФА Заработай",
-    tag: ["Safu", "Audit", "KYC", "Doxx"],
-    logo: fifa,
-    des: "Conquer the pitch with GameFi FIFA 2024: Where colors and passion collide!",
-    min: 1,
-    max: 5,
-    time: "2024-01-15T13:20:00Z",
-    totalRaised: 300,
-    tele: "https://t.me/FifaEarnX",
-    tw: "https://twitter.com/FifaEarnX",
-    web: "https://fifaearn.pro/",
-    contractPresale: "22ZNv9fUgY2uJTLt1Wkx8r8bNhJcrSzj89yjCVxanNR4",
-  },
-];
 
 export default function MyComponent() {
-  const [listPresale, setListPreSale] = useState(data);
+  const { dataTemp } = useDataContext();
   const [inputValue, setInputValue] = useState("");
+  const [listPresale, setListPreSale] = useState(dataTemp);
   const [selectedTabIndex, setSelectedTabIndex] = useState(undefined);
   const handleChangeTab = (tabIndex) => {
     if (selectedTabIndex === tabIndex) {
@@ -133,6 +60,28 @@ export default function MyComponent() {
     }
   };
 
+  useEffect(()=>{
+    let list = [...dataTemp]
+    list = list.filter((item) =>
+      item.name.toLowerCase().includes(inputValue.toLowerCase()),
+    );
+    switch (selectedTabIndex) {
+      case 0:
+        list = list.filter(item=>item.status ==="Live")
+        break;
+      case 1:
+         list = list.filter(item=>item.status ==="End")
+        break;
+      case 2:
+         list = list.filter(item=>item.status ==="Coming")
+        break;
+      default:
+        break;
+    }
+    setListPreSale(list)
+
+  },[selectedTabIndex])
+  
   const debounce = (func, delay) => {
     let timeoutId;
 
@@ -160,9 +109,8 @@ export default function MyComponent() {
 
     handleInputChange(value);
   };
-
-  return (
-    <div className='container bg-[url("/background.png")] bg-cover bg-no-repeat'>
+  return ( 
+<div className='container bg-[url("/background.png")] bg-cover bg-no-repeat'>
       <div className="header">
         <div className="nav-left">
           <img className="logo" src={logo} alt="img" />
@@ -276,6 +224,7 @@ export default function MyComponent() {
         </div>
         {listPresale.length ? (
           <List
+          rowKey={"table"}
             style={{ marginTop: "30px" }}
             grid={{
               gutter: 16,
@@ -306,5 +255,6 @@ export default function MyComponent() {
         </div>
       )}
     </div>
+    
   );
 }

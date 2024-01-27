@@ -11,6 +11,7 @@ import "./App.css";
 import MyComponent from "./MyComponent";
 import { useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import { DataProvider } from './dataContext';
 
 // import the styles
 // require('@solana/wallet-adapter-react-ui/styles.css');
@@ -27,7 +28,9 @@ function App() {
       <WalletProvider wallets={wallets}>
         <WalletModalProvider>
           <div className="App bg-black">
-            <MyComponent />
+          <DataProvider>
+          <MyComponent />
+          </DataProvider>
           </div>
         </WalletModalProvider>
       </WalletProvider>
