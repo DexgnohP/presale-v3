@@ -2,14 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Input } from "antd";
 import logo from "./images/logo.png";
 import { List } from "antd";
-import maple from "./images/maple.png";
-import meme from "./images/meme.png";
-import forsages from "./images/forsages.png";
-import mastercat from "./images/mastercat.jpg";
-import fifa from "./images/fifa.png";
+
 import Card from "./components/card";
 import { ArrowDownOutlined } from "@ant-design/icons";
-import whitePlusIcon from "./images/icons/white-plus-icon-3.png";
+
 import filterIcon from "./images/icons/filter-icon.png";
 import iconSubmit from "./images/icons/iconSubmit.svg";
 import liveIcon from "./images/icons/live-icon.png";
@@ -19,7 +15,7 @@ import kycIcon from "./images/icons/kyc-icon.png";
 import doxxIcon from "./images/icons/doxx-icon.png";
 import endIcon from "./images/icons/end-icon.png";
 import comingIcon from "./images/icons/coming-icon.png";
-import _ from "lodash";
+import { DataProvider, useDataContext } from "./dataContext";
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
@@ -51,158 +47,10 @@ export const projectStatus = [
   },
 ];
 
-export const dataDefault = [
-  {
-    id: 2,
-    table: "forsagesb",
-    name: "Forsagesb",
-    logo: forsages,
-    tag: ["Safu", "Audit", "KYC", "Doxx"],
-    marketing: [
-      {
-        name: "Memex9999",
-        icon: meme,
-        link: "https://t.me/memex9999call",
-      },
-      {
-        name: "Master Cat",
-        icon: mastercat,
-        link: "https://t.me/Master_CatX",
-      },
-      {
-        name: "Add more",
-        icon: whitePlusIcon,
-        link: "https://docs.idosol.me/2.-unique-features",
-      },
-    ],
-    des: "Decentralized success, global empowerment! Join the revolution for financial freedom",
-    min: 1,
-    max: 5,
-    time: "2024-01-27T13:20:00Z",
-    totalRaised: 10000,
-    tele: "https://t.me/Forsage_SOL",
-    tw: "https://twitter.com/forsageofficial/",
-    web: "https://forsages.io/",
-    contractPresale: "2FuFYUJpPbmgN18CqUFKewn4yJQP4ZuYPLRbcbeimU63",
-  },
-  {
-    id: 2,
-    table: "forsagesa",
-    name: "Forsagesa",
-    logo: forsages,
-    tag: ["Safu", "Audit", "KYC", "Doxx"],
-    marketing: [
-      {
-        name: "Memex9999",
-        icon: meme,
-        link: "https://t.me/memex9999call",
-      },
-      {
-        name: "Master Cat",
-        icon: mastercat,
-        link: "https://t.me/Master_CatX",
-      },
-      {
-        name: "Add more",
-        icon: whitePlusIcon,
-        link: "https://docs.idosol.me/2.-unique-features",
-      },
-    ],
-    des: "Decentralized success, global empowerment! Join the revolution for financial freedom",
-    min: 1,
-    max: 5,
-    time: "2024-01-23T13:20:00Z",
-    totalRaised: 10000,
-    tele: "https://t.me/Forsage_SOL",
-    tw: "https://twitter.com/forsageofficial/",
-    web: "https://forsages.io/",
-    contractPresale: "2FuFYUJpPbmgN18CqUFKewn4yJQP4ZuYPLRbcbeimU63",
-  },
-  {
-    id: 2,
-    table: "forsages",
-    name: "Forsages",
-    logo: forsages,
-    tag: ["Safu", "Audit", "KYC", "Doxx"],
-    marketing: [
-      {
-        name: "Memex9999",
-        icon: meme,
-        link: "https://t.me/memex9999call",
-      },
-      {
-        name: "Master Cat",
-        icon: mastercat,
-        link: "https://t.me/Master_CatX",
-      },
-      {
-        name: "Add more",
-        icon: whitePlusIcon,
-        link: "https://docs.idosol.me/2.-unique-features",
-      },
-    ],
-    des: "Decentralized success, global empowerment! Join the revolution for financial freedom",
-    min: 1,
-    max: 5,
-    time: "2024-01-23T13:20:00Z",
-    totalRaised: 1000,
-    tele: "https://t.me/Forsage_SOL",
-    tw: "https://twitter.com/forsageofficial/",
-    web: "https://forsages.io/",
-    contractPresale: "2FuFYUJpPbmgN18CqUFKewn4yJQP4ZuYPLRbcbeimU63",
-  },
-  {
-    id: 2,
-    table: "maplestory",
-    marketing: [
-      {
-        name: "Memex9999",
-        icon: meme,
-        link: "https://t.me/memex9999call",
-      },
-    ],
-    name: "MapleStory Finance",
-    tag: ["Safu", "Audit", "KYC", "Doxx"],
-    logo: maple,
-    des: "MapleStory Finance: Where Gaming Meets DeFi Magic – Unleashing Cuteness, Crafting Profits!",
-    min: 1,
-    max: 5,
-    time: "2024-01-18T13:20:00Z",
-    totalRaised: 500,
-    tele: "https://t.me/MapleStoryX",
-    tw: "https://twitter.com/MapleStory_X",
-    web: "https://maplestoryfinance.me/",
-    contractPresale: "75m95K4Jb1GbRfn4VX7NJ4X7jg2RCoAxudPFHdBgNTYt",
-  },
-  {
-    id: 1,
-    table: "fifa",
-    marketing: [
-      {
-        name: "Memex9999",
-        icon: meme,
-        link: "https://t.me/memex9999call",
-      },
-    ],
-    name: "ФИФА Заработай",
-    tag: ["Safu", "Audit", "KYC", "Doxx"],
-    logo: fifa,
-    des: "Conquer the pitch with GameFi FIFA 2024: Where colors and passion collide!",
-    min: 1,
-    max: 5,
-    time: "2024-01-15T13:20:00Z",
-    totalRaised: 300,
-    tele: "https://t.me/FifaEarnX",
-    tw: "https://twitter.com/FifaEarnX",
-    web: "https://fifaearn.pro/",
-    contractPresale: "22ZNv9fUgY2uJTLt1Wkx8r8bNhJcrSzj89yjCVxanNR4",
-  },
-];
-
 export default function MyComponent() {
-  const [dataTemp, setDataTemp] = useState(dataDefault);
-  const [listPresale, setListPreSale] = useState(dataTemp);
+  const { dataTemp } = useDataContext();
   const [inputValue, setInputValue] = useState("");
+  const [listPresale, setListPreSale] = useState(dataTemp);
   const [selectedTabIndex, setSelectedTabIndex] = useState(undefined);
   const handleChangeTab = (tabIndex) => {
     if (selectedTabIndex === tabIndex) {
@@ -212,12 +60,26 @@ export default function MyComponent() {
     }
   };
 
-  const setStatusItem = (table, st) => {
-    let list = _.cloneDeep(dataTemp);
-    let index = list.findIndex((item) => item.table === table);
-    list[index].status = st;
-    setDataTemp(list);
-  };
+  useEffect(() => {
+    let list = [...dataTemp];
+    list = list.filter((item) =>
+      item.name.toLowerCase().includes(inputValue.toLowerCase()),
+    );
+    switch (selectedTabIndex) {
+      case 0:
+        list = list.filter((item) => item.status === "Live");
+        break;
+      case 1:
+        list = list.filter((item) => item.status === "End");
+        break;
+      case 2:
+        list = list.filter((item) => item.status === "Coming");
+        break;
+      default:
+        break;
+    }
+    setListPreSale(list);
+  }, [selectedTabIndex]);
 
   const debounce = (func, delay) => {
     let timeoutId;
@@ -232,29 +94,6 @@ export default function MyComponent() {
       }, delay);
     };
   };
-
-  useEffect(() => {
-    let result = dataTemp.filter((item) =>
-      item.name.toLowerCase().includes(inputValue.toLowerCase()),
-    );
-    console.log(dataTemp);
-    switch (selectedTabIndex) {
-      case 0:
-        result = result.filter((item) => item.status === "Live");
-        break;
-
-      case 1:
-        result = result.filter((item) => item.status === "End");
-        break;
-
-      case 2:
-        result = result.filter((item) => item.status === "Coming");
-        break;
-      default:
-        break;
-    }
-    setListPreSale(_.cloneDeep(result));
-  }, [selectedTabIndex]);
 
   const handleInputChange = debounce((value) => {
     let result = dataTemp.filter((item) =>
@@ -399,7 +238,7 @@ export default function MyComponent() {
             dataSource={listPresale}
             renderItem={(item) => (
               <List.Item>
-                <Card data={item} setStatusItem={setStatusItem} />
+                <Card data={item} />
               </List.Item>
             )}
           />
@@ -415,10 +254,15 @@ export default function MyComponent() {
           </Button>
         </div>
       )}
-      <Button className="fixed bottom-8 right-8 flex items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r  from-cyan-presale-theme to-purple-presale-theme px-[16px] py-[26px] text-[16px] font-semibold text-white  hover:!text-white">
+      <a
+        href="https://forms.gle/Np4whS1WrHgAWqAdA"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 flex cursor-pointer items-center justify-center gap-2 rounded-full border-none  bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme px-[16px] py-[14px] text-[16px] font-semibold text-white  hover:!text-white"
+      >
         <img src={iconSubmit} className="w-[25px] object-contain" /> Submit
         Project
-      </Button>
+      </a>
     </div>
   );
 }

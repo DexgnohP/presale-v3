@@ -9,6 +9,7 @@ import endIcon from "../images/icons/end-icon.png";
 import comingIcon from "../images/icons/coming-icon.png";
 import { ArrowRightOutlined, DownOutlined } from "@ant-design/icons";
 import { ref, set, push, child, get } from "firebase/database";
+import { useDataContext } from "../dataContext";
 import web from "../images/web.png";
 import {
   Button,
@@ -37,6 +38,7 @@ export default function Card({ data, setStatusItem }) {
   const [isBuyFinally, setIsBuyFinally] = useState(false);
   const [valueSol, setValueSol] = useState("");
   const [status, setStatus] = useState();
+  const { dispatch } = useDataContext();
   const [totalRaised, setTotalRaised] = useState(0);
   const showModal = () => {
     setIsModalOpen(true);
@@ -101,6 +103,7 @@ export default function Card({ data, setStatusItem }) {
   }, [data]);
 
   const mapStatus = () => {
+    let hasRun = false;
     const intervalId = setInterval(() => {
       const newTimeRemaining = calculateTimeRemaining();
       setTimeRemaining(newTimeRemaining);
@@ -112,7 +115,10 @@ export default function Card({ data, setStatusItem }) {
         setStatus("Live");
         clearInterval(intervalId);
       } else {
-        setStatus("Coming");
+        if (!hasRun) {
+          hasRun = true;
+          setStatus("Coming");
+        }
       }
     }, 1000);
     intervalIds.push(intervalId);
@@ -122,7 +128,9 @@ export default function Card({ data, setStatusItem }) {
   };
 
   useEffect(() => {
-    setStatusItem(data.table, status);
+    let updateStatus = { table: data.table, status };
+    dispatch({ type: "UPDATE_DATA_TEMP", payload: { updateStatus } });
+
     if (status === "Live") {
       const intervalIdEnd = setInterval(() => {
         const databaseRef = ref(database);
@@ -153,9 +161,6 @@ export default function Card({ data, setStatusItem }) {
         clearInterval(intervalIdEnd);
       };
     }
-    return () => {
-      intervalIds.forEach((id) => clearInterval(id));
-    };
   }, [status]);
 
   function formatTimeUnit(value) {
