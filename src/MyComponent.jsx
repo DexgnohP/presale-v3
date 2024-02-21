@@ -200,7 +200,7 @@ export default function MyComponent() {
           placeholder="Search Project"
           value={inputValue}
           onChange={handleChange}
-          className="mt-8 h-[35px] w-full border-none bg-black text-center text-white placeholder-gray-400 shadow-sm shadow-cyan-presale-theme md:w-1/2 lg:h-[40px]"
+          className="mt-8 h-[35px] w-full border-none bg-black text-center text-white placeholder-gray-400 shadow-sm shadow-cyan-presale-theme hover:bg-black focus:bg-black focus:shadow-cyan-presale-theme md:w-1/2 lg:h-[40px]"
         />
         <div className="mt-8 flex-col justify-center gap-2 md:flex md:flex-row">
           <div className="mt-4 flex justify-center gap-2 md:mt-0">
