@@ -1,6 +1,7 @@
 import { clusterApiUrl } from "@solana/web3.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
+import { SolflareWalletAdapter } from "@solana/wallet-adapter-solflare";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -11,7 +12,7 @@ import "./App.css";
 import MyComponent from "./MyComponent";
 import { useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { DataProvider } from './dataContext';
+import { DataProvider } from "./dataContext";
 
 // import the styles
 // require('@solana/wallet-adapter-react-ui/styles.css');
@@ -21,16 +22,19 @@ function App() {
   const solNetwork = WalletAdapterNetwork.Mainnet;
   const endpoint = useMemo(() => clusterApiUrl(solNetwork), [solNetwork]);
   // initialise all the wallets you want to use
-  const wallets = useMemo(() => [new PhantomWalletAdapter()], [solNetwork]);
+  const wallets = useMemo(
+    () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
+    [solNetwork],
+  );
 
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets}>
         <WalletModalProvider>
           <div className="App bg-black">
-          <DataProvider>
-          <MyComponent />
-          </DataProvider>
+            <DataProvider>
+              <MyComponent />
+            </DataProvider>
           </div>
         </WalletModalProvider>
       </WalletProvider>

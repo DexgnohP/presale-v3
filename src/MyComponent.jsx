@@ -244,7 +244,7 @@ export default function MyComponent() {
           />
         ) : null}
       </div>
-      {listPresale.length > 6 && (
+      {/* {listPresale.length > 6 && (
         <div className="flex justify-center">
           <Button className="flex h-11 w-[192px] items-center justify-center rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px]">
             <div className="flex w-full justify-between rounded-full bg-black p-[10px] font-medium text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
@@ -253,7 +253,7 @@ export default function MyComponent() {
             </div>
           </Button>
         </div>
-      )}
+      )} */}
       <a
         href="https://forms.gle/Np4whS1WrHgAWqAdA"
         target="_blank"

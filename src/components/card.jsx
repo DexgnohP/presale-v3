@@ -5,11 +5,15 @@ import linkIcon from "../images/link-icon.png";
 import tw from "../images/tw.png";
 import warningIcon from "../images/warning.svg";
 import liveIcon from "../images/icons/live-icon.png";
+import ListDashes from "../images/ListDashes.svg";
+import CopySimple from "../images/CopySimple.svg";
+import ListDashesBlack from "../images/ListDashesBlack.svg";
 import endIcon from "../images/icons/end-icon.png";
 import comingIcon from "../images/icons/coming-icon.png";
 import { ArrowRightOutlined, DownOutlined } from "@ant-design/icons";
 import { ref, set, push, child, get } from "firebase/database";
 import { useDataContext } from "../dataContext";
+import { SearchOutlined } from "@ant-design/icons";
 import web from "../images/web.png";
 import {
   Button,
@@ -17,9 +21,9 @@ import {
   InputNumber,
   notification,
   Input,
-  Select,
   Dropdown,
   Tooltip,
+  List,
 } from "antd";
 import * as buffer from "buffer";
 import { database } from "../firebase";
@@ -28,15 +32,17 @@ import { projectIcon, projectStatus } from "../MyComponent";
 
 window.Buffer = buffer.Buffer;
 
-export default function Card({ data, setStatusItem }) {
+export default function Card({ data }) {
   const referral = window.location.pathname.replace(/\//g, "");
   const wallet = useWallet();
   const lamports_per_sol = solanaWeb3.LAMPORTS_PER_SOL;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemDropdowns, setItemDropdown] = useState([]);
+  const [listWhitelists, setListWhitelists] = useState([]);
   const [timeRemaining, setTimeRemaining] = useState();
   const [isBuyFinally, setIsBuyFinally] = useState(false);
   const [valueSol, setValueSol] = useState("");
+  const [inputSearchWallet, setInputSearchWallet] = useState("");
   const [status, setStatus] = useState();
   const { dispatch } = useDataContext();
   const [totalRaised, setTotalRaised] = useState(0);
@@ -50,7 +56,16 @@ export default function Card({ data, setStatusItem }) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  function convertText(inputText) {
+    let convertedText = inputText.slice(0, 14);
+    convertedText += "...";
+    convertedText += inputText.slice(-14);
+    return convertedText;
+  }
+
   const intervalIds = [];
+  const intervalIdsStatus = [];
 
   useEffect(() => {
     if (Object.keys(data).length) {
@@ -72,7 +87,7 @@ export default function Card({ data, setStatusItem }) {
             mapStatus();
           }
         } else {
-          mapStatus();
+          if (!status) mapStatus();
         }
       });
       let itemDropdown = data.marketing.map((item, index) => ({
@@ -96,16 +111,31 @@ export default function Card({ data, setStatusItem }) {
         ),
       }));
       setItemDropdown(itemDropdown);
+      setListWhitelists(data.whitelists || []);
     }
     return () => {
       intervalIds.forEach((id) => clearInterval(id));
     };
-  }, [data]);
+  }, []);
 
-  const mapStatus = () => {
+  const mapStatus = async () => {
     let hasRun = false;
+    let timeUTC = "";
+    await fetch(import.meta.env.VITE_CURL_TIME)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        timeUTC = new Date(data.utc_datetime);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
     const intervalId = setInterval(() => {
-      const newTimeRemaining = calculateTimeRemaining();
+      const newTimeRemaining = calculateTimeRemaining(timeUTC);
       setTimeRemaining(newTimeRemaining);
       if (
         newTimeRemaining.hours === 0 &&
@@ -120,11 +150,40 @@ export default function Card({ data, setStatusItem }) {
           setStatus("Coming");
         }
       }
+      timeUTC.setSeconds(timeUTC.getSeconds() + 1);
     }, 1000);
     intervalIds.push(intervalId);
     return () => {
       clearInterval(intervalId);
     };
+  };
+
+  const debounce = (func, delay) => {
+    let timeoutId;
+
+    return function (...args) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const handleInputChange = debounce((value) => {
+    let result = data.whitelists.filter((item) =>
+      item.toLowerCase().includes(value.toLowerCase()),
+    );
+    setListWhitelists(result);
+  }, 1000);
+
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setInputSearchWallet(value);
+
+    handleInputChange(value);
   };
 
   useEffect(() => {
@@ -155,7 +214,7 @@ export default function Card({ data, setStatusItem }) {
           .catch((error) => {
             console.error(error);
           });
-      }, 10000);
+      }, 1000);
       intervalIds.push(intervalIdEnd);
       return () => {
         clearInterval(intervalIdEnd);
@@ -167,11 +226,11 @@ export default function Card({ data, setStatusItem }) {
     return value < 10 ? `0${value}` : value;
   }
 
-  function calculateTimeRemaining() {
-    const currentLocalDate = new Date();
+  function calculateTimeRemaining(currentLocalDate) {
+    // const currentLocalDate = new Date();
     const targetUtcDate = new Date(data.time);
 
-    const timeDiff = targetUtcDate.getTime() - currentLocalDate.getTime();
+    const timeDiff = targetUtcDate.getTime() - currentLocalDate?.getTime();
 
     if (timeDiff <= 0) {
       return {
@@ -194,19 +253,10 @@ export default function Card({ data, setStatusItem }) {
     };
   }
 
-  // const projectStatus = [
-  //   { name: "Safu", icon: safuIcon },
-  //   { name: "Audit", icon: auditIcon },
-  //   { name: "Doxx", icon: doxxIcon },
-  //   { name: "KYC", icon: kycIcon },
-  //   { name: "Live", icon: liveIcon },
-  //   { name: "End", icon: endIcon },
-  //   { name: "Coming", icon: comingIcon },
-  // ];
-
   async function sendButtonClick() {
     const receiverAddress = data.contractPresale;
-    await signInTransactionAndSendMoney(receiverAddress);
+    const fromPubkey = wallet.publicKey;
+    await signInTransactionAndSendMoney(receiverAddress, fromPubkey);
   }
 
   function writeUserData(address, sol) {
@@ -237,6 +287,20 @@ export default function Card({ data, setStatusItem }) {
         placement: "topRight",
       });
     } else {
+      if (data.whitelists) {
+        if (
+          !data.whitelists.filter(
+            (item) => item === wallet.publicKey.toString(),
+          ).length
+        ) {
+          notification.error({
+            message: `Error`,
+            description: `Your wallet is not on the Whitelists`,
+            placement: "topRight",
+          });
+          return;
+        }
+      }
       const databaseRef = ref(database);
       get(child(databaseRef, data.table))
         .then((snapshot) => {
@@ -278,7 +342,7 @@ export default function Card({ data, setStatusItem }) {
     }
   }
 
-  async function signInTransactionAndSendMoney(destPubkeyStr) {
+  async function signInTransactionAndSendMoney(destPubkeyStr, walletCA) {
     setIsBuyFinally(true);
     const network = import.meta.env.VITE_RPC_ENDPOINT;
     const connection = new solanaWeb3.Connection(network);
@@ -286,9 +350,7 @@ export default function Card({ data, setStatusItem }) {
       const lamports = valueSol * lamports_per_sol;
 
       const destPubkey = new solanaWeb3.PublicKey(destPubkeyStr);
-      const fromPubkey = new solanaWeb3.PublicKey(
-        window.solana.publicKey.toString(),
-      );
+      const fromPubkey = new solanaWeb3.PublicKey(walletCA.toString());
       let listInstruction = [];
       const instruction = solanaWeb3.SystemProgram.transfer({
         fromPubkey: fromPubkey,
@@ -321,20 +383,29 @@ export default function Card({ data, setStatusItem }) {
         listInstruction.push(txIDO);
       }
 
-      let trans = await setWalletTransaction(listInstruction, connection);
-      let sign = await signAndSendTransaction(trans);
-
+      let trans = await setWalletTransaction(
+        listInstruction,
+        connection,
+        walletCA,
+      );
+      let sign = await signAndSendTransaction(trans, connection);
+      let isConfirmed = false;
       let timeOutStatus = setInterval(async () => {
+        if (isConfirmed) {
+          clearInterval(timeOutStatus);
+          return;
+        }
         let result = await getConfirmation(connection, sign);
         if (result) {
           if (result === "confirmed") {
-            writeUserData(window.solana.publicKey.toString(), valueSol);
+            writeUserData(walletCA.toString(), valueSol);
             notification.success({
               message: `Successful`,
               description: `Transaction successful!`,
               placement: "topRight",
             });
             clearInterval(timeOutStatus);
+            isConfirmed = true;
           } else {
             notification.error({
               message: `Error`,
@@ -345,32 +416,34 @@ export default function Card({ data, setStatusItem }) {
           setIsBuyFinally(false);
         }
       }, 5000);
-      intervalIds.push(timeOutStatus);
+      intervalIdsStatus.push(timeOutStatus);
     } catch (e) {
+      console.log(e);
+      intervalIdsStatus.forEach((id) => clearInterval(id));
+      setIsBuyFinally(false);
       notification.error({
         message: `Error`,
         description: `Transaction failed!`,
         placement: "topRight",
       });
-      setIsBuyFinally(false);
     }
   }
 
-  async function setWalletTransaction(instruction, connection) {
+  async function setWalletTransaction(instruction, connection, walletCA) {
     const transaction = new solanaWeb3.Transaction();
     instruction.forEach((item) => {
       transaction.add(item);
     });
-    transaction.feePayer = window.solana.publicKey;
+    transaction.feePayer = walletCA;
     const blockhash = await connection.getRecentBlockhash("finalized");
     transaction.recentBlockhash = blockhash.blockhash;
     return transaction;
   }
 
-  async function signAndSendTransaction(transaction) {
+  async function signAndSendTransaction(transaction, connection) {
     // Sign transaction, broadcast, and confirm
-    const { signature } =
-      await window.solana.signAndSendTransaction(transaction);
+    const signature = await wallet.sendTransaction(transaction, connection);
+    // window.solana.signAndSendTransaction(transaction) {signature}
     return signature;
   }
 
@@ -424,7 +497,7 @@ export default function Card({ data, setStatusItem }) {
                 data.tag.map((item, index) => (
                   <div
                     key={index}
-                    className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border px-3 py-1"
+                    className="flex h-7 min-w-[76px] items-center justify-center gap-1 rounded-[20px] border px-3 py-1"
                     style={{
                       borderColor: projectIcon.find((it) => it.name === item)
                         .borderColor,
@@ -433,6 +506,7 @@ export default function Card({ data, setStatusItem }) {
                     <img
                       src={projectIcon.find((it) => it.name === item).icon}
                       alt="img"
+                      style={{ width: "24px" }}
                     />
                     <span>{item}</span>
                   </div>
@@ -474,7 +548,17 @@ export default function Card({ data, setStatusItem }) {
           </div>
         </Dropdown>
 
-        <div className="card-title">{data.name}</div>
+        <div className="card-title-container">
+          <span className="card-title">{data.name}</span>
+          {data.whitelists && (
+            <div className="tag-whitelists">
+              <img src={ListDashesBlack} style={{ width: "24px" }} />
+              <span style={{ marginLeft: "4px", fontWeight: "600" }}>
+                Whitelists
+              </span>
+            </div>
+          )}
+        </div>
         <div className="card-content">{data.des}</div>
         <div className="mt-8 flex items-center justify-center lg:justify-between">
           <Dropdown
@@ -515,9 +599,9 @@ export default function Card({ data, setStatusItem }) {
       <Modal
         title={""}
         className="modal-card rounded border border-purple-presale-theme pb-0"
-        forceRender
         open={isModalOpen}
         footer={false}
+        forceRender
         width={1000}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -534,7 +618,7 @@ export default function Card({ data, setStatusItem }) {
                 data.tag.map((item, index) => (
                   <div
                     key={index}
-                    className="flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border  px-3 py-1"
+                    className="min-w[76px] flex h-7 items-center justify-center gap-1 rounded-[20px] border  px-3 py-1"
                     style={{
                       borderColor: projectIcon.find((it) => it.name === item)
                         .borderColor,
@@ -543,6 +627,7 @@ export default function Card({ data, setStatusItem }) {
                     <img
                       src={projectIcon.find((it) => it.name === item).icon}
                       alt="img"
+                      style={{ width: "24px" }}
                     />
                     <span>{item}</span>
                   </div>
@@ -592,10 +677,12 @@ export default function Card({ data, setStatusItem }) {
               <strong className="text-[#60FF97]">Min:</strong> {data.min} SOL |{" "}
               <strong className="text-[#60FF97]">Max:</strong> {data.max} SOL
             </div>
-            <div className="limit">
-              <strong className="text-[#60FF97]">Total Raised:</strong>{" "}
-              {Number(totalRaised.toFixed(2))} SOL
-            </div>
+            {status !== "Coming" && (
+              <div className="limit">
+                <strong className="text-[#60FF97]">Total Raised:</strong>{" "}
+                {Number(totalRaised.toFixed(2))} SOL
+              </div>
+            )}
 
             {status === "Coming" && (
               <div className="clock-container">
@@ -629,9 +716,9 @@ export default function Card({ data, setStatusItem }) {
                     max={data.max}
                     value={valueSol}
                     onChange={changeSol}
-                    bordered={false}
+                    variant={false}
                     placeholder="Ex: 1 SOL"
-                    className="input-sol h-full bg-neutral-900 text-base font-normal leading-normal text-zinc-600 placeholder-zinc-800"
+                    className="input-sol h-full bg-neutral-900 text-base font-normal leading-normal text-zinc-600 "
                   />
                   <Button
                     loading={isBuyFinally}
@@ -649,6 +736,66 @@ export default function Card({ data, setStatusItem }) {
                 </div>
               </>
             )}
+            {data.whitelists && (
+              <List
+                size="small"
+                header={
+                  <div className="whitelist-container">
+                    <div className="whitelist-header">
+                      <div className="text-primary">Whitelists</div>
+                      <div className="whitelist-icon">
+                        <img src={ListDashes} style={{ width: "24px" }} />
+                        <span
+                          style={{
+                            marginLeft: "10px",
+                            marginBottom: "4px",
+                            fontWeight: "bolder",
+                            fontSize: "1.2rem",
+                          }}
+                        >
+                          {data.whitelists.length}
+                        </span>
+                      </div>
+                    </div>
+                    <Input
+                      size={"large"}
+                      onChange={handleChange}
+                      value={inputSearchWallet}
+                      addonBefore={<SearchOutlined />}
+                      placeholder="Search Wallet"
+                    />
+                  </div>
+                }
+                footer={false}
+                bordered
+                className="whitelist"
+                dataSource={listWhitelists.filter((_, index) => index < 4)}
+                renderItem={(item) => (
+                  <List.Item
+                    style={{ justifyContent: "flex-start", flexWrap: "nowrap" }}
+                  >
+                    <img
+                      onClick={() => {
+                        navigator.clipboard.writeText(item);
+                        notification.success({
+                          message: `Notification`,
+                          description: `Copied wallet`,
+                          placement: "topRight",
+                        });
+                      }}
+                      src={CopySimple}
+                      style={{ width: "24px", cursor: "pointer" }}
+                    />
+                    <span
+                      style={{ marginLeft: "15px", wordBreak: "break-word" }}
+                    >
+                      {convertText(item)}
+                    </span>
+                  </List.Item>
+                )}
+              />
+            )}
+
             {status !== "End" ? (
               <div
                 style={{
