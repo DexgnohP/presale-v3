@@ -1,11 +1,7 @@
 import React, { createContext, useContext, useReducer } from "react";
-import maple from "./images/maple.png";
 import meme from "./images/meme.png";
 import babycaller from "./images/babycaller.jpg";
-import forsages from "./images/forsages.png";
-import goldenpepe from "./images/goldenpepe.png";
-import joewifhat from "./images/joewifhat.png";
-import fushipepe from "./images/fushipepe.png";
+import cpc from "./images/cpc.png";
 import akita from "./images/akita.png";
 import tromp from "./images/tromp.png";
 import pengwifhat from "./images/pengwifhat.png";
@@ -16,19 +12,34 @@ import bookofdoge from "./images/bookofdoge.png";
 import kingmeme from "./images/kingmeme.png";
 import snappe from "./images/snappe.png";
 import anapple from "./images/anapple.png";
+import mcdonald from "./images/mcdonald.png";
+import anpe from "./images/anpe.png";
+import pome from "./images/pome.png";
+import homer from "./images/homer.png";
+import lily from "./images/lily.png";
+import bop from "./images/bop.png";
+import pepeg from "./images/pepeg.png";
+import catwifbag from "./images/catwifbag.png";
 import pengisking from "./images/pengisking.png";
+import xpidercat from "./images/xpidercat.png";
+import meow from "./images/meow.png";
+import katking from "./images/katking.png";
+import pengwifcat from "./images/pengwifcat.png";
+import pella from "./images/pella.png";
 import smoly from "./images/smoly.png";
 import fineandsmole from "./images/fineandsmole.png";
+import benny from "./images/benny.png";
+import toby from "./images/toby.png";
+import kitcat from "./images/kitcat.png";
+import katpe from "./images/katpe.png";
 import mastercat from "./images/mastercat.jpg";
 import theone from "./images/theone.jpg";
+import dracula from "./images/dracula.jpg";
 import MM from "./images/MM.jpg";
-import battle from "./images/battle.png";
 import whitePlusIcon from "./images/icons/white-plus-icon-3.png";
-import fifa from "./images/fifa.png";
 import moby from "./images/moby.png";
-import yellow from "./images/yellow.jpg";
-import pepeonmoon from "./images/pepeonmoon.png";
 import panda from "./images/panda.jpg";
+import kingkong from "./images/kingkong.jpg";
 import travel from "./images/travel.jpg";
 import { dataReducer } from "./reducers";
 
@@ -36,6 +47,672 @@ const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const initialDataTemp = [
+    {
+      id: 13123332,
+      table: "toby",
+      name: "toby",
+      logo: toby,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "BABY CALLER 👑",
+          icon: babycaller,
+          link: "https://t.me/BabieCaller",
+        },
+        {
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Toby: Hoppin' into Solana, Ribbiting Returns Await!",
+      min: 1,
+      max: 4,
+      time: "2024-04-08T12:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/tobyonsol",
+      tw: "https://twitter.com/TobyonsolX",
+      web: "https://tobyonsol.com/",
+    },
+    {
+      id: 13123332,
+      table: "benny",
+      name: "benny",
+      logo: benny,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Making Waves in the Crypto Sea with benny!",
+      min: 1,
+      max: 4,
+      time: "2024-04-05T15:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/BennyProject",
+      tw: "https://twitter.com/BennyProjectX",
+      web: "https://bennysol.xyz/",
+    },
+    {
+      id: 13123332,
+      table: "katpe",
+      name: "KatPe",
+      logo: katpe,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Memex9999",
+          icon: meme,
+          link: "https://t.me/memex9999call",
+        },
+        {
+          name: "Travel Caller",
+          icon: travel,
+          link: "https://t.me/TV_CALLS",
+        },
+        {
+          name: "💸 Money Maker 💸",
+          icon: MM,
+          link: "https://t.me/Money_MakerMM",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Merging Memes and Meows for Crypto Fun!",
+      min: 1,
+      max: 4,
+      time: "2024-04-02T15:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/KatPesol",
+      tw: "https://twitter.com/KatPe_X",
+      web: "https://katpe.fun/",
+    },
+    {
+      id: 13123332,
+      table: "pengwifcat",
+      name: "Pengwifcat",
+      logo: pengwifcat,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "BABY CALLER 👑",
+          icon: babycaller,
+          link: "https://t.me/BabieCaller",
+        },
+        {
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Where Penguins & Cats Collide for Crypto Fun!",
+      min: 1,
+      max: 4,
+      time: "2024-04-02T12:00:00Z",
+      totalRaised: 150,
+      tele: "https://t.me/pengwifcatchannel",
+      tw: "https://twitter.com/Pengwifcat",
+      web: "https://pengwifcat.fun/",
+    },
+    {
+      id: 13123332,
+      table: "kitcat",
+      name: "Hello Kitcat",
+      logo: kitcat,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Welcome to Hello Kitcat, where charm inspires blockchain innovation! Join our adorable community as we explore the endless possibilities of Kitcat",
+      min: 1,
+      max: 4,
+      time: "2024-04-01T15:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/HelloKitcatChannel",
+      tw: "https://twitter.com/HelloKitcatX",
+      web: "https://hellokitcat.xyz/",
+    },
+    {
+      id: 13123332,
+      table: "meow",
+      name: "Meow",
+      logo: meow,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "BABY CALLER 👑",
+          icon: babycaller,
+          link: "https://t.me/BabieCaller",
+        },
+        {
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Welcome to Meow, where the language of cats inspires blockchain innovation! Join our playful community as we explore the endless possibilities of feline-inspire",
+      min: 1,
+      max: 4,
+      time: "2024-03-31T12:00:00Z",
+      totalRaised: 150,
+      tele: "https://t.me/MeowSolChannel",
+      tw: "https://twitter.com/Meow_ProjectX",
+      web: "https://meowsolana.me/",
+    },
+    {
+      id: 13123332,
+      table: "katking",
+      name: "Kat King",
+      logo: katking,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Welcome to Kat King, where feline grace inspires blockchain innovation! Join our regal community as we pave the way for a more sophisticated future",
+      min: 1,
+      max: 4,
+      time: "2024-03-30T16:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/KatKingcoinsol",
+      tw: "https://twitter.com/Kat_KingX",
+      web: "https://katking.xyz/",
+    },
+    {
+      id: 13123332,
+      table: "pella",
+      name: "Pella",
+      logo: pella,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Memex9999",
+          icon: meme,
+          link: "https://t.me/memex9999call",
+        },
+        {
+          name: "Travel Caller",
+          icon: travel,
+          link: "https://t.me/TV_CALLS",
+        },
+        {
+          name: "💸 Money Maker 💸",
+          icon: MM,
+          link: "https://t.me/Money_MakerMM",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Welcome to Pella, where community empowerment drives innovation in the blockchain world! Join our movement as we create a more inclusive",
+      min: 1,
+      max: 4,
+      time: "2024-03-30T15:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/PellaChannel",
+      tw: "https://twitter.com/Pella_Project",
+      web: "https://pellaonsol.xyz/",
+    },
+    {
+      id: 13123332,
+      table: "xpidercat",
+      name: "Xpidercat",
+      logo: xpidercat,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "BABY CALLER 👑",
+          icon: babycaller,
+          link: "https://t.me/BabieCaller",
+        },
+        {
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Welcome to Xpidercat, where agility and curiosity drive innovation on the blockchain! Join our community of explorers as we push the boundaries",
+      min: 1,
+      max: 3,
+      time: "2024-03-29T15:00:00Z",
+      totalRaised: 150,
+      tele: "https://t.me/XpidercatSolChannel",
+      tw: "https://twitter.com/xpidercat",
+      web: "https://xpidercat.fun/",
+    },
+    {
+      id: 13123332,
+      table: "lily",
+      name: "Lily the Seal",
+      logo: lily,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Welcome to Lily the Seal, where grace inspires innovation on the blockchain! Join our community as we work together to protect the environment",
+      min: 1,
+      max: 4,
+      time: "2024-03-28T15:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/LilytheSealSOL",
+      tw: "https://twitter.com/LilytheSealX",
+      web: "https://lilytheseal.xyz/",
+    },
+    {
+      id: 13123332,
+      table: "pepeg",
+      name: "PEPE's Grandfather",
+      logo: pepeg,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Memex9999",
+          icon: meme,
+          link: "https://t.me/memex9999call",
+        },
+        {
+          name: "Travel Caller",
+          icon: travel,
+          link: "https://t.me/TV_CALLS",
+        },
+        {
+          name: "💸 Money Maker 💸",
+          icon: MM,
+          link: "https://t.me/Money_MakerMM",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Welcome to PEPE's Grandfather, where tradition meets innovation on the blockchain! Join our community as we build a legacy that honors the wisdom",
+      min: 1,
+      max: 4,
+      time: "2024-03-27T15:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/PEPEsGrandfatherChannel",
+      tw: "https://twitter.com/PEPEGrandfather",
+      web: "https://pepeoldsol.xyz/",
+    },
+    {
+      id: 13123332,
+      table: "bop",
+      name: "BOP",
+      logo: bop,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "BABY CALLER 👑",
+          icon: babycaller,
+          link: "https://t.me/BabieCaller",
+        },
+        {
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Bop: Where the Killer Shark Meets the Penguin Prey.",
+      min: 1,
+      max: 4,
+      time: "2024-03-27T12:00:00Z",
+      totalRaised: 200,
+      tele: "https://t.me/BOPChannelSol",
+      tw: "https://twitter.com/BOP_X_",
+      web: "https://bophuntersol.xyz/",
+    },
+    {
+      id: 13123332,
+      table: "homer",
+      name: "Homer Simpson",
+      logo: homer,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Get ready for a ride filled with 'D'oh!' moments and plenty of donuts",
+      min: 1,
+      max: 4,
+      time: "2024-03-26T15:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/HomerSimpsonChannel",
+      tw: "https://twitter.com/Homer_Simpson_P",
+      web: "https://homersimpsononsol.xyz/",
+    },
+    {
+      id: 13123332,
+      table: "pome",
+      name: "POME",
+      logo: pome,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Memex9999",
+          icon: meme,
+          link: "https://t.me/memex9999call",
+        },
+        {
+          name: "Travel Caller",
+          icon: travel,
+          link: "https://t.me/TV_CALLS",
+        },
+        {
+          name: "💸 Money Maker 💸",
+          icon: MM,
+          link: "https://t.me/Money_MakerMM",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Buy POME will be rich!!!",
+      min: 1,
+      max: 4,
+      time: "2024-03-25T15:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/POMExChannel",
+      tw: "https://twitter.com/POME_SOLL",
+      web: "https://pomeonsol.xyz/",
+      contractPresale: "D7mz3wpF6LSZznGBj3gM15cmaNCtivMduajHbAqwJLa",
+    },
+    {
+      id: 13123332,
+      table: "anpe",
+      name: "Anpe",
+      logo: anpe,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "BABY CALLER 👑",
+          icon: babycaller,
+          link: "https://t.me/BabieCaller",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Welcome to Anpe, where nature inspires blockchain innovation! Join us as we harmonize technology with the tranquility of the natural world",
+      min: 1,
+      max: 4,
+      time: "2024-03-25T12:00:00Z",
+      totalRaised: 200,
+      tele: "https://t.me/AnpeChannel",
+      tw: "https://twitter.com/Anpe_Project",
+      web: "https://anpeonsol.xyz/",
+      contractPresale: "39LfRMqRie7bz8qBQcqpAQ799X95MZvPT6qHrb8cth5V",
+    },
+    {
+      id: 13123332,
+      table: "catwifbag",
+      name: "catwifbag",
+      logo: catwifbag,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Unlocking the purr-fect investment opportunity with CatWifBag Memecoin!",
+      min: 1,
+      max: 4,
+      time: "2024-03-24T12:30:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/catwifbagChannel",
+      tw: "https://twitter.com/CatwifbagX",
+      web: "https://catwifbag.xyz/",
+      contractPresale: "3JiukkViHszZcbhMuFjLUwZLyv7CLJBeGtwvZfcxdJh4",
+    },
+    {
+      id: 13123332,
+      table: "mcdonald",
+      name: "McDonald's",
+      logo: mcdonald,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Memex9999",
+          icon: meme,
+          link: "https://t.me/memex9999call",
+        },
+        {
+          name: "Travel Caller",
+          icon: travel,
+          link: "https://t.me/TV_CALLS",
+        },
+        {
+          name: "💸 Money Maker 💸",
+          icon: MM,
+          link: "https://t.me/Money_MakerMM",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "If you’re not a risk taker, you should get the hell out of business.",
+      min: 1,
+      max: 4,
+      time: "2024-03-23T14:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/McDonaldSolChannel",
+      tw: "https://twitter.com/McDonaldProject",
+      web: "https://mcdonaldonsol.xyz/",
+      contractPresale: "8uNMoB21MwJ8JdKRxJEgGx9o6tN4PUdPaSWBndZaT4QP",
+    },
+    {
+      id: 13123332,
+      table: "cpctest",
+      name: "CPC",
+      logo: cpc,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "CPC Memecoin 是一个创新的加密货币项目，巧妙地将中国共产党的标志性形象融入其中。",
+      min: 1,
+      max: 4,
+      time: "2024-03-22T15:00:00Z",
+      totalRaised: 100,
+      tele: "https://t.me/CPCChannell",
+      tw: "https://twitter.com/CPCProject",
+      web: "https://cpconsolana.xyz/",
+      contractPresale: "7iayt7UG3S3rc2mKC8wZxkBt9MDZC4NGngRFH8SXfbhY",
+    },
     {
       id: 13123332,
       table: "pengisking",
@@ -649,115 +1326,6 @@ export const DataProvider = ({ children }) => {
       contractPresale: "GgWw6ZaszS4D1fNm3jCYF5UtBu2rxraUywPjYpazQHiF",
     },
     {
-      id: 1312312,
-      table: "fushipepe",
-      name: "Fushi Pepe",
-      logo: fushipepe,
-      tag: ["Safu", "Audit", "KYC", "Doxx"],
-      marketing: [
-        {
-          name: "Memex9999",
-          icon: meme,
-          link: "https://t.me/memex9999call",
-        },
-        {
-          name: "💸 Money Maker 💸",
-          icon: MM,
-          link: "https://t.me/Money_MakerMM",
-        },
-        {
-          name: "Travel Caller",
-          icon: travel,
-          link: "https://t.me/TV_CALLS",
-        },
-        {
-          name: "Add more",
-          icon: whitePlusIcon,
-          link: "https://docs.idosol.me/2.-unique-features",
-        },
-      ],
-      des: "Fushigidane + Pepe = Fushi Pepe.",
-      min: 1,
-      max: 4,
-      time: "2024-03-04T15:00:00Z",
-      totalRaised: 300,
-      tele: "https://t.me/FushiPepe",
-      tw: "https://twitter.com/FushiPepe",
-      web: "https://fushipepe.xyz/",
-      contractPresale: "7ytQVjCDn9tTxtgrodwtDjS84wW2dAcsnWvD1NhE9MiC",
-    },
-    {
-      id: 1002131,
-      table: "joewifhat",
-      name: "Joewifhat",
-      logo: joewifhat,
-      tag: ["Safu", "Audit", "KYC", "Doxx"],
-      marketing: [
-        {
-          name: "Master Cat",
-          icon: mastercat,
-          link: "https://t.me/MasterCat_X",
-        },
-        {
-          name: "Panda Caller 🐼",
-          icon: panda,
-          link: "https://t.me/Panda_X1000",
-        },
-        {
-          name: "Add more",
-          icon: whitePlusIcon,
-          link: "https://docs.idosol.me/2.-unique-features",
-        },
-      ],
-      des: "Hello my name is Joe and I have hat, some call me Joewifhat.",
-      min: 1,
-      max: 4,
-      time: "2024-02-29T12:30:00Z",
-      totalRaised: 300,
-      tele: "https://t.me/Joewifhat_JOE",
-      tw: "",
-      web: "https://joewifhat.xyz/",
-      contractPresale: "3VFp1La6EwFWWyry45h8xePrGprv16vzV2wGjG1uPB2T",
-    },
-    {
-      id: 10032,
-      table: "goldenpepewifhat",
-      name: "Golden Pepewifhat",
-      logo: goldenpepe,
-      tag: ["Safu", "Audit", "KYC", "Doxx"],
-      marketing: [
-        {
-          name: "Memex9999",
-          icon: meme,
-          link: "https://t.me/memex9999call",
-        },
-        {
-          name: "Master Cat",
-          icon: mastercat,
-          link: "https://t.me/MasterCat_X",
-        },
-        {
-          name: "Panda Caller 🐼",
-          icon: panda,
-          link: "https://t.me/Panda_X1000",
-        },
-        {
-          name: "Add more",
-          icon: whitePlusIcon,
-          link: "https://docs.idosol.me/2.-unique-features",
-        },
-      ],
-      des: "The cute SOL meme has arrived and will mark its territory on the Solana Chain.",
-      min: 1,
-      max: 5,
-      time: "2024-02-26T12:20:00Z",
-      totalRaised: 500,
-      tele: "https://t.me/G_Pepewifhat",
-      tw: "https://twitter.com/G_Pepewifhat",
-      web: "https://goldenpepewifhat.info/",
-      contractPresale: "AW2yGKAVyHGpUf7Suxox6d1KDKRthG9fB3ygPe6k2Q35",
-    },
-    {
       id: 1001,
       table: "moby",
       name: "MobyToken on Sol",
@@ -886,194 +1454,6 @@ export const DataProvider = ({ children }) => {
       tw: "https://twitter.com/MobyOnSol",
       web: "https://launchmobysol.xyz/",
       contractPresale: "4dxv35rJ2KES6RVnKBqqqmNpPapVEFwdQVx1HkfkTKcZ",
-    },
-    {
-      id: 100,
-      table: "pepeonmoon",
-      name: "Pepe on Moon",
-      logo: pepeonmoon,
-      tag: ["Safu", "Audit", "KYC", "Doxx"],
-      marketing: [
-        {
-          name: "Travel Caller",
-          icon: travel,
-          link: "https://t.me/TV_CALLS",
-        },
-        {
-          name: "Master Cat",
-          icon: mastercat,
-          link: "https://t.me/MasterCat_X",
-        },
-        {
-          name: "Panda Caller 🐼",
-          icon: panda,
-          link: "https://t.me/Panda_X1000",
-        },
-        {
-          name: "Add more",
-          icon: whitePlusIcon,
-          link: "https://docs.idosol.me/2.-unique-features",
-        },
-      ],
-      des: "Pepe on Moon is a memecoin project aiming to bring the iconic Pepe meme to the world of cryptocurrency.",
-      min: 1,
-      max: 4,
-      time: "2024-02-21T12:20:00Z",
-      totalRaised: 100000,
-      tele: "https://t.me/Pepe_on_Moon",
-      tw: "https://twitter.com/Pepe_on_Moon",
-      web: "https://pepeonmoon.xyz/",
-      contractPresale: "89ZaJo4R6KWRWNm2WBxniXj2S67xXjQGp1TNDB1Vbobv",
-    },
-    {
-      id: 100,
-      table: "yellowsol",
-      name: "Yellow",
-      logo: yellow,
-      tag: ["Safu", "Audit", "KYC", "Doxx"],
-      marketing: [
-        {
-          name: "Memex9999",
-          icon: meme,
-          link: "https://t.me/memex9999call",
-        },
-        {
-          name: "Master Cat",
-          icon: mastercat,
-          link: "https://t.me/MasterCat_X",
-        },
-        {
-          name: "Panda Caller 🐼",
-          icon: panda,
-          link: "https://t.me/Panda_X1000",
-        },
-        {
-          name: "Add more",
-          icon: whitePlusIcon,
-          link: "https://docs.idosol.me/2.-unique-features",
-        },
-      ],
-      des: "In the spectrum of colors, there exists a hue that embodies the essence of triumph and success - the vibrant shade of yellow.",
-      min: 1,
-      max: 5,
-      time: "2024-02-19T12:00:00Z",
-      totalRaised: 100000,
-      tele: "https://t.me/yellow_solana",
-      tw: "https://twitter.com/YellowSolana",
-      web: "http://yellowsolana.xyz/",
-      contractPresale: "BPZFajcCQ1FUUWfNzcTgP9RZYHdXvAmx3aasWGbVn7Yq",
-    },
-    {
-      id: 2,
-      table: "battlefight",
-      name: "Battle Fight",
-      logo: battle,
-      tag: ["Safu", "Audit", "KYC", "Doxx"],
-      marketing: [
-        {
-          name: "Memex9999",
-          icon: meme,
-          link: "https://t.me/memex9999call",
-        },
-        {
-          name: "Master Cat",
-          icon: mastercat,
-          link: "https://t.me/MasterCat_X",
-        },
-        {
-          name: "Add more",
-          icon: whitePlusIcon,
-          link: "https://docs.idosol.me/2.-unique-features",
-        },
-      ],
-      des: "Unleash Your Inner Warrior: Battle Fight - Where Every Solo Duel Defines Legends!",
-      min: 1,
-      max: 5,
-      time: "2024-02-01T12:20:00Z",
-      totalRaised: 400,
-      tele: "https://t.me/BattleFightCoin",
-      tw: "https://twitter.com/BattleFightCoin",
-      web: "https://battlefight.xyz/",
-      contractPresale: "F3y5rR7xAUV8aEs2QkEsL1sGCYcFueNT7BHJJZq6zEcB",
-    },
-    {
-      id: 2,
-      table: "forsages",
-      name: "Forsages",
-      logo: forsages,
-      tag: ["Safu", "Audit", "KYC", "Doxx"],
-      marketing: [
-        {
-          name: "Memex9999",
-          icon: meme,
-          link: "https://t.me/memex9999call",
-        },
-        {
-          name: "Master Cat",
-          icon: mastercat,
-          link: "https://t.me/MasterCat_X",
-        },
-        {
-          name: "Add more",
-          icon: whitePlusIcon,
-          link: "https://docs.idosol.me/2.-unique-features",
-        },
-      ],
-      des: "Decentralized success, global empowerment! Join the revolution for financial freedom",
-      min: 1,
-      max: 5,
-      time: "2024-01-23T13:20:00Z",
-      totalRaised: 1000,
-      tele: "https://t.me/Forsage_SOL",
-      tw: "https://twitter.com/forsageofficial/",
-      web: "https://forsages.io/",
-      contractPresale: "2FuFYUJpPbmgN18CqUFKewn4yJQP4ZuYPLRbcbeimU63",
-    },
-    {
-      id: 2,
-      table: "maplestory",
-      marketing: [
-        {
-          name: "Memex9999",
-          icon: meme,
-          link: "https://t.me/memex9999call",
-        },
-      ],
-      name: "MapleStory Finance",
-      tag: ["Safu", "Audit", "KYC", "Doxx"],
-      logo: maple,
-      des: "MapleStory Finance: Where Gaming Meets DeFi Magic – Unleashing Cuteness, Crafting Profits!",
-      min: 1,
-      max: 5,
-      time: "2024-01-18T13:20:00Z",
-      totalRaised: 500,
-      tele: "https://t.me/MapleStoryX",
-      tw: "https://twitter.com/MapleStory_X",
-      web: "https://maplestoryfinance.me/",
-      contractPresale: "75m95K4Jb1GbRfn4VX7NJ4X7jg2RCoAxudPFHdBgNTYt",
-    },
-    {
-      id: 1,
-      table: "fifa",
-      marketing: [
-        {
-          name: "Memex9999",
-          icon: meme,
-          link: "https://t.me/memex9999call",
-        },
-      ],
-      name: "ФИФА Заработай",
-      tag: ["Safu", "Audit", "KYC", "Doxx"],
-      logo: fifa,
-      des: "Conquer the pitch with GameFi FIFA 2024: Where colors and passion collide!",
-      min: 1,
-      max: 5,
-      time: "2024-01-15T13:20:00Z",
-      totalRaised: 300,
-      tele: "https://t.me/FifaEarnX",
-      tw: "https://twitter.com/FifaEarnX",
-      web: "https://fifaearn.pro/",
-      contractPresale: "22ZNv9fUgY2uJTLt1Wkx8r8bNhJcrSzj89yjCVxanNR4",
     },
   ];
   const [dataTemp, dispatch] = useReducer(dataReducer, initialDataTemp);

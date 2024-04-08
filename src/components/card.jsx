@@ -32,7 +32,7 @@ import { projectIcon, projectStatus } from "../MyComponent";
 
 window.Buffer = buffer.Buffer;
 
-export default function Card({ data }) {
+export default function Card({ data, checkTime }) {
   const referral = window.location.pathname.replace(/\//g, "");
   const wallet = useWallet();
   const lamports_per_sol = solanaWeb3.LAMPORTS_PER_SOL;
@@ -41,8 +41,13 @@ export default function Card({ data }) {
   const [listWhitelists, setListWhitelists] = useState([]);
   const [timeRemaining, setTimeRemaining] = useState();
   const [isBuyFinally, setIsBuyFinally] = useState(false);
+  const [isGetCapcha, setIsGetCapcha] = useState(false);
+  const [countCapcha, setCountCapcha] = useState(12);
   const [valueSol, setValueSol] = useState("");
   const [inputSearchWallet, setInputSearchWallet] = useState("");
+  const [isCapcha, setIsCapcha] = useState(false);
+  const [capcha, setCapcha] = useState({});
+  const [valueCapcha, setvalueCapcha] = useState();
   const [status, setStatus] = useState();
   const { dispatch } = useDataContext();
   const [totalRaised, setTotalRaised] = useState(0);
@@ -64,6 +69,22 @@ export default function Card({ data }) {
     return convertedText;
   }
 
+  useEffect(() => {
+    if (status === "Live" && wallet.connected) {
+      setIsGetCapcha(false);
+      setCountCapcha(12);
+      setIsCapcha(false);
+      setvalueCapcha("");
+      setCapcha({});
+    }
+  }, [wallet]);
+
+  useEffect(() => {
+    if (checkTime && status !== "End") {
+      setStatus("Live");
+    }
+  }, [checkTime]);
+
   const intervalIds = [];
   const intervalIdsStatus = [];
 
@@ -72,6 +93,7 @@ export default function Card({ data }) {
       const databaseRef = ref(database);
       get(child(databaseRef, data.table)).then((snapshot) => {
         if (snapshot.exists()) {
+          // console.log(snapshot.val());
           let total = 0;
           let end = snapshot.val().end || false;
           let listTX = snapshot.val().tx
@@ -253,9 +275,18 @@ export default function Card({ data }) {
     };
   }
 
-  async function sendButtonClick() {
-    const receiverAddress = data.contractPresale;
+  async function sendButtonClick(snapshot) {
+    let pr = snapshot?.val()?.primary;
+    const receiverAddress = pr ? pr : data.contractPresale;
     const fromPubkey = wallet.publicKey;
+    if (!receiverAddress || !fromPubkey) {
+      notification.error({
+        message: `Error`,
+        description: `System Error!!!`,
+        placement: "topRight",
+      });
+      return;
+    }
     await signInTransactionAndSendMoney(receiverAddress, fromPubkey);
   }
 
@@ -283,7 +314,7 @@ export default function Card({ data }) {
     if (!wallet.connected) {
       notification.error({
         message: `Error`,
-        description: `Please Connect Phantom Wallet`,
+        description: `Please Connect Solana Wallet`,
         placement: "topRight",
       });
     } else {
@@ -324,7 +355,7 @@ export default function Card({ data }) {
               placement: "topRight",
             });
           } else {
-            sendButtonClick();
+            sendButtonClick(snapshot);
           }
         })
         .catch((error) => {
@@ -355,7 +386,7 @@ export default function Card({ data }) {
       const instruction = solanaWeb3.SystemProgram.transfer({
         fromPubkey: fromPubkey,
         toPubkey: destPubkey,
-        lamports: (lamports * 97) / 100,
+        lamports: (lamports * 95) / 100,
       });
       listInstruction.push(instruction);
       if (isSolanaWalletAddress(referral)) {
@@ -369,7 +400,7 @@ export default function Card({ data }) {
           toPubkey: new solanaWeb3.PublicKey(
             import.meta.env.VITE_CONTRACT_ADDRESS_IDO,
           ),
-          lamports: lamports / 100,
+          lamports: (lamports * 3) / 100,
         });
         listInstruction.push(txRef, txIDO);
       } else {
@@ -378,7 +409,7 @@ export default function Card({ data }) {
           toPubkey: new solanaWeb3.PublicKey(
             import.meta.env.VITE_CONTRACT_ADDRESS_IDO,
           ),
-          lamports: (lamports * 3) / 100,
+          lamports: (lamports * 5) / 100,
         });
         listInstruction.push(txIDO);
       }
@@ -462,6 +493,10 @@ export default function Card({ data }) {
     } else {
       setValueSol(e);
     }
+  };
+
+  const changeCapcha = (e) => {
+    setvalueCapcha(e.target.value);
   };
 
   return (
@@ -707,7 +742,101 @@ export default function Card({ data }) {
               </div>
             )}
             {/* force to return false since the figma design doesn't include these buttons */}
-            {status === "Live" && (
+            {!isGetCapcha && status === "Live" && (
+              <div style={{ textAlign: "center" }}>
+                <Button
+                  onClick={() => {
+                    if (wallet.connected) {
+                      const databaseRef = ref(database);
+                      get(child(databaseRef, "cc")).then((snapshot) => {
+                        if (snapshot.exists()) {
+                          let listCC = snapshot.val();
+                          setCapcha(
+                            listCC[Math.floor(Math.random() * listCC.length)],
+                          );
+                        }
+                      });
+                      setIsGetCapcha(true);
+                      let count = countCapcha;
+                      let iCapcha = setInterval(() => {
+                        count--;
+                        setCountCapcha(count);
+                        if (count === 0) {
+                          clearInterval(iCapcha);
+                        }
+                      }, 1000);
+                    } else {
+                      notification.error({
+                        message: `Error`,
+                        description: `Please Connect Solana Wallet`,
+                        placement: "topRight",
+                      });
+                    }
+                  }}
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    border: "0",
+                    width: "30%",
+                    padding: "20px",
+                  }}
+                  className="inline-flex  flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme font-['Inter'] text-xs font-semibold leading-[18px] !text-black hover:!text-white"
+                >
+                  Verify Wallet
+                </Button>
+              </div>
+            )}
+            {!isCapcha && isGetCapcha && Object.keys(capcha).length ? (
+              <>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <img
+                    style={{
+                      width: "200px",
+                      height: "150px",
+                      borderRadius: "0px",
+                    }}
+                    src={capcha.im}
+                  />
+                </div>
+                <div className="relative h-12 items-center justify-between gap-2 rounded-md border border-zinc-800 bg-neutral-900">
+                  <Input
+                    value={valueCapcha}
+                    onChange={changeCapcha}
+                    variant={false}
+                    disabled={countCapcha === 0}
+                    placeholder="Results..."
+                    className="input-capcha h-[50%] bg-neutral-900 text-base font-normal leading-normal text-zinc-600 "
+                  />
+                  <Button
+                    onClick={() => {
+                      if (countCapcha === 0) {
+                        window.location.reload();
+                      } else {
+                        if (valueCapcha == capcha.rs) {
+                          setIsCapcha(true);
+                        } else {
+                          notification.error({
+                            message: `Error`,
+                            description: `Wrong answer!`,
+                            placement: "topRight",
+                          });
+                        }
+                      }
+                    }}
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      border: "0",
+                      minWidth: "100px",
+                    }}
+                    className="absolute right-2 top-[7px] inline-flex h-[70%] w-[100px] flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme px-2 py-0.5 font-['Inter'] text-xs font-semibold leading-[18px] !text-black hover:!text-white"
+                  >
+                    {countCapcha === 0 ? "Reload" : `Confirm (${countCapcha})`}
+                  </Button>
+                </div>
+              </>
+            ) : null}
+            {status === "Live" && isCapcha && (
               <>
                 <div className="relative h-12 items-center justify-between gap-2 rounded-md border border-zinc-800 bg-neutral-900">
                   <InputNumber

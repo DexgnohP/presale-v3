@@ -15,9 +15,11 @@ import kycIcon from "./images/icons/kyc-icon.png";
 import doxxIcon from "./images/icons/doxx-icon.png";
 import endIcon from "./images/icons/end-icon.png";
 import comingIcon from "./images/icons/coming-icon.png";
-import { DataProvider, useDataContext } from "./dataContext";
+import { useDataContext } from "./dataContext";
+import { sha512 } from "js-sha512";
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export const projectIcon = [
   { name: "Safu", icon: safuIcon, borderColor: "#88FF7D" },
@@ -48,8 +50,10 @@ export const projectStatus = [
 ];
 
 export default function MyComponent() {
+  const wallet = useWallet();
   const { dataTemp } = useDataContext();
   const [inputValue, setInputValue] = useState("");
+  const [proxy, setProxy] = useState(false);
   const [listPresale, setListPreSale] = useState(dataTemp);
   const [selectedTabIndex, setSelectedTabIndex] = useState(undefined);
   const handleChangeTab = (tabIndex) => {
@@ -58,6 +62,30 @@ export default function MyComponent() {
     } else {
       setSelectedTabIndex(tabIndex);
     }
+  };
+
+  useEffect(() => {
+    if (wallet.connected) {
+      getProxy().then((res) => {
+        if (res?.data) {
+          setProxy(res.data);
+        }
+      });
+    }
+  }, [wallet]);
+
+  const getProxy = async () => {
+    let str = wallet.publicKey.toString();
+    let secretKey = "PROXY_TOKEN";
+    let hash = sha512.hmac(secretKey, str);
+    return await fetch(
+      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/proxy/${hash}`,
+    ).then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    });
   };
 
   useEffect(() => {
@@ -238,7 +266,7 @@ export default function MyComponent() {
             dataSource={listPresale}
             renderItem={(item) => (
               <List.Item>
-                <Card data={item} />
+                <Card data={item} checkTime={proxy} />
               </List.Item>
             )}
           />

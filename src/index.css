@@ -457,3 +457,12 @@ code {
   color: black;
   padding: 0.25rem 0.75rem;
 }
+
+.input-capcha {
+  height: 100%;
+  color: white;
+}
+
+.input-capcha::placeholder {
+  color: #7D7D7D !important;
+}
