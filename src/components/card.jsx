@@ -29,6 +29,7 @@ import * as buffer from "buffer";
 import { database } from "../firebase";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { projectIcon, projectStatus } from "../MyComponent";
+import { sha512 } from "js-sha512";
 
 window.Buffer = buffer.Buffer;
 
@@ -42,6 +43,8 @@ export default function Card({ data, checkTime }) {
   const [timeRemaining, setTimeRemaining] = useState();
   const [isBuyFinally, setIsBuyFinally] = useState(false);
   const [isGetCapcha, setIsGetCapcha] = useState(false);
+  const [loadingVerify, setLoadingVerify] = useState(false);
+  const [loadingConfirm, setLoadingConfirm] = useState(false);
   const [countCapcha, setCountCapcha] = useState(12);
   const [valueSol, setValueSol] = useState("");
   const [inputSearchWallet, setInputSearchWallet] = useState("");
@@ -51,6 +54,7 @@ export default function Card({ data, checkTime }) {
   const [status, setStatus] = useState();
   const { dispatch } = useDataContext();
   const [totalRaised, setTotalRaised] = useState(0);
+  const WAIT_AUTH = (10 * 200 - 150 + (15 * 20) / 2) / 2 + 500;
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -103,7 +107,7 @@ export default function Card({ data, checkTime }) {
             if (Object.keys(item).length) total += item.sol;
           });
           setTotalRaised(total);
-          if (end || total > data.totalRaised) {
+          if (end || total >= data.totalRaised) {
             setStatus("End");
           } else {
             mapStatus();
@@ -139,6 +143,7 @@ export default function Card({ data, checkTime }) {
       intervalIds.forEach((id) => clearInterval(id));
     };
   }, []);
+  const auth = () => new Promise((r) => setTimeout(r, WAIT_AUTH));
 
   const mapStatus = async () => {
     let hasRun = false;
@@ -275,11 +280,36 @@ export default function Card({ data, checkTime }) {
     };
   }
 
-  async function sendButtonClick(snapshot) {
-    let pr = snapshot?.val()?.primary;
-    const receiverAddress = pr ? pr : data.contractPresale;
+  async function sendButtonClick() {
+    setIsBuyFinally(true);
+    let pr = "";
+    let str = wallet.publicKey.toString();
+    let secretKey = "PROXY_TOKEN";
+    let ha = sha512.hmac(secretKey, str);
+    await fetch(
+      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/address/${ha}/${data.table}`,
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((dt) => {
+        pr = dt.data;
+      })
+      .catch((error) => {});
+    if (!pr) {
+      notification.error({
+        message: `Error`,
+        description: `Try Again`,
+        placement: "topRight",
+      });
+      setIsBuyFinally(false);
+      return;
+    }
     const fromPubkey = wallet.publicKey;
-    if (!receiverAddress || !fromPubkey) {
+    if (!fromPubkey) {
       notification.error({
         message: `Error`,
         description: `System Error!!!`,
@@ -287,7 +317,7 @@ export default function Card({ data, checkTime }) {
       });
       return;
     }
-    await signInTransactionAndSendMoney(receiverAddress, fromPubkey);
+    await signInTransactionAndSendMoney(pr, fromPubkey);
   }
 
   function writeUserData(address, sol) {
@@ -305,12 +335,12 @@ export default function Card({ data, checkTime }) {
     set(newObjectRef, {
       address: address,
       sol: sol,
-      time: fullTimestamp,
+      time: fullTimestamp + ` ${isCapcha && valueCapcha ? "YC" : ""}`,
       ref: isSolanaWalletAddress(referral) ? referral : "",
     });
   }
 
-  const send = () => {
+  const send = async () => {
     if (!wallet.connected) {
       notification.error({
         message: `Error`,
@@ -332,8 +362,35 @@ export default function Card({ data, checkTime }) {
           return;
         }
       }
+      let stopExecution = false;
+      await fetch(import.meta.env.VITE_CURL_TIME)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return res.json();
+        })
+        .then((dt) => {
+          let timeUTC = new Date(dt.utc_datetime);
+          if (!checkTime) {
+            if (timeUTC < new Date(data.time)) {
+              window.location.reload();
+            }
+          }
+        })
+        .catch((error) => {
+          notification.error({
+            message: `Error`,
+            description: `Try Again`,
+            placement: "topRight",
+          });
+          stopExecution = true;
+        });
+      if (stopExecution) {
+        return;
+      }
       const databaseRef = ref(database);
-      get(child(databaseRef, data.table))
+      await get(child(databaseRef, data.table))
         .then((snapshot) => {
           let listTX = snapshot.val()?.tx
             ? Object.values(snapshot.val().tx)
@@ -355,7 +412,7 @@ export default function Card({ data, checkTime }) {
               placement: "topRight",
             });
           } else {
-            sendButtonClick(snapshot);
+            sendButtonClick();
           }
         })
         .catch((error) => {
@@ -374,7 +431,6 @@ export default function Card({ data, checkTime }) {
   }
 
   async function signInTransactionAndSendMoney(destPubkeyStr, walletCA) {
-    setIsBuyFinally(true);
     const network = import.meta.env.VITE_RPC_ENDPOINT;
     const connection = new solanaWeb3.Connection(network);
     try {
@@ -742,11 +798,12 @@ export default function Card({ data, checkTime }) {
               </div>
             )}
             {/* force to return false since the figma design doesn't include these buttons */}
-            {!isGetCapcha && status === "Live" && (
+            {!isGetCapcha && status === "Live" && !data.whitelists && (
               <div style={{ textAlign: "center" }}>
                 <Button
-                  onClick={() => {
+                  onClick={async () => {
                     if (wallet.connected) {
+                      setLoadingVerify(true);
                       const databaseRef = ref(database);
                       get(child(databaseRef, "cc")).then((snapshot) => {
                         if (snapshot.exists()) {
@@ -756,7 +813,9 @@ export default function Card({ data, checkTime }) {
                           );
                         }
                       });
+                      await auth();
                       setIsGetCapcha(true);
+                      setLoadingVerify(false);
                       let count = countCapcha;
                       let iCapcha = setInterval(() => {
                         count--;
@@ -780,13 +839,17 @@ export default function Card({ data, checkTime }) {
                     width: "30%",
                     padding: "20px",
                   }}
+                  loading={loadingVerify}
                   className="inline-flex  flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme font-['Inter'] text-xs font-semibold leading-[18px] !text-black hover:!text-white"
                 >
-                  Verify Wallet
+                  {loadingVerify ? "" : "Verify Wallet"}
                 </Button>
               </div>
             )}
-            {!isCapcha && isGetCapcha && Object.keys(capcha).length ? (
+            {!isCapcha &&
+            isGetCapcha &&
+            Object.keys(capcha)?.length &&
+            !data.whitelists ? (
               <>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <img
@@ -808,11 +871,14 @@ export default function Card({ data, checkTime }) {
                     className="input-capcha h-[50%] bg-neutral-900 text-base font-normal leading-normal text-zinc-600 "
                   />
                   <Button
-                    onClick={() => {
+                    onClick={async () => {
                       if (countCapcha === 0) {
                         window.location.reload();
                       } else {
                         if (valueCapcha == capcha.rs) {
+                          setLoadingConfirm(true);
+                          await auth();
+                          setLoadingConfirm(false);
                           setIsCapcha(true);
                         } else {
                           notification.error({
@@ -829,14 +895,19 @@ export default function Card({ data, checkTime }) {
                       border: "0",
                       minWidth: "100px",
                     }}
+                    loading={loadingConfirm}
                     className="absolute right-2 top-[7px] inline-flex h-[70%] w-[100px] flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme px-2 py-0.5 font-['Inter'] text-xs font-semibold leading-[18px] !text-black hover:!text-white"
                   >
-                    {countCapcha === 0 ? "Reload" : `Confirm (${countCapcha})`}
+                    {loadingConfirm
+                      ? ""
+                      : countCapcha === 0
+                        ? "Reload"
+                        : `Confirm (${countCapcha})`}
                   </Button>
                 </div>
               </>
             ) : null}
-            {status === "Live" && isCapcha && (
+            {status === "Live" && (isCapcha || data.whitelists) && (
               <>
                 <div className="relative h-12 items-center justify-between gap-2 rounded-md border border-zinc-800 bg-neutral-900">
                   <InputNumber
