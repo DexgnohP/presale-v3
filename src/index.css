@@ -466,3 +466,121 @@ code {
 .input-capcha::placeholder {
   color: #7D7D7D !important;
 }
+
+.container-register{
+  position: absolute;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.container-register .bg-register{
+  position: fixed;
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+}
+
+.country-select {
+  margin-top: 2rem;
+}
+.country-select .css-evncag-Opt2{
+ justify-content: center;
+ /* color: white; */
+ 
+}
+.country-select .css-1duyw4g-Opt2{
+ display: none;
+}
+
+.country-select .css-b4cy4q-control .css-19by3g5-singleValue{
+ color: white; 
+ margin-left: 30px;
+}
+
+.country-select .css-1s3f7gc-control  .css-19by3g5-singleValue{
+ margin-left: 30px;
+}
+
+.country-select  .css-b4cy4q-control{
+  background-color: black;
+  border: none;
+  border-radius: 6px;
+  --tw-shadow-color: #0CEEAC;
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  --tw-shadow: var(--tw-shadow-colored);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.ant-form-item-control-input-content{
+  text-align: center;
+}
+
+.ant-form-item .ant-form-item-control-input-content{
+  display: flex;
+  justify-content: center;
+}
+
+.item-register {
+  padding: 0 30% ;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .item-register {
+    padding: 0 8% ;
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) and (min-resolution: 132dpi) and (max-resolution: 264dpi) {
+  .item-register {
+    padding: 0 10%;
+  }
+}
+
+
+.country-select #react-select-2-placeholder{
+  color: #a0aec0;
+  margin-left: 30px;
+}
+
+.ant-table{
+  background-color: transparent !important;
+  color: white !important;
+  
+}
+
+.ant-table *{
+  border-color: #0CEEAC !important;
+}
+
+.ant-table .ant-table-cell{
+  
+  color: white !important;
+  background-color: transparent !important;
+}
+
+.ant-table .ant-table-cell::before{
+  background-color: #0CEEAC !important;
+}
+
+.ant-pagination .ant-pagination-item-active{
+  background-color: transparent !important;
+  color: white !important;
+  border-color: #0CEEAC;
+}
+
+.ant-pagination a {
+  color: white !important;
+}
+
+.ant-pagination .ant-pagination-item-active a{
+  color: #0CEEAC !important;
+}
+
+.ant-table-placeholder{
+  background-color: transparent !important;
+}
+
+.ant-empty-normal .ant-empty-description{
+  color: white !important;
+}

@@ -13,6 +13,8 @@ import MyComponent from "./MyComponent";
 import { useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { DataProvider } from "./dataContext";
+import Register from "./pages/Register";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // import the styles
 // require('@solana/wallet-adapter-react-ui/styles.css');
@@ -33,7 +35,12 @@ function App() {
         <WalletModalProvider>
           <div className="App bg-black">
             <DataProvider>
-              <MyComponent />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="*" element={<MyComponent />} />
+                  <Route path="register-form" element={<Register />} />
+                </Routes>
+              </BrowserRouter>
             </DataProvider>
           </div>
         </WalletModalProvider>
