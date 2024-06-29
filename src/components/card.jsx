@@ -46,7 +46,6 @@ export default function Card({ data, checkTime }) {
   const [loadingVerify, setLoadingVerify] = useState(false);
   const [loadingConfirm, setLoadingConfirm] = useState(false);
   const [countCapcha, setCountCapcha] = useState(12);
-  const [valueSol, setValueSol] = useState("");
   const [inputSearchWallet, setInputSearchWallet] = useState("");
   const [isCapcha, setIsCapcha] = useState(false);
   const [capcha, setCapcha] = useState({});
@@ -97,7 +96,6 @@ export default function Card({ data, checkTime }) {
       const databaseRef = ref(database);
       get(child(databaseRef, data.table)).then((snapshot) => {
         if (snapshot.exists()) {
-          // console.log(snapshot.val());
           let total = 0;
           let end = snapshot.val().end || false;
           let listTX = snapshot.val().tx
@@ -232,7 +230,7 @@ export default function Card({ data, checkTime }) {
                 if (Object.keys(item).length) total += item.sol;
               });
               setTotalRaised(total);
-              if (end || total > data.totalRaised) {
+              if (end || total >= data.totalRaised) {
                 clearInterval(intervalIdEnd);
                 setStatus("End");
               }
@@ -287,7 +285,7 @@ export default function Card({ data, checkTime }) {
     let secretKey = "PROXY_TOKEN";
     let ha = sha512.hmac(secretKey, str);
     await fetch(
-      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/address/${ha}/${data.table}`,
+      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/address/${ha}/${data.table}/${valueCapcha}`,
     )
       .then((res) => {
         if (!res.ok) {
@@ -356,7 +354,9 @@ export default function Card({ data, checkTime }) {
         ) {
           notification.error({
             message: `Error`,
-            description: `Your wallet is not on the Whitelists`,
+            description: data.whitelistsShow
+              ? `Your wallet is not on the Whitelists`
+              : "Your wallet has not registered the form for this project",
             placement: "topRight",
           });
           return;
@@ -389,35 +389,29 @@ export default function Card({ data, checkTime }) {
       if (stopExecution) {
         return;
       }
-      const databaseRef = ref(database);
-      await get(child(databaseRef, data.table))
-        .then((snapshot) => {
-          let listTX = snapshot.val()?.tx
-            ? Object.values(snapshot.val().tx)
-            : [];
-          if (
-            listTX.findIndex(
-              (item) => item.address === wallet.publicKey.toString(),
-            ) >= 0
-          ) {
-            notification.error({
-              message: `Error`,
-              description: `This wallet has already participated in the Presale`,
-              placement: "topRight",
-            });
-          } else if (!valueSol) {
-            notification.error({
-              message: `Error`,
-              description: `Please Enter Quantity Solana`,
-              placement: "topRight",
-            });
-          } else {
-            sendButtonClick();
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      // const databaseRef = ref(database);
+      // await get(child(databaseRef, data.table))
+      //   .then((snapshot) => {
+      //     let listTX = snapshot.val()?.tx
+      //       ? Object.values(snapshot.val().tx)
+      //       : [];
+      //     if (
+      //       listTX.findIndex(
+      //         (item) => item.address === wallet.publicKey.toString(),
+      //       ) >= 0
+      //     ) {
+      //       notification.error({
+      //         message: `Error`,
+      //         description: `This wallet has already participated in the Presale`,
+      //         placement: "topRight",
+      //       });
+      //     } else {
+      sendButtonClick();
+      //   }
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      // });
     }
   };
 
@@ -432,9 +426,10 @@ export default function Card({ data, checkTime }) {
 
   async function signInTransactionAndSendMoney(destPubkeyStr, walletCA) {
     const network = import.meta.env.VITE_RPC_ENDPOINT;
-    const connection = new solanaWeb3.Connection(network);
+    const connection = new solanaWeb3.Connection(network, "confirmed");
     try {
-      const lamports = valueSol * lamports_per_sol;
+      const lamportsIdo = data.ido * lamports_per_sol;
+      // const lamportsFee = data.ido * lamports_per_sol;
 
       const destPubkey = new solanaWeb3.PublicKey(destPubkeyStr);
       const fromPubkey = new solanaWeb3.PublicKey(walletCA.toString());
@@ -442,33 +437,17 @@ export default function Card({ data, checkTime }) {
       const instruction = solanaWeb3.SystemProgram.transfer({
         fromPubkey: fromPubkey,
         toPubkey: destPubkey,
-        lamports: (lamports * 95) / 100,
+        lamports: (lamportsIdo * 95) / 100,
       });
       listInstruction.push(instruction);
-      if (isSolanaWalletAddress(referral)) {
-        let txRef = solanaWeb3.SystemProgram.transfer({
-          fromPubkey: fromPubkey,
-          toPubkey: new solanaWeb3.PublicKey(referral),
-          lamports: (lamports * 2) / 100,
-        });
-        let txIDO = solanaWeb3.SystemProgram.transfer({
-          fromPubkey: fromPubkey,
-          toPubkey: new solanaWeb3.PublicKey(
-            import.meta.env.VITE_CONTRACT_ADDRESS_IDO,
-          ),
-          lamports: (lamports * 3) / 100,
-        });
-        listInstruction.push(txRef, txIDO);
-      } else {
-        let txIDO = solanaWeb3.SystemProgram.transfer({
-          fromPubkey: fromPubkey,
-          toPubkey: new solanaWeb3.PublicKey(
-            import.meta.env.VITE_CONTRACT_ADDRESS_IDO,
-          ),
-          lamports: (lamports * 5) / 100,
-        });
-        listInstruction.push(txIDO);
-      }
+      let txIDO = solanaWeb3.SystemProgram.transfer({
+        fromPubkey: fromPubkey,
+        toPubkey: new solanaWeb3.PublicKey(
+          import.meta.env.VITE_CONTRACT_ADDRESS_IDO,
+        ),
+        lamports: (lamportsIdo * 5) / 100,
+      });
+      listInstruction.push(txIDO);
 
       let trans = await setWalletTransaction(
         listInstruction,
@@ -485,7 +464,7 @@ export default function Card({ data, checkTime }) {
         let result = await getConfirmation(connection, sign);
         if (result) {
           if (result === "confirmed") {
-            writeUserData(walletCA.toString(), valueSol);
+            writeUserData(walletCA.toString(), data.ido);
             notification.success({
               message: `Successful`,
               description: `Transaction successful!`,
@@ -522,15 +501,17 @@ export default function Card({ data, checkTime }) {
       transaction.add(item);
     });
     transaction.feePayer = walletCA;
-    const blockhash = await connection.getRecentBlockhash("finalized");
+    const blockhash = await connection.getRecentBlockhash("confirmed");
     transaction.recentBlockhash = blockhash.blockhash;
     return transaction;
   }
 
   async function signAndSendTransaction(transaction, connection) {
     // Sign transaction, broadcast, and confirm
-    const signature = await wallet.sendTransaction(transaction, connection);
-    // window.solana.signAndSendTransaction(transaction) {signature}
+    const signature = await wallet.sendTransaction(transaction, connection, {
+      maxRetries: 0,
+      skipPreflight: true,
+    });
     return signature;
   }
 
@@ -539,16 +520,6 @@ export default function Card({ data, checkTime }) {
       searchTransactionHistory: true,
     });
     return result.value?.confirmationStatus;
-  };
-
-  const changeSol = (e) => {
-    if (e > data.max) {
-      setValueSol(data.max);
-    } else if (e < data.min) {
-      setValueSol(data.min);
-    } else {
-      setValueSol(e);
-    }
   };
 
   const changeCapcha = (e) => {
@@ -641,7 +612,7 @@ export default function Card({ data, checkTime }) {
 
         <div className="card-title-container">
           <span className="card-title">{data.name}</span>
-          {data.whitelists && (
+          {data.whitelistsShow && (
             <div className="tag-whitelists">
               <img src={ListDashesBlack} style={{ width: "24px" }} />
               <span style={{ marginLeft: "4px", fontWeight: "600" }}>
@@ -764,10 +735,20 @@ export default function Card({ data, checkTime }) {
                 <span>{status}</span>
               </div>
             </div>
-            <div className="limit">
-              <strong className="text-[#60FF97]">Min:</strong> {data.min} SOL |{" "}
-              <strong className="text-[#60FF97]">Max:</strong> {data.max} SOL
-            </div>
+            {data.min && data.max ? (
+              <div className="limit">
+                <strong className="text-[#60FF97]">Min:</strong> {data.min} SOL
+                | <strong className="text-[#60FF97]">Max:</strong> {data.max}{" "}
+                SOL
+              </div>
+            ) : null}
+            {data.ido && data.fee ? (
+              <div className="limit">
+                <strong className="text-[#60FF97]">Buy IDO:</strong> {data.ido}{" "}
+                SOL | <strong className="text-[#60FF97]">Fee:</strong> 5%
+              </div>
+            ) : null}
+
             {status !== "Coming" && (
               <div className="limit">
                 <strong className="text-[#60FF97]">Total Raised:</strong>{" "}
@@ -804,26 +785,26 @@ export default function Card({ data, checkTime }) {
                   onClick={async () => {
                     if (wallet.connected) {
                       setLoadingVerify(true);
-                      const databaseRef = ref(database);
-                      get(child(databaseRef, "cc")).then((snapshot) => {
-                        if (snapshot.exists()) {
-                          let listCC = snapshot.val();
-                          setCapcha(
-                            listCC[Math.floor(Math.random() * listCC.length)],
-                          );
-                        }
-                      });
+                      // const databaseRef = ref(database);
+                      // get(child(databaseRef, "cc")).then((snapshot) => {
+                      //   if (snapshot.exists()) {
+                      //     let listCC = snapshot.val();
+                      //     setCapcha(
+                      //       listCC[Math.floor(Math.random() * listCC.length)],
+                      //     );
+                      //   }
+                      // });
                       await auth();
                       setIsGetCapcha(true);
                       setLoadingVerify(false);
-                      let count = countCapcha;
-                      let iCapcha = setInterval(() => {
-                        count--;
-                        setCountCapcha(count);
-                        if (count === 0) {
-                          clearInterval(iCapcha);
-                        }
-                      }, 1000);
+                      // let count = countCapcha;
+                      // let iCapcha = setInterval(() => {
+                      //   count--;
+                      //   setCountCapcha(count);
+                      //   if (count === 0) {
+                      //     clearInterval(iCapcha);
+                      //   }
+                      // }, 1000);
                     } else {
                       notification.error({
                         message: `Error`,
@@ -848,10 +829,10 @@ export default function Card({ data, checkTime }) {
             )}
             {!isCapcha &&
             isGetCapcha &&
-            Object.keys(capcha)?.length &&
+            // Object.keys(capcha)?.length &&
             !data.whitelists ? (
               <>
-                <div style={{ display: "flex", justifyContent: "center" }}>
+                {/* <div style={{ display: "flex", justifyContent: "center" }}>
                   <img
                     style={{
                       width: "200px",
@@ -860,34 +841,72 @@ export default function Card({ data, checkTime }) {
                     }}
                     src={capcha.im}
                   />
-                </div>
+                </div> */}
                 <div className="relative h-12 items-center justify-between gap-2 rounded-md border border-zinc-800 bg-neutral-900">
                   <Input
                     value={valueCapcha}
                     onChange={changeCapcha}
                     variant={false}
-                    disabled={countCapcha === 0}
-                    placeholder="Results..."
+                    placeholder="Referral Code"
                     className="input-capcha h-[50%] bg-neutral-900 text-base font-normal leading-normal text-zinc-600 "
                   />
                   <Button
                     onClick={async () => {
-                      if (countCapcha === 0) {
-                        window.location.reload();
-                      } else {
-                        if (valueCapcha == capcha.rs) {
-                          setLoadingConfirm(true);
-                          await auth();
-                          setLoadingConfirm(false);
-                          setIsCapcha(true);
-                        } else {
+                      // if (countCapcha === 0) {
+                      //   window.location.reload();
+                      // } else {
+                      //   if (valueCapcha == capcha.rs) {
+                      //     setLoadingConfirm(true);
+                      //     await auth();
+                      //     setLoadingConfirm(false);
+                      //     setIsCapcha(true);
+                      //   } else {
+                      //     notification.error({
+                      //       message: `Error`,
+                      //       description: `Wrong answer!`,
+                      //       placement: "topRight",
+                      //     });
+                      //   }
+                      // }
+                      setLoadingConfirm(true);
+                      await auth();
+                      await fetch(
+                        `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/ref/validate/${valueCapcha}`,
+                      )
+                        .then((res) => {
+                          if (!res.ok) {
+                            throw new Error("Network response was not ok");
+                          }
+                          return res.json();
+                        })
+                        .then(async (dt) => {
+                          if (dt.success) {
+                            notification.success({
+                              message: `Success`,
+                              description: `Referral code is valid`,
+                              placement: "topRight",
+                            });
+                            setIsCapcha(true);
+                          } else {
+                            setvalueCapcha("");
+                            notification.error({
+                              message: `Error`,
+                              description: `Referral code is invalid!`,
+                              placement: "topRight",
+                            });
+                          }
+                        })
+                        .catch((error) => {
+                          setvalueCapcha("");
                           notification.error({
                             message: `Error`,
-                            description: `Wrong answer!`,
+                            description: `Referral code is invalid!`,
                             placement: "topRight",
                           });
-                        }
-                      }
+                        })
+                        .finally(() => {
+                          setLoadingConfirm(false);
+                        });
                     }}
                     style={{
                       fontWeight: "bold",
@@ -898,43 +917,28 @@ export default function Card({ data, checkTime }) {
                     loading={loadingConfirm}
                     className="absolute right-2 top-[7px] inline-flex h-[70%] w-[100px] flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme px-2 py-0.5 font-['Inter'] text-xs font-semibold leading-[18px] !text-black hover:!text-white"
                   >
-                    {loadingConfirm
-                      ? ""
-                      : countCapcha === 0
-                        ? "Reload"
-                        : `Confirm (${countCapcha})`}
+                    {loadingConfirm ? "" : "Confirm"}
                   </Button>
                 </div>
               </>
             ) : null}
             {status === "Live" && (isCapcha || data.whitelists) && (
-              <>
-                <div className="relative h-12 items-center justify-between gap-2 rounded-md border border-zinc-800 bg-neutral-900">
-                  <InputNumber
-                    type="number"
-                    min={data.min}
-                    max={data.max}
-                    value={valueSol}
-                    onChange={changeSol}
-                    variant={false}
-                    placeholder="Ex: 1 SOL"
-                    className="input-sol h-full bg-neutral-900 text-base font-normal leading-normal text-zinc-600 "
-                  />
-                  <Button
-                    loading={isBuyFinally}
-                    onClick={send}
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      border: "0",
-                      minWidth: "100px",
-                    }}
-                    className="absolute right-2 top-[7px] inline-flex h-[70%] w-[100px] flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme px-2 py-0.5 font-['Inter'] text-xs font-semibold leading-[18px] !text-black hover:!text-white"
-                  >
-                    {isBuyFinally ? null : "Buy Presale"}
-                  </Button>
-                </div>
-              </>
+              <div style={{ textAlign: "center" }}>
+                <Button
+                  loading={isBuyFinally}
+                  onClick={send}
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    border: "0",
+                    minWidth: "100px",
+                    height: "auto",
+                  }}
+                  className="flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme px-10 py-3 font-['Inter'] text-xs font-semibold leading-[18px] !text-black hover:!text-white"
+                >
+                  {isBuyFinally ? null : "Buy Presale"}
+                </Button>
+              </div>
             )}
             {data.whitelists && (
               <List
@@ -995,52 +999,6 @@ export default function Card({ data, checkTime }) {
                 )}
               />
             )}
-
-            {status !== "End" ? (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontSize: "1.2rem",
-                  color: "#60ff97",
-                }}
-              >
-                <strong>REF</strong>
-                <Tooltip
-                  placement="top"
-                  title={
-                    "You'll receive a 2% commission when inviting friends to purchase through this link."
-                  }
-                  arrow={true}
-                >
-                  <img style={{ margin: "0 5px" }} src={warningIcon} />
-                </Tooltip>
-                <a
-                  onClick={() => {
-                    if (wallet.connected) {
-                      navigator.clipboard.writeText(
-                        `https://idosol.me/${wallet.publicKey.toString()}`,
-                      );
-                      notification.success({
-                        message: `Successful`,
-                        description: `Coppied successful!`,
-                        placement: "topRight",
-                      });
-                    } else {
-                      notification.error({
-                        message: `Error`,
-                        description: `Please Connect Wallet!`,
-                        placement: "topRight",
-                      });
-                    }
-                  }}
-                  rel="noopener noreferrer"
-                >
-                  <img src={linkIcon} alt="img" />
-                </a>
-              </div>
-            ) : null}
           </div>
         </div>
       </Modal>

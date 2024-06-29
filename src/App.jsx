@@ -38,7 +38,7 @@ function App() {
               <BrowserRouter>
                 <Routes>
                   <Route path="*" element={<MyComponent />} />
-                  <Route path="register-form" element={<Register />} />
+                  {/* <Route path="register-form" element={<Register />} /> */}
                 </Routes>
               </BrowserRouter>
             </DataProvider>

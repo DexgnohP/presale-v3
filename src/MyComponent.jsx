@@ -186,6 +186,16 @@ export default function MyComponent() {
       <div className="content">
         <div className="mb-8 flex items-center justify-center gap-8 lg:hidden">
           <a
+            href="https://idosol.me/register-form"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-lg"
+          >
+            <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
+              Register Form
+            </span>
+          </a>
+          <a
             href="https://docs.idosol.me/"
             target="_blank"
             rel="noopener noreferrer"
