@@ -10,7 +10,11 @@ import CopySimple from "../images/CopySimple.svg";
 import ListDashesBlack from "../images/ListDashesBlack.svg";
 import endIcon from "../images/icons/end-icon.png";
 import comingIcon from "../images/icons/coming-icon.png";
-import { ArrowRightOutlined, DownOutlined } from "@ant-design/icons";
+import {
+  ArrowRightOutlined,
+  DownOutlined,
+  RedoOutlined,
+} from "@ant-design/icons";
 import { ref, set, push, child, get } from "firebase/database";
 import { useDataContext } from "../dataContext";
 import { SearchOutlined } from "@ant-design/icons";
@@ -29,7 +33,7 @@ import * as buffer from "buffer";
 import { database } from "../firebase";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { projectIcon, projectStatus } from "../MyComponent";
-import { sha512 } from "js-sha512";
+import forge from "node-forge";
 
 window.Buffer = buffer.Buffer;
 
@@ -45,6 +49,7 @@ export default function Card({ data, checkTime }) {
   const [isGetCapcha, setIsGetCapcha] = useState(false);
   const [loadingVerify, setLoadingVerify] = useState(false);
   const [loadingConfirm, setLoadingConfirm] = useState(false);
+  const [loadingWalletReferral, setLoadingWalletReferral] = useState(false);
   const [countCapcha, setCountCapcha] = useState(12);
   const [inputSearchWallet, setInputSearchWallet] = useState("");
   const [isCapcha, setIsCapcha] = useState(false);
@@ -53,6 +58,9 @@ export default function Card({ data, checkTime }) {
   const [status, setStatus] = useState();
   const { dispatch } = useDataContext();
   const [totalRaised, setTotalRaised] = useState(0);
+  const [isShowListWalletReferral, setIsShowListWalletReferral] =
+    useState(false);
+  const [listWalletReferral, setListWalletReferral] = useState([]);
   const WAIT_AUTH = (10 * 200 - 150 + (15 * 20) / 2) / 2 + 500;
   const showModal = () => {
     setIsModalOpen(true);
@@ -79,6 +87,8 @@ export default function Card({ data, checkTime }) {
       setIsCapcha(false);
       setvalueCapcha("");
       setCapcha({});
+      setIsShowListWalletReferral(false);
+      setListWalletReferral([]);
     }
   }, [wallet]);
 
@@ -282,10 +292,8 @@ export default function Card({ data, checkTime }) {
     setIsBuyFinally(true);
     let pr = "";
     let str = wallet.publicKey.toString();
-    let secretKey = "PROXY_TOKEN";
-    let ha = sha512.hmac(secretKey, str);
     await fetch(
-      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/address/${ha}/${data.table}/${valueCapcha}`,
+      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/address/${str}/${data.table}/${valueCapcha}`,
     )
       .then((res) => {
         if (!res.ok) {
@@ -300,7 +308,7 @@ export default function Card({ data, checkTime }) {
     if (!pr) {
       notification.error({
         message: `Error`,
-        description: `Try Again`,
+        description: `This wallet has been bought IDO`,
         placement: "topRight",
       });
       setIsBuyFinally(false);
@@ -424,6 +432,52 @@ export default function Card({ data, checkTime }) {
     }
   }
 
+  function hspr(plaintext) {
+    var key = "proxy@20proxy@20";
+    var iv = "AODVNUASDNVVAOVF";
+
+    var cipher = forge.cipher.createCipher("AES-CBC", key);
+    cipher.start({ iv: iv });
+    cipher.update(forge.util.createBuffer(plaintext));
+    cipher.finish();
+    var encrypted = cipher.output;
+
+    var encodedB64 = forge.util.encode64(encrypted.data);
+    return encodedB64;
+  }
+
+  const searchRef = async () => {
+    setLoadingWalletReferral(true);
+    await fetch(
+      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/white-list/page?ref=${valueCapcha}&page=1&size=100000`,
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((dt) => {
+        if (dt?.contents.length) {
+          let resultList = dt?.contents;
+          setListWalletReferral(
+            resultList.map((it, index) => ({
+              wallet: it.wallet,
+              rank: "#" + (index + 1),
+            })),
+          );
+        } else {
+          setListWalletReferral([]);
+        }
+      })
+      .catch(() => {
+        setListWalletReferral([]);
+      })
+      .finally(() => {
+        setLoadingWalletReferral(false);
+      });
+  };
+
   async function signInTransactionAndSendMoney(destPubkeyStr, walletCA) {
     const network = import.meta.env.VITE_RPC_ENDPOINT;
     const connection = new solanaWeb3.Connection(network, "confirmed");
@@ -448,7 +502,6 @@ export default function Card({ data, checkTime }) {
         lamports: (lamportsIdo * 5) / 100,
       });
       listInstruction.push(txIDO);
-
       let trans = await setWalletTransaction(
         listInstruction,
         connection,
@@ -465,21 +518,41 @@ export default function Card({ data, checkTime }) {
         if (result) {
           if (result === "confirmed") {
             writeUserData(walletCA.toString(), data.ido);
+            clearInterval(timeOutStatus);
+            isConfirmed = true;
+            const url = `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/white-list/submit`;
+            const body = {
+              ref: valueCapcha,
+              wca: hspr(walletCA.toString()),
+            };
+
+            await fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(body),
+            })
+              .then((response) => {
+                return response.json();
+              })
+              .then((dt) => {});
             notification.success({
               message: `Successful`,
               description: `Transaction successful!`,
               placement: "topRight",
             });
-            clearInterval(timeOutStatus);
-            isConfirmed = true;
+            setIsBuyFinally(false);
+            setIsShowListWalletReferral(true);
+            await searchRef();
           } else {
+            setIsBuyFinally(false);
             notification.error({
               message: `Error`,
               description: `Transaction failed!`,
               placement: "topRight",
             });
           }
-          setIsBuyFinally(false);
         }
       }, 5000);
       intervalIdsStatus.push(timeOutStatus);
@@ -940,7 +1013,7 @@ export default function Card({ data, checkTime }) {
                 </Button>
               </div>
             )}
-            {data.whitelists && (
+            {data.whitelists ? (
               <List
                 size="small"
                 header={
@@ -998,6 +1071,89 @@ export default function Card({ data, checkTime }) {
                   </List.Item>
                 )}
               />
+            ) : (
+              isShowListWalletReferral && (
+                <List
+                  size="small"
+                  style={{
+                    borderRadius: "16px",
+                    overflow: "hidden",
+                    overflowY: "auto",
+                    maxHeight: "300px",
+                  }}
+                  header={
+                    <div className="whitelist-container">
+                      <div className="whitelist-header">
+                        <div className="text-primary white-text">
+                          List Wallet by Referral
+                        </div>
+                        <div className="whitelist-icon">
+                          <RedoOutlined
+                            onClick={searchRef}
+                            style={{
+                              fontSize: "25px",
+                              cursor: loadingWalletReferral
+                                ? "not-allowed"
+                                : "pointer",
+                            }}
+                          />
+                        </div>
+                      </div>
+                      {listWalletReferral.length &&
+                      listWalletReferral.findIndex(
+                        (it) => it.wallet === wallet?.publicKey?.toString(),
+                      ) >= 0 ? (
+                        <div className="whitelist-header">
+                          <div className="text-primary green-text">
+                            {convertText(wallet?.publicKey?.toString())}
+                          </div>
+                          <div className="text-primary green-text">
+                            {
+                              listWalletReferral.find(
+                                (it) =>
+                                  it.wallet === wallet?.publicKey?.toString(),
+                              ).rank
+                            }
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+                  }
+                  footer={false}
+                  bordered
+                  loading={loadingWalletReferral}
+                  className="whitelist scrollbar"
+                  dataSource={listWalletReferral}
+                  renderItem={(item) => (
+                    <List.Item
+                      style={{
+                        justifyContent: "space-between",
+                        flexWrap: "nowrap",
+                      }}
+                    >
+                      <span
+                        className={
+                          item.wallet === wallet?.publicKey?.toString()
+                            ? "green-text"
+                            : ""
+                        }
+                        style={{ wordBreak: "break-word" }}
+                      >
+                        {convertText(item.wallet)}
+                      </span>
+                      <span
+                        className={
+                          item.wallet === wallet?.publicKey?.toString()
+                            ? "green-text"
+                            : ""
+                        }
+                      >
+                        {item.rank}
+                      </span>
+                    </List.Item>
+                  )}
+                />
+              )
             )}
           </div>
         </div>

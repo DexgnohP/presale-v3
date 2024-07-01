@@ -49,7 +49,8 @@ import hocuscatpocus from "./images/hocuscatpocus.png";
 import bidenwifhat from "./images/bidenwifhat.png";
 import crazycat from "./images/crazycat.png";
 import gentlemen from "./images/gentlemen.png";
-import project16 from "./images/project16.png";
+import mimi from "./images/mimi.png";
+import project19 from "./images/project19.png";
 import goji from "./images/goji.png";
 import thiefcat from "./images/thiefcat.png";
 import votebiden from "./images/votebiden.png";
@@ -63,43 +64,80 @@ const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const initialDataTemp = [
-    // {
-    //   id: 13123332,
-    //   table: "project18test",
-    //   name: "Project #18",
-    //   logo: project17,
-    //   whitelistsShow: false,
-    //   tag: ["Safu", "Audit", "KYC", "Doxx"],
-    //   marketing: [
-    //     {
-    //       name: "Memex9999",
-    //       icon: meme,
-    //       link: "https://t.me/memex9999call",
-    //     },
-    //     {
-    //       name: "💸 Money Maker 💸",
-    //       icon: MM,
-    //       link: "https://t.me/Money_MakerMM",
-    //     },
-    //     {
-    //       name: "MemeX9999 | Gamble 🎲",
-    //       icon: meme,
-    //       link: "https://t.me/memex9999gamble",
-    //     },
-    //     {
-    //       name: "Add more",
-    //       icon: whitePlusIcon,
-    //       link: "https://docs.idosol.me/2.-unique-features",
-    //     },
-    //   ],
-    //   des: "Guiding Paths, Unveiling New Potentials: Project #18 - Where Potential Meets, Emotions Ignite.",
-    //   ido: 1,
-    //   time: "2024-06-24T14:00:00Z",
-    //   totalRaised: 200,
-    //   tele: "",
-    //   tw: "",
-    //   web: "",
-    // },
+    {
+      id: 13123332,
+      table: "project19",
+      name: "Project #19",
+      logo: project19,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Guiding Paths, Unveiling New Potentials: Project #19 - Where Potential Meets, Emotions Ignite.",
+      ido: 1,
+      time: "2024-06-30T15:00:00Z",
+      totalRaised: 10000,
+      tele: "",
+      tw: "",
+      web: "",
+    },
+    {
+      id: 13123332,
+      table: "project18",
+      name: "MIMI",
+      logo: mimi,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "MUMU THE BULL",
+          icon: mumu,
+          link: "https://t.me/MumuCaller",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Welcome to MIMI, where elegance meets blockchain innovation! Join us to harmonize beauty and technology for a brighter future.",
+      ido: 1,
+      time: "2024-06-29T15:00:00Z",
+      totalRaised: 10000,
+      tele: "https://t.me/mimionsolanaportal",
+      tw: "https://x.com/MIMI_ProjectX",
+      web: "https://mimionsolana.fun/",
+    },
     {
       id: 13123332,
       table: "project17",

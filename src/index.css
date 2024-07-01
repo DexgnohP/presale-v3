@@ -591,3 +591,18 @@ code {
 .ant-empty-normal .ant-empty-description {
   color: white !important;
 }
+
+
+.scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+
+.green-text {
+  color: #60ff97 !important;
+  font-weight: 600;
+}
+
+.white-text {
+  color: white !important;
+}
