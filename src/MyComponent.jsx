@@ -64,7 +64,6 @@ export default function MyComponent() {
       setSelectedTabIndex(tabIndex);
     }
   };
-
   useEffect(() => {
     if (wallet.connected) {
       getProxy().then((res) => {

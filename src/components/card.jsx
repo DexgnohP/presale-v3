@@ -28,6 +28,7 @@ import {
   Dropdown,
   Tooltip,
   List,
+  Checkbox,
 } from "antd";
 import * as buffer from "buffer";
 import { database } from "../firebase";
@@ -57,6 +58,8 @@ export default function Card({ data, checkTime }) {
   const [valueCapcha, setvalueCapcha] = useState();
   const [status, setStatus] = useState();
   const { dispatch } = useDataContext();
+  const [terms, setTerms] = useState(false);
+  const [isAgree, setIsAgree] = useState(true);
   const [totalRaised, setTotalRaised] = useState(0);
   const [isShowListWalletReferral, setIsShowListWalletReferral] =
     useState(false);
@@ -65,7 +68,6 @@ export default function Card({ data, checkTime }) {
   const showModal = () => {
     setIsModalOpen(true);
   };
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -86,6 +88,8 @@ export default function Card({ data, checkTime }) {
       setCountCapcha(12);
       setIsCapcha(false);
       setvalueCapcha("");
+      setIsAgree(true);
+      setTerms(false);
       setCapcha({});
       setIsShowListWalletReferral(false);
       setListWalletReferral([]);
@@ -323,10 +327,11 @@ export default function Card({ data, checkTime }) {
       });
       return;
     }
+
     await signInTransactionAndSendMoney(pr, fromPubkey);
   }
 
-  function writeUserData(address, sol) {
+  async function writeUserData(address, sol) {
     const databaseRef = ref(database, `${data.table}/tx`);
     const newObjectRef = push(databaseRef);
     const currentDate = new Date();
@@ -338,7 +343,7 @@ export default function Card({ data, checkTime }) {
       ":00";
     const fullTimestamp =
       currentDate.toLocaleString() + " UTC" + timezoneOffsetString;
-    set(newObjectRef, {
+    await set(newObjectRef, {
       address: address,
       sol: sol,
       time: fullTimestamp + ` ${isCapcha && valueCapcha ? "YC" : ""}`,
@@ -488,6 +493,12 @@ export default function Card({ data, checkTime }) {
       const destPubkey = new solanaWeb3.PublicKey(destPubkeyStr);
       const fromPubkey = new solanaWeb3.PublicKey(walletCA.toString());
       let listInstruction = [];
+      // const instruction = solanaWeb3.SystemProgram.transfer({
+      //   fromPubkey: fromPubkey,
+      //   toPubkey: destPubkey,
+      //   lamports: lamportsIdo,
+      // });
+      // listInstruction.push(instruction);
       const instruction = solanaWeb3.SystemProgram.transfer({
         fromPubkey: fromPubkey,
         toPubkey: destPubkey,
@@ -517,7 +528,7 @@ export default function Card({ data, checkTime }) {
         let result = await getConfirmation(connection, sign);
         if (result) {
           if (result === "confirmed") {
-            writeUserData(walletCA.toString(), data.ido);
+            await writeUserData(walletCA.toString(), data.ido);
             clearInterval(timeOutStatus);
             isConfirmed = true;
             const url = `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/white-list/submit`;
@@ -894,10 +905,116 @@ export default function Card({ data, checkTime }) {
                     padding: "20px",
                   }}
                   loading={loadingVerify}
+                  disabled={isAgree}
                   className="inline-flex  flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme font-['Inter'] text-xs font-semibold leading-[18px] !text-black hover:!text-white"
                 >
                   {loadingVerify ? "" : "Verify Wallet"}
                 </Button>
+                <div
+                  className="item-register"
+                  style={{
+                    padding: 0,
+                    margin: 0,
+                    marginTop: "10px",
+                    position: "relative",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Checkbox
+                    checked={terms}
+                    onChange={(e) => {
+                      setTerms(e.target.checked);
+                      setIsAgree(false);
+                    }}
+                  />
+                  <p style={{ color: "white", marginLeft: "10px" }}>
+                    Agree to all the terms and conditions.
+                  </p>
+                  <Tooltip
+                    placement="bottom"
+                    title={
+                      <div
+                        style={{
+                          width: "400px",
+                          padding: "20px",
+                          backgroundColor: "rgba(0, 0, 0, 1)",
+                          borderRadius: "8px",
+                          height: "400px",
+                          overflowY: "auto",
+                        }}
+                      >
+                        <strong>Terms of Use</strong>
+                        <br />
+                        <br />
+                        <strong>Introduction</strong> <br />
+                        <br />
+                        These terms and conditions ("Terms", "Terms of Use")
+                        govern your use of IDOSOL and any related services
+                        provided by IDOSOL ("us", "we", or "our"). By accessing
+                        or using IDOSOL, you agree to abide by these Terms. If
+                        you do not agree to these Terms, please refrain from
+                        using IDOSOL. <br />
+                        <br />
+                        <strong>Disclaimer</strong> <br />
+                        <br />
+                        IDOSOL is a company offering services related to token
+                        transactions. By using IDOSOL, you acknowledge and agree
+                        that we do not allow individuals residing in Vietnam to
+                        access or use our services. We explicitly disclaim any
+                        responsibility for buyers or sellers located within
+                        Vietnam.
+                        <br />
+                        <br />
+                        <strong>Use of IDOSOL</strong>
+                        <br />
+                        <br />
+                        You agree to use IDOSOL solely for its intended purpose
+                        of token transactions in jurisdictions where such
+                        activities are legal. You further agree not to use
+                        IDOSOL for any unlawful or fraudulent activities. <br />
+                        <br />
+                        <strong>Intellectual Property</strong>
+                        <br />
+                        <br />
+                        All intellectual property rights related to IDOSOL,
+                        including but not limited to trademarks, copyrights, and
+                        patents, are owned by IDOSOL. You agree not to
+                        reproduce, distribute, or create derivative works based
+                        on IDOSOL without prior written consent from IDOSOL.
+                        <br />
+                        <br />
+                        <strong>Limitation of Liability</strong>
+                        <br />
+                        <br /> To the fullest extent permitted by law, IDOSOL
+                        shall not be liable for any direct, indirect,
+                        incidental, special, or consequential damages arising
+                        out of or in any way connected with your use of IDOSOL.
+                        This includes but is not limited to damages for loss of
+                        profits, goodwill, use, data, or other intangible
+                        losses. <br />
+                        <br />
+                        <strong>Governing Law</strong>
+                        <br />
+                        <br /> These Terms shall be governed by and construed in
+                        accordance with the laws of [Your Jurisdiction], without
+                        regard to its conflict of law provisions.
+                        <br />
+                        <br />
+                        <strong>Changes to Terms</strong>
+                        <br />
+                        <br /> IDOSOL reserves the right to modify or replace
+                        these Terms at any time. If a revision is material, we
+                        will provide at least 30 days' notice prior to any new
+                        terms taking effect. What constitutes a material change
+                        will be determined at our sole discretion.
+                      </div>
+                    }
+                  >
+                    <img src={warningIcon} style={{ width: "30px" }} />
+                  </Tooltip>
+                </div>
               </div>
             )}
             {!isCapcha &&
