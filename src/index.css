@@ -346,32 +346,7 @@ code {
   margin: 0;
 }
 
-@media (max-width: 825px) {
-  .clock-container {
-    flex-direction: column;
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
 
-  .clock-col+.clock-col {
-    margin-top: 20px;
-  }
-
-  .clock-col:before,
-  .clock-col:after {
-    display: none !important;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .container-modal {
-    flex-direction: column;
-  }
-
-  .container-modal .modal-left {
-    border: 0;
-  }
-}
 
 .ant-dropdown-menu-item {
   padding: 0 !important;
@@ -605,4 +580,140 @@ code {
 
 .white-text {
   color: white !important;
+}
+
+
+.card-ads {
+  display: flex !important;
+  padding: 20px 30px;
+  border-radius: 12px;
+  background: linear-gradient(105.54deg, rgba(12, 238, 172, 0.1) -7.44%, rgba(213, 40, 254, 0.1) 103.67%);
+
+}
+
+.card-ads-content {
+  color: #ffffff;
+  flex-basis: 45%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-ads-img {
+  flex-basis: 55%;
+  display: flex;
+  align-items: center;
+}
+
+.middle .ant-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-ads {
+  margin-bottom: 80px;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+}
+
+.ad-support-mobile {
+  display: none;
+}
+
+
+@media (max-width: 825px) {
+  .clock-container {
+    flex-direction: column;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .clock-col+.clock-col {
+    margin-top: 20px;
+  }
+
+  .clock-col:before,
+  .clock-col:after {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .container-modal {
+    flex-direction: column;
+  }
+
+  .container-modal .modal-left {
+    border: 0;
+  }
+
+
+  .carousel-ads {
+    width: 100%;
+  }
+
+  .ad-support-pc {
+    display: none;
+  }
+
+  .ad-support-mobile {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .card-ads {
+    flex-direction: column-reverse;
+    padding: 15px;
+  }
+
+  .btn-visit {
+    width: 40% !important;
+    margin-bottom: 20px;
+  }
+
+  .ad-title {
+    font-size: 24px !important;
+  }
+
+  .card-ads-img {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) and (min-resolution: 132dpi) and (max-resolution: 264dpi) {
+  .carousel-ads {
+    width: 100%;
+  }
+
+  .ad-support-pc {
+    display: none;
+  }
+
+  .ad-support-mobile {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .card-ads {
+    flex-direction: column-reverse;
+    padding: 30px;
+  }
+
+  .btn-visit {
+    width: 40% !important;
+    margin-bottom: 20px;
+  }
+
+  .ad-title {
+    font-size: 24px !important;
+  }
+
+  .card-ads-img {
+    align-items: start;
+    flex-direction: column;
+  }
 }

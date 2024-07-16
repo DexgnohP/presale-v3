@@ -22,7 +22,7 @@ import rope from "./images/rope.png";
 import bunny from "./images/bunny.png";
 import andei from "./images/andei.png";
 import project30 from "./images/project30.png";
-import hero from "./images/hero.png";
+import bolly from "./images/bolly.png";
 import olympe from "./images/olympe.png";
 import beast from "./images/beast.png";
 import panda from "./images/panda.jpg";
@@ -34,58 +34,70 @@ const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const initialDataTemp = [
-    // {
-    //   id: 13123331232,
-    //   table: "project30",
-    //   name: "Project #30",
-    //   logo: project30,
-    //   whitelistsShow: false,
-    //   tag: ["Safu", "Audit", "KYC", "Doxx"],
-    //   marketing: [
-    //     {
-    //       name: "Memex9999",
-    //       icon: meme,
-    //       link: "https://t.me/memex9999call",
-    //     },
-    //     {
-    //       name: "💸 Money Maker 💸",
-    //       icon: MM,
-    //       link: "https://t.me/Money_MakerMM",
-    //     },
-    //     {
-    //       name: "Master Cat",
-    //       icon: mastercat,
-    //       link: "https://t.me/MasterCat_X",
-    //     },
-    //     {
-    //       name: "MUMU THE BULL",
-    //       icon: mumu,
-    //       link: "https://t.me/MumuCaller",
-    //     },
-    //     {
-    //       name: "MemeX9999 | Gamble 🎲",
-    //       icon: meme,
-    //       link: "https://t.me/memex9999gamble",
-    //     },
-    //     {
-    //       name: "Add more",
-    //       icon: whitePlusIcon,
-    //       link: "https://docs.idosol.me/2.-unique-features",
-    //     },
-    //   ],
-    //   des: "Ride the wave of innovation with Memecoin, part of the exciting Project #30.",
-    //   ido: 1,
-    //   time: "2024-07-14T15:30:00Z",
-    //   totalRaised: 10000,
-    //   tele: "",
-    //   tw: "",
-    //   web: "",
-    // },
+    {
+      id: 13123331232,
+      table: "project30",
+      name: "Project #30",
+      logo: project30,
+      whitelistsShow: true,
+      whitelists: [
+        "AEJd1H8JV9YiVNr7bqA9a5iaCGGVEKreMcdSLV8EWUxa",
+        "GAXYN7WqoTfXJ5NPjypBSAMRkDsdRMJQswWS6CF8232A",
+        "G2yEtLM8euNAYhAdKcyH1gv3uCdbHGyjAttM6LQ772wS",
+        "58LMiJ9utmowsDFx1nXQ7HpRcfEHiMBzPAG58yQ13Uva",
+        "AxRSfP6rrMErPHFHF7kwqsJ5krYGcGPHwiEDtY9E4LYs",
+        "EYpvTTgsqZ76zs1iLCmWJL7trX11upAPUNoUjckV3yMC",
+        "AJueeEnbNdzUDjBEGUSEUV522bLuLgsNW1VRBB8rwunc",
+        "9VLUjZueTCfL3XVnLwEhmyuk366PPRn7dPJmCi4DPngF",
+        "4vt66zNH9dh8EJ5mPXfQWHBKcfH2GBt8baHU6aevnVTd",
+        "8VyxgpMzzQ9vrNepTa1UqTpDuR8Q56CwTGhszWSLZ6t4",
+        "2Mfq4xwW9rCoKgdpProiZFpUQKa737vNuC2Duw1SwQ3u",
+        "4MipwDeR9KYEYsMRN664mw2GWguwCcvXn2tro2DvsT4h",
+        "29pNLUro9WZKui9yUFU4nzdHL85WcvujjWRuu3o7tExX",
+        "83drTak41f7PJhF857HVpyFpZYDTH8ey5fS4d6QsfWNW",
+        "Gei93EhFT1uZo55Tf1ACMY7SUDRUfMFN5FX3VDBd1vcL",
+        "BVqWbCPEPh1t1Ga9e7Yown2mNozCnGha9Vp2hPENJB1U",
+        "2PjmG51FdZpTUNYvB6ZkxgLcnuGYkqRNv9TYwYkgyRGA",
+        "HgSWwQwLFDKBe8s7AYmh5ZeSRkr2fTJgNh4YnDjbjuNo",
+        "8kBADKCpb9P47MnPei5TQKQSwZvrKHHfCukL7y6DkqWP",
+        "9B7ivj9CM3z3P3CS2fJ58DKtoR92214WHKqkP2pioEXb",
+        "GfNZ1ULbYUkx16p2m3A7kwkpZKdhP61Wr2vyRiyKZpMD",
+        "Czthqy325NHbomFFuMSRjDWUx5h47j7X1hbhoLoGRZa1",
+        "DJTP9qYq3Xei77VwUxeb433xjeV2j1TpsVaXYEnFCP5o",
+        "HwPG6do8E3TFKrb2y2UyZCwybicuQHuaxPX8VjGeTbqt",
+        "FiWWumEQs7RKMA8BnwFY2ZuHDj9ERaYCq8VhCvTmf4Tm",
+        "6Pab5CkZ8TEKY4qPhXTFvoerxu5YpPdzceqUHHrj9BbV",
+        "DXRkgnHKPEatVx3WJUiMrq6FryEjSj8vjEDgqhRn7wMf",
+        "HRWtKMP1npbUjbV8Dj7cog3FcdDQYW18FnmrrQ9dpFg4",
+        "5JX3vF8ykeqNKNwJv7o3c5ajSaXDQJgytLiFpoFF1Ly4",
+        "EFtps7ACRP8tHrS54Br5QPoA49DBA5TeozbNreLr5Nzd",
+      ],
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Memex9999",
+          icon: meme,
+          link: "https://t.me/memex9999call",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Ride the wave of innovation with Memecoin, part of the exciting Project #30.",
+      ido: 1,
+      time: "2024-07-15T15:00:00Z",
+      totalRaised: 10000,
+      tele: "",
+      tw: "",
+      web: "",
+    },
     {
       id: 13123331232,
       table: "project29",
-      name: "Trump's sniper",
-      logo: hero,
+      name: "BOLLY",
+      logo: bolly,
       whitelistsShow: false,
       tag: ["Safu", "Audit", "KYC", "Doxx"],
       marketing: [
@@ -120,13 +132,13 @@ export const DataProvider = ({ children }) => {
           link: "https://docs.idosol.me/2.-unique-features",
         },
       ],
-      des: "$HERO was created to honor Trump's snipers!!!",
+      des: "Hello everyone. I'm $Bolly, Billy's brother and I was born on this day!!!",
       ido: 1,
       time: "2024-07-13T15:30:00Z",
       totalRaised: 10000,
-      tele: "https://t.me/Trumpssniper",
-      tw: "https://x.com/Trump_Sniper",
-      web: "https://sniperformaga.fun",
+      tele: "https://t.me/BOLLYPORTALL",
+      tw: "https://x.com/BOLLYSOLFUN",
+      web: "https://bollysol.fun",
     },
     {
       id: 13123331232,

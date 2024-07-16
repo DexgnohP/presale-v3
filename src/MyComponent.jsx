@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input } from "antd";
+import { Button, Carousel, Input } from "antd";
 import logo from "./images/logo.png";
 import { List } from "antd";
 
 import Card from "./components/card";
-import { ArrowDownOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined } from "@ant-design/icons";
 
 import filterIcon from "./images/icons/filter-icon.png";
 import iconSubmit from "./images/icons/iconSubmit.svg";
@@ -15,6 +15,7 @@ import kycIcon from "./images/icons/kyc-icon.png";
 import doxxIcon from "./images/icons/doxx-icon.png";
 import endIcon from "./images/icons/end-icon.png";
 import comingIcon from "./images/icons/coming-icon.png";
+import ads1 from "./images/ads1.jpg";
 import { useDataContext } from "./dataContext";
 import { sha512 } from "js-sha512";
 import forge from "node-forge";
@@ -137,6 +138,15 @@ export default function MyComponent() {
     handleInputChange(value);
   };
 
+  const contentStyle = {
+    margin: 0,
+    height: "160px",
+    color: "#fff",
+    lineHeight: "160px",
+    textAlign: "center",
+    background: "#364d79",
+  };
+
   return (
     <div className='container relative bg-[url("/background.png")] bg-cover bg-no-repeat'>
       <div className="header">
@@ -226,6 +236,82 @@ export default function MyComponent() {
             </span>
           </a>
         </div>
+        <div className="middle">
+          <Carousel arrows infinite={false} className="carousel-ads">
+            <div className="card-ads">
+              <div className="card-ads-content">
+                <Button
+                  style={{ width: "fit-content", pointerEvents: "none" }}
+                  className="ad-support-pc hover:bg-transparent!important flex h-11 items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px] "
+                >
+                  <div className="flex  justify-between rounded-full bg-black p-[10px] font-medium text-white">
+                    <span className="ml-2">SPONSORED</span>
+                  </div>
+                </Button>
+
+                <div
+                  className="ad-title"
+                  style={{
+                    marginBottom: "30px",
+                    marginTop: "15px",
+                    fontSize: "24px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Solana Volume Bot: Boost Your Token's Visibility & Attract
+                  Investors! 🤖
+                </div>
+                <div
+                  style={{
+                    marginBottom: "20px",
+                    fontSize: "15px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Increase your Solana token's visibility and trading volume on
+                  popular DEXs, attracting investors with organic-looking
+                  trades. <br />
+                  <br />+ Mimics real human trading behavior.
+                  <br />+ TOP 1 Volume bot on the market. <br />+ Easiest to
+                  use. <br />+ Lowest fees. <br />
+                  <br />
+                  Try it for free here!
+                </div>
+                <a
+                  href="https://t.me/VolumeSolana_bot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    border: "0",
+                    width: "25%",
+                    padding: "10px",
+                    flexDirection: "row",
+                  }}
+                  className="btn-visit inline-flex  flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme  text-xs font-semibold leading-[18px] !text-white hover:!text-white"
+                >
+                  Access BOT{" "}
+                  <ArrowRightOutlined
+                    style={{ display: "inline", marginLeft: "5px" }}
+                  />
+                </a>
+              </div>
+              <div className="card-ads-img">
+                <Button
+                  style={{ width: "fit-content", pointerEvents: "none" }}
+                  className="ad-support-mobile hover:bg-transparent!important flex h-11 items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px] "
+                >
+                  <div className="flex  justify-between rounded-full bg-black p-[10px] font-medium text-white">
+                    <span className="ml-2">SPONSORED</span>
+                  </div>
+                </Button>
+                <img src={ads1} />
+              </div>
+            </div>
+          </Carousel>
+        </div>
+
         <div className="text-center font-syne text-2xl font-extrabold uppercase text-white md:text-[50px]">
           <span className="shadow-cyan-presale-theme drop-shadow-[2px_2px_var(--tw-shadow-color)]">
             LIST TOKEN{" "}

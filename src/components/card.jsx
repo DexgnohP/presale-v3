@@ -55,7 +55,7 @@ export default function Card({ data, checkTime }) {
   const [inputSearchWallet, setInputSearchWallet] = useState("");
   const [isCapcha, setIsCapcha] = useState(false);
   const [capcha, setCapcha] = useState({});
-  const [valueCapcha, setvalueCapcha] = useState();
+  const [valueCapcha, setvalueCapcha] = useState(); ///// Change when whitelist
   const [status, setStatus] = useState();
   const { dispatch } = useDataContext();
   const [terms, setTerms] = useState(false);
