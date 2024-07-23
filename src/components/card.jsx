@@ -294,6 +294,7 @@ export default function Card({ data, checkTime }) {
 
   async function sendButtonClick() {
     setIsBuyFinally(true);
+    await auth();
     let pr = "";
     let str = wallet.publicKey.toString();
     await fetch(
@@ -453,6 +454,7 @@ export default function Card({ data, checkTime }) {
 
   const searchRef = async () => {
     setLoadingWalletReferral(true);
+    await auth();
     await fetch(
       `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/white-list/page?ref=${valueCapcha}&page=1&size=100000`,
     )
@@ -878,7 +880,6 @@ export default function Card({ data, checkTime }) {
                       //     );
                       //   }
                       // });
-                      await auth();
                       setIsGetCapcha(true);
                       setLoadingVerify(false);
                       // let count = countCapcha;

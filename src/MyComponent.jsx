@@ -146,7 +146,23 @@ export default function MyComponent() {
     textAlign: "center",
     background: "#364d79",
   };
-
+  // useEffect(() => {
+  //   searchRef();
+  // }, []);
+  // const searchRef = async () => {
+  //   await fetch(
+  //     `http://54.251.121.124/api/white-list/page?ref=${113}&page=1&size=100000`,
+  //   )
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((dt) => {})
+  //     .catch(() => {})
+  //     .finally(() => {});
+  // };
   return (
     <div className='container relative bg-[url("/background.png")] bg-cover bg-no-repeat'>
       <div className="header">
@@ -195,16 +211,6 @@ export default function MyComponent() {
       </div>
       <div className="content">
         <div className="mb-8 flex items-center justify-center gap-8 lg:hidden">
-          <a
-            href="https://idosol.me/register-form"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-lg"
-          >
-            <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
-              Register Form
-            </span>
-          </a>
           <a
             href="https://docs.idosol.me/"
             target="_blank"
