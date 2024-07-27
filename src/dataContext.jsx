@@ -16,8 +16,12 @@ import olympe from "./images/olympe.png";
 import niggap from "./images/niggap.png";
 import catson from "./images/catson.png";
 import dpepe from "./images/dpepe.png";
-import pproject8 from "./images/pproject8.png";
+import pproject12 from "./images/pproject12.png";
+import scwif from "./images/scwif.png";
+import peilong from "./images/peilong.png";
+import miggles from "./images/miggles.png";
 import telangpu from "./images/telangpu.png";
+import harris from "./images/harris.png";
 import boden from "./images/boden.png";
 import head from "./images/head.png";
 import girls from "./images/girls.png";
@@ -33,9 +37,56 @@ export const DataProvider = ({ children }) => {
   const initialDataTemp = [
     {
       id: 13123331232,
-      table: "pproject8",
-      name: "Project #8",
-      logo: pproject8,
+      table: "pproject12",
+      name: "Project #12",
+      logo: pproject12,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Memex9999",
+          icon: meme,
+          link: "https://t.me/memex9999call",
+        },
+        {
+          name: "💸 Money Maker 💸",
+          icon: MM,
+          link: "https://t.me/Money_MakerMM",
+        },
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Ride the wave of innovation with Memecoin, part of the exciting Project #12.",
+      ido: 1,
+      time: "2024-07-27T15:00:00Z",
+      totalRaised: 10000,
+      tele: "",
+      tw: "",
+      web: "",
+    },
+    {
+      id: 13123331232,
+      table: "pproject11",
+      name: "Smoking Chicken Dogwifhat",
+      logo: scwif,
       whitelistsShow: false,
       tag: ["Safu", "Audit", "KYC", "Doxx"],
       marketing: [
@@ -70,13 +121,154 @@ export const DataProvider = ({ children }) => {
           link: "https://docs.idosol.me/2.-unique-features",
         },
       ],
-      des: "Ride the wave of innovation with Memecoin, part of the exciting Project #8.",
+      des: "Legal Religion & Non Profit Church",
+      ido: 1,
+      time: "2024-07-26T15:00:00Z",
+      totalRaised: 10000,
+      tele: "https://t.me/SmokingChickenDogwifhat",
+      tw: "https://x.com/SCWIF_Project",
+      web: "https://smokingchickenwif.fun/",
+    },
+    {
+      id: 13123331232,
+      table: "pproject10",
+      name: "KAMALA HARRIS",
+      logo: harris,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "MUMU THE BULL",
+          icon: mumu,
+          link: "https://t.me/MumuCaller",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Ready for my debate and I could be the first black woman that won this run for president",
+      ido: 1,
+      time: "2024-07-25T15:00:00Z",
+      totalRaised: 10000,
+      tele: "https://t.me/KAMALAHARRISSCHANNEL",
+      tw: "https://x.com/KAMALAHARRIS_X",
+      web: "https://kamalaharrissol.fun/",
+    },
+    {
+      id: 13123331232,
+      table: "pproject9",
+      name: "Pei Long",
+      logo: peilong,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Memex9999",
+          icon: meme,
+          link: "https://t.me/memex9999call",
+        },
+        {
+          name: "💸 Money Maker 💸",
+          icon: MM,
+          link: "https://t.me/Money_MakerMM",
+        },
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Year of the Dragon and Peipei on Solana chain. Lets bring it back when the year is about to end.",
+      ido: 1,
+      time: "2024-07-24T15:00:00Z",
+      totalRaised: 10000,
+      tele: "https://t.me/PeiLongPortal",
+      tw: "https://x.com/PeiLongProject",
+      web: "https://peilong.fun/",
+    },
+    {
+      id: 13123331232,
+      table: "pproject8",
+      name: "MIGGLES Robber",
+      logo: miggles,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Wulfden",
+          icon: wulf,
+          link: "https://t.me/WulfdenX",
+        },
+        {
+          name: "BABY CALLER 👑",
+          icon: babycaller,
+          link: "https://t.me/BabieCaller",
+        },
+        {
+          name: "Weibo Gambles",
+          icon: weibo,
+          link: "https://t.me/WeiboGambles",
+        },
+        {
+          name: "Travel Caller",
+          icon: travel,
+          link: "https://t.me/TV_CALLS",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Miggles is the robber. If you know, you know!!!",
       ido: 1,
       time: "2024-07-23T15:00:00Z",
       totalRaised: 10000,
-      tele: "",
-      tw: "",
-      web: "",
+      tele: "https://t.me/MIGGLESRobber",
+      tw: "https://x.com/MIGGLESProject",
+      web: "https://migglesrobber.fun",
     },
     {
       id: 13123331232,
@@ -107,10 +299,11 @@ export const DataProvider = ({ children }) => {
           link: "https://t.me/Panda_X1000",
         },
         {
-          name: "Dracula Gamble",
-          icon: dracula,
-          link: "https://t.me/DraculaGamble",
+          name: "MUMU THE BULL",
+          icon: mumu,
+          link: "https://t.me/MumuCaller",
         },
+
         {
           name: "Add more",
           icon: whitePlusIcon,
@@ -149,9 +342,9 @@ export const DataProvider = ({ children }) => {
           link: "https://t.me/MasterCat_X",
         },
         {
-          name: "MUMU THE BULL",
-          icon: mumu,
-          link: "https://t.me/MumuCaller",
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
         },
         {
           name: "MemeX9999 | Gamble 🎲",
@@ -248,9 +441,9 @@ export const DataProvider = ({ children }) => {
           link: "https://t.me/Panda_X1000",
         },
         {
-          name: "Dracula Gamble",
-          icon: dracula,
-          link: "https://t.me/DraculaGamble",
+          name: "MUMU THE BULL",
+          icon: mumu,
+          link: "https://t.me/MumuCaller",
         },
         {
           name: "Add more",
@@ -290,9 +483,9 @@ export const DataProvider = ({ children }) => {
           link: "https://t.me/MasterCat_X",
         },
         {
-          name: "MUMU THE BULL",
-          icon: mumu,
-          link: "https://t.me/MumuCaller",
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
         },
         {
           name: "MemeX9999 | Gamble 🎲",
@@ -389,9 +582,9 @@ export const DataProvider = ({ children }) => {
           link: "https://t.me/Panda_X1000",
         },
         {
-          name: "Dracula Gamble",
-          icon: dracula,
-          link: "https://t.me/DraculaGamble",
+          name: "MUMU THE BULL",
+          icon: mumu,
+          link: "https://t.me/MumuCaller",
         },
         {
           name: "Add more",
@@ -542,9 +735,9 @@ export const DataProvider = ({ children }) => {
           link: "https://t.me/Panda_X1000",
         },
         {
-          name: "Dracula Gamble",
-          icon: dracula,
-          link: "https://t.me/DraculaGamble",
+          name: "MUMU THE BULL",
+          icon: mumu,
+          link: "https://t.me/MumuCaller",
         },
         {
           name: "Add more",
@@ -584,9 +777,9 @@ export const DataProvider = ({ children }) => {
           link: "https://t.me/MasterCat_X",
         },
         {
-          name: "MUMU THE BULL",
-          icon: mumu,
-          link: "https://t.me/MumuCaller",
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
         },
         {
           name: "MemeX9999 | Gamble 🎲",

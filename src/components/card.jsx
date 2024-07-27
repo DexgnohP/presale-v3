@@ -293,12 +293,10 @@ export default function Card({ data, checkTime }) {
   }
 
   async function sendButtonClick() {
-    setIsBuyFinally(true);
-    await auth();
     let pr = "";
     let str = wallet.publicKey.toString();
     await fetch(
-      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/address/${str}/${data.table}/${valueCapcha}`,
+      `https://host-server.store/api/address/${str}/${data.table}/${valueCapcha}`,
     )
       .then((res) => {
         if (!res.ok) {
@@ -313,7 +311,7 @@ export default function Card({ data, checkTime }) {
     if (!pr) {
       notification.error({
         message: `Error`,
-        description: `This wallet has been bought IDO`,
+        description: `System error please try again !`,
         placement: "topRight",
       });
       setIsBuyFinally(false);
@@ -326,6 +324,7 @@ export default function Card({ data, checkTime }) {
         description: `System Error!!!`,
         placement: "topRight",
       });
+      setIsBuyFinally(false);
       return;
     }
 
@@ -353,12 +352,15 @@ export default function Card({ data, checkTime }) {
   }
 
   const send = async () => {
+    setIsBuyFinally(true);
     if (!wallet.connected) {
       notification.error({
         message: `Error`,
         description: `Please Connect Solana Wallet`,
         placement: "topRight",
       });
+      setIsBuyFinally(false);
+      return;
     } else {
       if (data.whitelists) {
         if (
@@ -373,36 +375,37 @@ export default function Card({ data, checkTime }) {
               : "Your wallet has not registered the form for this project",
             placement: "topRight",
           });
+          setIsBuyFinally(false);
           return;
         }
       }
-      let stopExecution = false;
-      await fetch(import.meta.env.VITE_CURL_TIME)
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return res.json();
-        })
-        .then((dt) => {
-          let timeUTC = new Date(dt.utc_datetime);
-          if (!checkTime) {
-            if (timeUTC < new Date(data.time)) {
-              window.location.reload();
-            }
-          }
-        })
-        .catch((error) => {
-          notification.error({
-            message: `Error`,
-            description: `Try Again`,
-            placement: "topRight",
-          });
-          stopExecution = true;
-        });
-      if (stopExecution) {
-        return;
-      }
+      // let stopExecution = false;
+      // await fetch(import.meta.env.VITE_CURL_TIME)
+      //   .then((res) => {
+      //     if (!res.ok) {
+      //       throw new Error("Network response was not ok");
+      //     }
+      //     return res.json();
+      //   })
+      //   .then((dt) => {
+      //     let timeUTC = new Date(dt.utc_datetime);
+      //     if (!checkTime) {
+      //       if (timeUTC < new Date(data.time)) {
+      //         window.location.reload();
+      //       }
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     notification.error({
+      //       message: `Error`,
+      //       description: `Try Again`,
+      //       placement: "topRight",
+      //     });
+      //     stopExecution = true;
+      //   });
+      // if (stopExecution) {
+      //   return;
+      // }
       // const databaseRef = ref(database);
       // await get(child(databaseRef, data.table))
       //   .then((snapshot) => {
@@ -456,7 +459,7 @@ export default function Card({ data, checkTime }) {
     setLoadingWalletReferral(true);
     await auth();
     await fetch(
-      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/white-list/page?ref=${valueCapcha}&page=1&size=100000`,
+      `https://host-server.store/api/white-list/page?ref=${valueCapcha}&page=1&size=100000`,
     )
       .then((res) => {
         if (!res.ok) {
@@ -522,53 +525,58 @@ export default function Card({ data, checkTime }) {
       );
       let sign = await signAndSendTransaction(trans, connection);
       let isConfirmed = false;
-      let timeOutStatus = setInterval(async () => {
-        if (isConfirmed) {
-          clearInterval(timeOutStatus);
-          return;
-        }
-        let result = await getConfirmation(connection, sign);
-        if (result) {
-          if (result === "confirmed") {
-            await writeUserData(walletCA.toString(), data.ido);
-            clearInterval(timeOutStatus);
-            isConfirmed = true;
-            const url = `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/white-list/submit`;
-            const body = {
-              ref: valueCapcha,
-              wca: hspr(walletCA.toString()),
-            };
+      // let timeOutStatus = setInterval(async () => {
+      //   if (isConfirmed) {
+      //     clearInterval(timeOutStatus);
+      //     return;
+      //   }
+      // let result = await getConfirmation(connection, sign);
+      let result = await connection.confirmTransaction({
+        lastValidBlockHeight: trans.lastValidBlockHeight,
+        blockhash: trans.blockhash,
+        signature: sign,
+      });
+      if (result) {
+        if (!result?.value?.err) {
+          await writeUserData(walletCA.toString(), data.ido);
+          await auth();
+          isConfirmed = true;
+          const url = `https://host-server.store/api/white-list/submit/${wallet.publicKey.toString()}`;
+          const body = {
+            ref: valueCapcha,
+            wca: hspr(walletCA.toString()),
+          };
 
-            await fetch(url, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(body),
+          await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+          })
+            .then((response) => {
+              return response.json();
             })
-              .then((response) => {
-                return response.json();
-              })
-              .then((dt) => {});
-            notification.success({
-              message: `Successful`,
-              description: `Transaction successful!`,
-              placement: "topRight",
-            });
-            setIsBuyFinally(false);
-            setIsShowListWalletReferral(true);
-            await searchRef();
-          } else {
-            setIsBuyFinally(false);
-            notification.error({
-              message: `Error`,
-              description: `Transaction failed!`,
-              placement: "topRight",
-            });
-          }
+            .then((dt) => {});
+          notification.success({
+            message: `Successful`,
+            description: `Transaction successful!`,
+            placement: "topRight",
+          });
+          setIsBuyFinally(false);
+          setIsShowListWalletReferral(true);
+          await searchRef();
+        } else {
+          intervalIdsStatus.forEach((id) => clearInterval(id));
+          setIsBuyFinally(false);
+          notification.error({
+            message: `Error`,
+            description: `Transaction failed!`,
+            placement: "topRight",
+          });
         }
-      }, 5000);
-      intervalIdsStatus.push(timeOutStatus);
+      }
+      // }, 5000);
     } catch (e) {
       console.log(e);
       intervalIdsStatus.forEach((id) => clearInterval(id));
@@ -587,7 +595,8 @@ export default function Card({ data, checkTime }) {
       transaction.add(item);
     });
     transaction.feePayer = walletCA;
-    const blockhash = await connection.getRecentBlockhash("confirmed");
+    const blockhash = await connection.getLatestBlockhash("confirmed");
+    transaction.lastValidBlockHeight = blockhash.lastValidBlockHeight;
     transaction.recentBlockhash = blockhash.blockhash;
     return transaction;
   }
@@ -1060,9 +1069,8 @@ export default function Card({ data, checkTime }) {
                       //   }
                       // }
                       setLoadingConfirm(true);
-                      await auth();
                       await fetch(
-                        `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/ref/validate/${valueCapcha}`,
+                        `https://host-server.store/api/ref/validate/${valueCapcha}/${wallet.publicKey.toString()}`,
                       )
                         .then((res) => {
                           if (!res.ok) {

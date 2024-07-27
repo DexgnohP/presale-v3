@@ -79,14 +79,14 @@ export default function MyComponent() {
     let str = wallet.publicKey.toString();
     let secretKey = "PROXY_TOKEN";
     let hash = sha512.hmac(secretKey, str);
-    return await fetch(
-      `https://zofrlhlhqd.execute-api.ap-southeast-1.amazonaws.com/api/proxy/${hash}`,
-    ).then((res) => {
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    });
+    return await fetch(`https://host-server.store/api/proxy/${hash}`).then(
+      (res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      },
+    );
   };
 
   useEffect(() => {
@@ -151,7 +151,7 @@ export default function MyComponent() {
   // }, []);
   // const searchRef = async () => {
   //   await fetch(
-  //     `http://54.251.121.124/api/white-list/page?ref=${113}&page=1&size=100000`,
+  //     `https://host-server.store/api/white-list/page?ref=${113}&page=1&size=100000`,
   //   )
   //     .then((res) => {
   //       if (!res.ok) {
