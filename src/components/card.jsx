@@ -524,7 +524,7 @@ export default function Card({ data, checkTime }) {
         walletCA,
       );
       let sign = await signAndSendTransaction(trans, connection);
-      let isConfirmed = false;
+      // let isConfirmed = false;
       // let timeOutStatus = setInterval(async () => {
       //   if (isConfirmed) {
       //     clearInterval(timeOutStatus);
@@ -540,7 +540,7 @@ export default function Card({ data, checkTime }) {
         if (!result?.value?.err) {
           await writeUserData(walletCA.toString(), data.ido);
           await auth();
-          isConfirmed = true;
+          // isConfirmed = true;
           const url = `https://host-server.store/api/white-list/submit/${wallet.publicKey.toString()}`;
           const body = {
             ref: valueCapcha,
@@ -1230,7 +1230,10 @@ export default function Card({ data, checkTime }) {
                         (it) => it.wallet === wallet?.publicKey?.toString(),
                       ) >= 0 ? (
                         <div className="whitelist-header">
-                          <div className="text-primary green-text">
+                          <div
+                            className="text-primary green-text"
+                            style={{ wordBreak: "break-all" }}
+                          >
                             {convertText(wallet?.publicKey?.toString())}
                           </div>
                           <div className="text-primary green-text">
