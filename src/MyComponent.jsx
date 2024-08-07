@@ -8,13 +8,13 @@ import { ArrowRightOutlined } from "@ant-design/icons";
 
 import filterIcon from "./images/icons/filter-icon.png";
 import iconSubmit from "./images/icons/iconSubmit.svg";
-import liveIcon from "./images/icons/live-icon.png";
-import safuIcon from "./images/icons/safu-icon.png";
-import auditIcon from "./images/icons/audit-icon.png";
-import kycIcon from "./images/icons/kyc-icon.png";
-import doxxIcon from "./images/icons/doxx-icon.png";
-import endIcon from "./images/icons/end-icon.png";
-import comingIcon from "./images/icons/coming-icon.png";
+import liveIcon from "./images/icons/live-icon.svg";
+import safuIcon from "./images/icons/safu-icon.svg";
+import auditIcon from "./images/icons/audit-icon.svg";
+import kycIcon from "./images/icons/kyc-icon.svg";
+import doxxIcon from "./images/icons/doxx-icon.svg";
+import endIcon from "./images/icons/end-icon.svg";
+import comingIcon from "./images/icons/coming-icon.svg";
 import ads1 from "./images/ads1.jpg";
 import { useDataContext } from "./dataContext";
 import { sha512 } from "js-sha512";
@@ -178,7 +178,7 @@ export default function MyComponent() {
               rel="noopener noreferrer"
               className="text-lg"
             >
-              <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
+              <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
                 Docs
               </span>
             </a>
@@ -188,7 +188,7 @@ export default function MyComponent() {
               rel="noopener noreferrer"
               className="text-lg"
             >
-              <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
+              <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
                 Twitter
               </span>
             </a>
@@ -198,7 +198,7 @@ export default function MyComponent() {
               rel="noopener noreferrer"
               className="text-lg"
             >
-              <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
+              <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
                 Telegram
               </span>
             </a>
@@ -251,7 +251,7 @@ export default function MyComponent() {
                   className="ad-support-pc hover:bg-transparent!important flex h-11 items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px] "
                 >
                   <div className="flex  justify-between rounded-full bg-black p-[10px] font-medium text-white">
-                    <span className="ml-2">SPONSORED</span>
+                    <span>SPONSORED</span>
                   </div>
                 </Button>
 
@@ -297,7 +297,8 @@ export default function MyComponent() {
                   }}
                   className="btn-visit inline-flex  flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme  text-xs font-semibold leading-[18px] !text-white hover:!text-white"
                 >
-                  Access BOT{" "}
+                  <div style={{ width: "auto" }}> Access BOT </div>
+
                   <ArrowRightOutlined
                     style={{ display: "inline", marginLeft: "5px" }}
                   />

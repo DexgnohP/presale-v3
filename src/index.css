@@ -82,10 +82,12 @@ code {
 }
 
 .card-item {
-  background-color: rgba(134, 134, 134, 0.1);
-  border-radius: 24px;
+  /* background-color: rgba(134, 134, 134, 0.1); */
+  background: linear-gradient(105.54deg, rgba(12, 238, 172, 0.1) -7.44%, rgba(213, 40, 254, 0.1) 103.67%);
+  border-radius: 16px;
   color: white;
-  padding: 30px;
+  padding: 25px;
+  padding-top: 50px;
 }
 
 .card-logo {
@@ -352,7 +354,8 @@ code {
   padding: 0 !important;
 }
 
-.gradient-text {
+.gradient-text:hover {
+  background: linear-gradient(to right, cyan, purple);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -506,6 +509,15 @@ code {
 }
 
 @media only screen and (max-width: 768px) {
+  .content {
+    padding: 35px 25px;
+  }
+
+
+  .btn-visit {
+    margin: auto;
+    margin-bottom: 20px;
+  }
 
   /* For mobile phones: */
   .item-register {
@@ -614,7 +626,7 @@ code {
 
 .carousel-ads {
   margin-bottom: 80px;
-  width: 80%;
+  width: 100%;
   justify-content: center;
   align-items: center;
 }
@@ -670,7 +682,7 @@ code {
   }
 
   .btn-visit {
-    width: 40% !important;
+    width: 50% !important;
     margin-bottom: 20px;
   }
 

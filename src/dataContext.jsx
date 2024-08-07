@@ -13,7 +13,10 @@ import whitePlusIcon from "./images/icons/white-plus-icon-3.png";
 
 import peilong from "./images/peilong.png";
 import chacha from "./images/chacha.png";
-import pproject19 from "./images/pproject19.png";
+import pproject22 from "./images/pproject22.png";
+import fweal from "./images/fweal.png";
+import wpepe from "./images/wpepe.png";
+import bitcoin from "./images/bitcoin.png";
 import grace from "./images/grace.png";
 import pechu from "./images/pechu.png";
 import dogs from "./images/dogs.png";
@@ -32,53 +35,194 @@ const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const initialDataTemp = [
-    // {
-    //   id: 13123331232,
-    //   table: "pproject19",
-    //   name: "Project #19",
-    //   logo: pproject19,
-    //   whitelistsShow: false,
-    //   tag: ["Safu", "Audit", "KYC", "Doxx"],
-    //   marketing: [
-    //     {
-    //       name: "The One Signal",
-    //       icon: theone,
-    //       link: "https://t.me/theone_signal",
-    //     },
-    //     {
-    //       name: "Kong on Chain 🦍",
-    //       icon: kingkong,
-    //       link: "https://t.me/Kong_on_chain",
-    //     },
-    //     {
-    //       name: "MemeX9999 | Gamble 🎲",
-    //       icon: meme,
-    //       link: "https://t.me/memex9999gamble",
-    //     },
-    //     {
-    //       name: "Panda Caller 🐼",
-    //       icon: panda,
-    //       link: "https://t.me/Panda_X1000",
-    //     },
-    //     {
-    //       name: "MUMU THE BULL",
-    //       icon: mumu,
-    //       link: "https://t.me/MumuCaller",
-    //     },
-    //     {
-    //       name: "Add more",
-    //       icon: whitePlusIcon,
-    //       link: "https://docs.idosol.me/2.-unique-features",
-    //     },
-    //   ],
-    //   des: "Ride the wave of innovation with Memecoin, part of the exciting Project #19.",
-    //   ido: 1,
-    //   time: "2024-08-04T15:00:00Z",
-    //   totalRaised: 10000,
-    //   tele: "",
-    //   tw: "",
-    //   web: "",
-    // },
+    {
+      id: 13123331232,
+      table: "pproject22",
+      name: "Project #22",
+      logo: pproject22,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "MUMU THE BULL",
+          icon: mumu,
+          link: "https://t.me/MumuCaller",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Ride the wave of innovation with Memecoin, part of the exciting Project #22.",
+      ido: 1,
+      time: "2024-08-07T15:30:00Z",
+      totalRaised: 10000,
+      tele: "",
+      tw: "",
+      web: "",
+    },
+    {
+      id: 13123331232,
+      table: "pproject21",
+      name: "FWEAL",
+      logo: fweal,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Memex9999",
+          icon: meme,
+          link: "https://t.me/memex9999call",
+        },
+        {
+          name: "💸 Money Maker 💸",
+          icon: MM,
+          link: "https://t.me/Money_MakerMM",
+        },
+        {
+          name: "Master Cat",
+          icon: mastercat,
+          link: "https://t.me/MasterCat_X",
+        },
+        {
+          name: "Dracula Gamble",
+          icon: dracula,
+          link: "https://t.me/DraculaGamble",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Ride the wave of innovation with Memecoin, part of the exciting Project #21.",
+      ido: 1,
+      time: "2024-08-06T15:00:00Z",
+      totalRaised: 10000,
+      tele: "",
+      tw: "",
+      web: "",
+    },
+    {
+      id: 13123331232,
+      table: "pproject20",
+      name: "wrapped pepe",
+      logo: wpepe,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "Wulfden",
+          icon: wulf,
+          link: "https://t.me/WulfdenX",
+        },
+        {
+          name: "BABY CALLER 👑",
+          icon: babycaller,
+          link: "https://t.me/BabieCaller",
+        },
+        {
+          name: "Weibo Gambles",
+          icon: weibo,
+          link: "https://t.me/WeiboGambles",
+        },
+        {
+          name: "Travel Caller",
+          icon: travel,
+          link: "https://t.me/TV_CALLS",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Wrapped Pepe: The Meme Revolution, Wrapped for Maximum Impact!",
+      ido: 1,
+      time: "2024-08-05T15:00:00Z",
+      totalRaised: 10000,
+      tele: "https://t.me/wpepeonsolportal",
+      tw: "https://x.com/Wrapped_PepeX",
+      web: "https://wrappedpepe.fun/",
+    },
+    {
+      id: 13123331232,
+      table: "pproject19",
+      name: "Bitcoin is the meme god",
+      logo: bitcoin,
+      whitelistsShow: false,
+      tag: ["Safu", "Audit", "KYC", "Doxx"],
+      marketing: [
+        {
+          name: "The One Signal",
+          icon: theone,
+          link: "https://t.me/theone_signal",
+        },
+        {
+          name: "Kong on Chain 🦍",
+          icon: kingkong,
+          link: "https://t.me/Kong_on_chain",
+        },
+        {
+          name: "MemeX9999 | Gamble 🎲",
+          icon: meme,
+          link: "https://t.me/memex9999gamble",
+        },
+        {
+          name: "Panda Caller 🐼",
+          icon: panda,
+          link: "https://t.me/Panda_X1000",
+        },
+        {
+          name: "MUMU THE BULL",
+          icon: mumu,
+          link: "https://t.me/MumuCaller",
+        },
+        {
+          name: "Add more",
+          icon: whitePlusIcon,
+          link: "https://docs.idosol.me/2.-unique-features",
+        },
+      ],
+      des: "Bitcoin: The Meme God—Fast Rise, Faster Fall!",
+      ido: 1,
+      time: "2024-08-04T15:00:00Z",
+      totalRaised: 10000,
+      tele: "https://t.me/BitcoinOnSolPortal",
+      tw: "https://x.com/BitcoinMeMeGodx",
+      web: "https://meme-god.fun/",
+    },
     {
       id: 13123331232,
       table: "pproject18",

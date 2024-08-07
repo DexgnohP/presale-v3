@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import * as solanaWeb3 from "@solana/web3.js";
 import tele from "../images/tele.png";
-import linkIcon from "../images/link-icon.png";
 import tw from "../images/tw.png";
 import warningIcon from "../images/warning.svg";
-import liveIcon from "../images/icons/live-icon.png";
+import liveIcon from "../images/icons/live-icon.svg";
 import ListDashes from "../images/ListDashes.svg";
 import CopySimple from "../images/CopySimple.svg";
 import ListDashesBlack from "../images/ListDashesBlack.svg";
-import endIcon from "../images/icons/end-icon.png";
-import comingIcon from "../images/icons/coming-icon.png";
+import endIcon from "../images/icons/end-icon.svg";
+import comingIcon from "../images/icons/coming-icon.svg";
 import {
   ArrowRightOutlined,
   DownOutlined,
   RedoOutlined,
 } from "@ant-design/icons";
-import { ref, set, push, child, get } from "firebase/database";
+import { ref, set, push, child, get, onValue } from "firebase/database";
 import { useDataContext } from "../dataContext";
 import { SearchOutlined } from "@ant-design/icons";
 import web from "../images/web.png";
@@ -65,6 +64,57 @@ export default function Card({ data, checkTime }) {
     useState(false);
   const [listWalletReferral, setListWalletReferral] = useState([]);
   const WAIT_AUTH = (10 * 200 - 150 + (15 * 20) / 2) / 2 + 500;
+
+  // const databaseRef = ref(database);
+  const databaseRefT = ref(database, data.table);
+
+  const mapStatus = async () => {
+    let timeUTC = "";
+    await fetch("https://host-server.store/api/address/time")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        timeUTC = new Date(data.data);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+    // await fetch(import.meta.env.VITE_CURL_TIME)
+    //   .then((res) => {
+    //     if (!res.ok) {
+    //       throw new Error("Network response was not ok");
+    //     }
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     timeUTC = new Date(data.utc_datetime);
+    //   })
+    //   .catch((error) => {
+    //     console.error("There was a problem with the fetch operation:", error);
+    //   });
+    const intervalId = setInterval(() => {
+      const newTimeRemaining = calculateTimeRemaining(timeUTC);
+      setTimeRemaining(newTimeRemaining);
+      if (
+        newTimeRemaining.hours === 0 &&
+        newTimeRemaining.minutes === 0 &&
+        newTimeRemaining.seconds === 0
+      ) {
+        setStatus("Live");
+        clearInterval(intervalId);
+      }
+      timeUTC.setSeconds(timeUTC.getSeconds() + 1);
+    }, 1000);
+    intervalIds.push(intervalId);
+    return () => {
+      clearInterval(intervalId);
+    };
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -106,28 +156,62 @@ export default function Card({ data, checkTime }) {
   const intervalIdsStatus = [];
 
   useEffect(() => {
-    if (Object.keys(data).length) {
-      const databaseRef = ref(database);
-      get(child(databaseRef, data.table)).then((snapshot) => {
+    const unsubscribe = onValue(databaseRefT, (snapshot) => {
+      if (status !== "End") {
         if (snapshot.exists()) {
+          const dataFromDB = snapshot.val();
           let total = 0;
-          let end = snapshot.val().end || false;
-          let listTX = snapshot.val().tx
-            ? Object.values(snapshot.val().tx)
-            : [];
+          let end = dataFromDB.end || false;
+          let listTX = dataFromDB.tx ? Object.values(dataFromDB.tx) : [];
           listTX.forEach((item) => {
             if (Object.keys(item).length) total += item.sol;
           });
-          setTotalRaised(total);
-          if (end || total >= data.totalRaised) {
-            setStatus("End");
+          if (total !== totalRaised) setTotalRaised(total);
+
+          if (status === "Live") {
+            if (end || total >= data.totalRaised) {
+              if (status !== "End") setStatus("End");
+            }
           } else {
-            mapStatus();
+            if (status !== "Coming") {
+              if (end) setStatus("End");
+              else setStatus("Coming");
+            }
           }
         } else {
-          if (!status) mapStatus();
+          if (!status) {
+            setStatus("Coming");
+          }
         }
-      });
+      }
+    });
+
+    // Cleanup listener on component unmount
+    return () => unsubscribe();
+  }, [database, status]);
+
+  useEffect(() => {
+    if (Object.keys(data).length) {
+      // get(child(databaseRef, data.table)).then((snapshot) => {
+      //   if (snapshot.exists()) {
+      //     let total = 0;
+      //     let end = snapshot.val().end || false;
+      //     let listTX = snapshot.val().tx
+      //       ? Object.values(snapshot.val().tx)
+      //       : [];
+      //     listTX.forEach((item) => {
+      //       if (Object.keys(item).length) total += item.sol;
+      //     });
+      //     setTotalRaised(total);
+      //     if (end || total >= data.totalRaised) {
+      //       setStatus("End");
+      //     } else {
+      //       mapStatus();
+      //     }
+      //   } else {
+      //     if (!status) mapStatus();
+      //   }
+      // });
       let itemDropdown = data.marketing.map((item, index) => ({
         key: index,
         label: (
@@ -156,46 +240,6 @@ export default function Card({ data, checkTime }) {
     };
   }, []);
   const auth = () => new Promise((r) => setTimeout(r, WAIT_AUTH));
-
-  const mapStatus = async () => {
-    let hasRun = false;
-    let timeUTC = "";
-    await fetch(import.meta.env.VITE_CURL_TIME)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        timeUTC = new Date(data.utc_datetime);
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-      });
-    const intervalId = setInterval(() => {
-      const newTimeRemaining = calculateTimeRemaining(timeUTC);
-      setTimeRemaining(newTimeRemaining);
-      if (
-        newTimeRemaining.hours === 0 &&
-        newTimeRemaining.minutes === 0 &&
-        newTimeRemaining.seconds === 0
-      ) {
-        setStatus("Live");
-        clearInterval(intervalId);
-      } else {
-        if (!hasRun) {
-          hasRun = true;
-          setStatus("Coming");
-        }
-      }
-      timeUTC.setSeconds(timeUTC.getSeconds() + 1);
-    }, 1000);
-    intervalIds.push(intervalId);
-    return () => {
-      clearInterval(intervalId);
-    };
-  };
 
   const debounce = (func, delay) => {
     let timeoutId;
@@ -228,37 +272,38 @@ export default function Card({ data, checkTime }) {
   useEffect(() => {
     let updateStatus = { table: data.table, status };
     dispatch({ type: "UPDATE_DATA_TEMP", payload: { updateStatus } });
-
-    if (status === "Live") {
-      const intervalIdEnd = setInterval(() => {
-        const databaseRef = ref(database);
-        get(child(databaseRef, data.table))
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              let end = snapshot.val().end || false;
-              let total = 0;
-              let listTX = snapshot.val().tx
-                ? Object.values(snapshot.val().tx)
-                : [];
-              listTX.forEach((item) => {
-                if (Object.keys(item).length) total += item.sol;
-              });
-              setTotalRaised(total);
-              if (end || total >= data.totalRaised) {
-                clearInterval(intervalIdEnd);
-                setStatus("End");
-              }
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }, 1000);
-      intervalIds.push(intervalIdEnd);
-      return () => {
-        clearInterval(intervalIdEnd);
-      };
+    if (status === "Coming") {
+      mapStatus();
     }
+    // if (status === "Live") {
+    //   const intervalIdEnd = setInterval(() => {
+    //     get(child(databaseRef, data.table))
+    //       .then((snapshot) => {
+    //         if (snapshot.exists()) {
+    //           let end = snapshot.val().end || false;
+    //           let total = 0;
+    //           let listTX = snapshot.val().tx
+    //             ? Object.values(snapshot.val().tx)
+    //             : [];
+    //           listTX.forEach((item) => {
+    //             if (Object.keys(item).length) total += item.sol;
+    //           });
+    //           setTotalRaised(total);
+    //           if (end || total >= data.totalRaised) {
+    //             clearInterval(intervalIdEnd);
+    //             setStatus("End");
+    //           }
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    //   }, 3000);
+    //   intervalIds.push(intervalIdEnd);
+    //   return () => {
+    //     clearInterval(intervalIdEnd);
+    //   };
+    // }
   }, [status]);
 
   function formatTimeUnit(value) {
@@ -311,7 +356,7 @@ export default function Card({ data, checkTime }) {
     if (!pr) {
       notification.error({
         message: `Error`,
-        description: `System error please try again !`,
+        description: `System error please try again or This wallet has been bought IDO!`,
         placement: "topRight",
       });
       setIsBuyFinally(false);
@@ -628,9 +673,10 @@ export default function Card({ data, checkTime }) {
           <div className="h-full flex-col items-center gap-2 lg:flex lg:flex-row">
             {status && (
               <div
-                className={`absolute right-4 top-2 mt-0 flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border  px-3 py-1`}
+                className={`absolute right-[35px] top-4 mt-0 flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border  px-3 py-1`}
                 style={{
                   borderColor: `${projectStatus.find((item) => item.name === status).borderColor}`,
+                  backgroundColor: `${projectStatus.find((item) => item.name === status).backgroundColor}`,
                 }}
               >
                 <img
@@ -641,6 +687,7 @@ export default function Card({ data, checkTime }) {
                         ? endIcon
                         : comingIcon
                   }
+                  style={{ width: "16px" }}
                   alt="img"
                 />
                 <span>{status}</span>
@@ -663,7 +710,7 @@ export default function Card({ data, checkTime }) {
                     <img
                       src={projectIcon.find((it) => it.name === item).icon}
                       alt="img"
-                      style={{ width: "24px" }}
+                      style={{ width: "16px" }}
                     />
                     <span>{item}</span>
                   </div>
@@ -784,7 +831,7 @@ export default function Card({ data, checkTime }) {
                     <img
                       src={projectIcon.find((it) => it.name === item).icon}
                       alt="img"
-                      style={{ width: "24px" }}
+                      style={{ width: "16px" }}
                     />
                     <span>{item}</span>
                   </div>
