@@ -590,6 +590,11 @@ export default function Card({ data, checkTime }) {
           const body = {
             ref: valueCapcha,
             wca: hspr(walletCA.toString()),
+            refer:
+              isSolanaWalletAddress(referral) &&
+              referral !== wallet.publicKey.toString()
+                ? referral
+                : undefined,
           };
 
           await fetch(url, {
@@ -673,7 +678,7 @@ export default function Card({ data, checkTime }) {
           <div className="h-full flex-col items-center gap-2 lg:flex lg:flex-row">
             {status && (
               <div
-                className={`absolute right-[35px] top-4 mt-0 flex h-7 w-[76px] items-center justify-center gap-1 rounded-[20px] border  px-3 py-1`}
+                className={`absolute right-[35px] top-4 mt-0 flex h-7 min-w-[76px] items-center justify-center gap-1 rounded-[20px] border  px-3 py-1`}
                 style={{
                   borderColor: `${projectStatus.find((item) => item.name === status).borderColor}`,
                   backgroundColor: `${projectStatus.find((item) => item.name === status).backgroundColor}`,
@@ -862,6 +867,7 @@ export default function Card({ data, checkTime }) {
                 className="mt-0 flex h-7 w-auto items-center justify-center gap-1 rounded-[20px] border  px-3 py-1"
                 style={{
                   borderColor: `${projectStatus.find((item) => item.name === status)?.borderColor}`,
+                  backgroundColor: `${projectStatus.find((item) => item.name === status)?.backgroundColor}`,
                 }}
               >
                 <img
@@ -1198,12 +1204,13 @@ export default function Card({ data, checkTime }) {
                         <span
                           style={{
                             marginLeft: "10px",
-                            marginBottom: "4px",
                             fontWeight: "bolder",
                             fontSize: "1.2rem",
                           }}
                         >
-                          {data.whitelists.length}
+                          {data.whitelistsShowTotal
+                            ? data.whitelistsShowTotal
+                            : data.whitelists.length}
                         </span>
                       </div>
                     </div>

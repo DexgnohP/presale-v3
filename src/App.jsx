@@ -11,10 +11,13 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import "./App.css";
 import MyComponent from "./MyComponent";
 import { useMemo } from "react";
+import background from "./images/background.png";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { DataProvider } from "./dataContext";
-import Register from "./pages/Register";
+// import Register from "./pages/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import ReferralPage from "./components/ReferralPage";
 
 // import the styles
 // require('@solana/wallet-adapter-react-ui/styles.css');
@@ -33,16 +36,20 @@ function App() {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets}>
         <WalletModalProvider>
-          <div className="App bg-black">
-            <DataProvider>
-              <BrowserRouter>
-                <Routes>
-                  <Route path="*" element={<MyComponent />} />
-                  {/* <Route path="register-form" element={<Register />} /> */}
-                </Routes>
-              </BrowserRouter>
-            </DataProvider>
-          </div>
+          <BrowserRouter>
+            <div className="App bg-black">
+              <div className="relativ container">
+                <img src={background} className="background-fixed" />
+                <Header />
+                <DataProvider>
+                  <Routes>
+                    <Route path="*" element={<MyComponent />} />
+                    <Route path="referral" element={<ReferralPage />} />
+                  </Routes>
+                </DataProvider>
+              </div>
+            </div>
+          </BrowserRouter>
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>

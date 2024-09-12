@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Carousel, Input } from "antd";
-import logo from "./images/logo.png";
 import { List } from "antd";
 
 import Card from "./components/card";
@@ -9,6 +8,8 @@ import { ArrowRightOutlined } from "@ant-design/icons";
 import filterIcon from "./images/icons/filter-icon.png";
 import iconSubmit from "./images/icons/iconSubmit.svg";
 import liveIcon from "./images/icons/live-icon.svg";
+import diamond from "./images/icons/diamond.svg";
+
 import safuIcon from "./images/icons/safu-icon.svg";
 import auditIcon from "./images/icons/audit-icon.svg";
 import kycIcon from "./images/icons/kyc-icon.svg";
@@ -18,10 +19,9 @@ import comingIcon from "./images/icons/coming-icon.svg";
 import ads1 from "./images/ads1.jpg";
 import { useDataContext } from "./dataContext";
 import { sha512 } from "js-sha512";
-import forge from "node-forge";
 
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { Link } from "react-router-dom";
 
 export const projectIcon = [
   { name: "Safu", icon: safuIcon, borderColor: "#88FF7D" },
@@ -164,60 +164,35 @@ export default function MyComponent() {
   //     .finally(() => {});
   // };
   return (
-    <div className='container relative bg-[url("/background.png")] bg-cover bg-no-repeat'>
-      <div className="header">
-        <div className="nav-left">
-          <img className="logo" src={logo} alt="img" />
-        </div>
-        <div className="flex items-center gap-16">
-          {/* <Button className='' onClick={() => {}}>Connect Wallet</Button> */}
-          <div className="hidden items-center gap-16 lg:flex">
-            <a
-              href="https://docs.idosol.me/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lg"
-            >
-              <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
-                Docs
-              </span>
-            </a>
-            <a
-              href="https://twitter.com/idosolme"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lg"
-            >
-              <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
-                Twitter
-              </span>
-            </a>
-            <a
-              href="https://t.me/idosolme"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lg"
-            >
-              <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
-                Telegram
-              </span>
-            </a>
-          </div>
-          {/* <Button className="flex h-11 w-[148px] items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme text-white hover:!text-black">
-            Select Wallet
-          </Button> */}
-          <WalletMultiButton />
-        </div>
-      </div>
+    // <div className="relativ container">
+    //   <img src={background} className="background-fixed" />
+    <>
       <div className="content">
         <div className="mb-8 flex items-center justify-center gap-8 lg:hidden">
+          <Link to="/" className="text-lg">
+            <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
+              Home
+            </span>
+          </Link>
+          <Link to="/referral" className="text-lg">
+            <span
+              style={{ display: "flex", alignItems: "center" }}
+              className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme"
+            >
+              <img
+                src={diamond}
+                style={{ width: "25px", marginRight: "10px" }}
+              />
+              Referral
+            </span>
+          </Link>
           <a
             href="https://docs.idosol.me/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-lg"
           >
-            <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
+            <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
               Docs
             </span>
           </a>
@@ -227,8 +202,8 @@ export default function MyComponent() {
             rel="noopener noreferrer"
             className="text-lg"
           >
-            <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
-              Twitter
+            <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
+              X
             </span>
           </a>
           <a
@@ -237,8 +212,8 @@ export default function MyComponent() {
             rel="noopener noreferrer"
             className="text-lg"
           >
-            <span className="gradient-text bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme hover:text-white">
-              Telegram
+            <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
+              TG
             </span>
           </a>
         </div>
@@ -319,7 +294,7 @@ export default function MyComponent() {
           </Carousel>
         </div>
 
-        <div className="text-center font-syne text-2xl font-extrabold uppercase text-white md:text-[50px]">
+        <div className="text-center font-syne text-2xl font-extrabold uppercase text-white md:text-[72px]">
           <span className="shadow-cyan-presale-theme drop-shadow-[2px_2px_var(--tw-shadow-color)]">
             LIST TOKEN{" "}
           </span>
@@ -348,7 +323,7 @@ export default function MyComponent() {
                 onClick={() => handleChangeTab(index)}
               >
                 <img src={item.icon} alt="img" />
-                <span>{item.name}</span>
+                <span style={{ fontSize: "14px" }}>{item.name}</span>
               </button>
             ))}
           </div>
@@ -394,6 +369,8 @@ export default function MyComponent() {
         <img src={iconSubmit} className="w-[25px] object-contain" /> Submit
         Project
       </a>
-    </div>
+    </>
+
+    // </div>
   );
 }
