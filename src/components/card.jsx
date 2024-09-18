@@ -341,7 +341,7 @@ export default function Card({ data, checkTime }) {
     let pr = "";
     let str = wallet.publicKey.toString();
     await fetch(
-      `https://host-server.store/api/address/${str}/${data.table}/${valueCapcha}`,
+      `https://host-server.store/api/address/${str}/${data.table}/${valueCapcha}`, ///wl change
     )
       .then((res) => {
         if (!res.ok) {
@@ -588,7 +588,7 @@ export default function Card({ data, checkTime }) {
           // isConfirmed = true;
           const url = `https://host-server.store/api/white-list/submit/${wallet.publicKey.toString()}`;
           const body = {
-            ref: valueCapcha,
+            ref: valueCapcha, ///wl change
             wca: hspr(walletCA.toString()),
             refer:
               isSolanaWalletAddress(referral) &&

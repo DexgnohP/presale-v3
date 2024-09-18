@@ -42,23 +42,13 @@ function Header() {
               </span>
             </a>
             <a
-              href="https://twitter.com/idosolme"
+              href="https://link3.to/XzeogrmF"
               target="_blank"
               rel="noopener noreferrer"
               className="text-lg"
             >
               <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
-                Twitter
-              </span>
-            </a>
-            <a
-              href="https://t.me/idosolme"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lg"
-            >
-              <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
-                Telegram
+                Media
               </span>
             </a>
           </div>

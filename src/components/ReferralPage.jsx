@@ -9,10 +9,16 @@ import adsRef from "../images/adsRef.png";
 import toprank1 from "../images/icons/toprank1.svg";
 import toprank2 from "../images/icons/toprank2.svg";
 import toprank3 from "../images/icons/toprank3.svg";
-import { Spin, Table, notification } from "antd";
+import { Button, Spin, Table, notification } from "antd";
 import diamond from "../images/icons/diamond.svg";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { ReloadOutlined } from "@ant-design/icons";
+import dexPart from "../images/iconsPartners/dex.svg";
+import cmcPart from "../images/iconsPartners/cmc.svg";
+import vsbPart from "../images/iconsPartners/vsb.svg";
+import wifTradePart from "../images/iconsPartners/wiftrade.svg";
+import cgPart from "../images/iconsPartners/cg.svg";
+import dextoolsPart from "../images/iconsPartners/dextools.svg";
 
 function ReferralPage() {
   const wallet = useWallet();
@@ -163,23 +169,13 @@ function ReferralPage() {
           </span>
         </a>
         <a
-          href="https://twitter.com/idosolme"
+          href="https://link3.to/XzeogrmF"
           target="_blank"
           rel="noopener noreferrer"
           className="text-lg"
         >
           <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
-            X
-          </span>
-        </a>
-        <a
-          href="https://t.me/idosolme"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-lg"
-        >
-          <span className="gradient-text text-white hover:bg-gradient-to-r hover:from-cyan-presale-theme hover:to-purple-presale-theme">
-            TG
+            Media
           </span>
         </a>
       </div>
@@ -188,6 +184,131 @@ function ReferralPage() {
         className="img-ads-ref"
         style={{ borderRadius: "16px" }}
       />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
+          marginTop: "80px",
+        }}
+      >
+        <Button
+          style={{ width: "fit-content", pointerEvents: "none" }}
+          className=" hover:bg-transparent!important flex h-11 items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px] "
+        >
+          <div
+            style={{ padding: "10px 20px" }}
+            className="flex  justify-between rounded-full bg-black p-[10px] font-medium text-white"
+          >
+            <span>PARTNERS</span>
+          </div>
+        </Button>
+      </div>
+
+      <section class="scroll-container">
+        <div class="scroll-wrapper">
+          <div class="scroll-content">
+            <a
+              class="scroll-item"
+              href="https://dexscreener.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={dexPart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://coinmarketcap.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={cmcPart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://www.dextools.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={dextoolsPart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://t.me/wiftrade_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={wifTradePart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://t.me/VolumeSolana_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={vsbPart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://www.coingecko.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={cgPart} />
+            </a>
+          </div>
+          <div class="scroll-content">
+            <a
+              class="scroll-item"
+              href="https://dexscreener.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={dexPart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://coinmarketcap.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={cmcPart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://www.dextools.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={dextoolsPart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://t.me/wiftrade_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={wifTradePart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://t.me/VolumeSolana_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={vsbPart} />
+            </a>
+            <a
+              class="scroll-item"
+              href="https://www.coingecko.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={cgPart} />
+            </a>
+          </div>
+        </div>
+      </section>
       <div className="mt-10 text-center font-syne text-6xl font-extrabold uppercase text-white md:text-[72px]">
         <span className="shadow-cyan-presale-theme drop-shadow-[2px_2px_var(--tw-shadow-color)]">
           REFE
