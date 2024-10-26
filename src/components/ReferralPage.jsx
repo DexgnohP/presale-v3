@@ -134,8 +134,20 @@ function ReferralPage() {
             return "700K";
           case 2:
             return "500K";
-          default:
+          case 3:
+            return "480K";
+          case 4:
+            return "460K";
+          case 5:
+            return "430K";
+          case 6:
             return "400K";
+          case 7:
+            return "370K";
+          case 8:
+            return "340K";
+          default:
+            return "320K";
         }
       },
     },
@@ -407,7 +419,7 @@ function ReferralPage() {
                       : ""
               }
               pagination={false}
-              dataSource={listTop}
+              dataSource={listTop} /// listTop
               columns={columns}
               rowKey={"wallet"}
             />

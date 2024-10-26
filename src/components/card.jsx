@@ -28,6 +28,7 @@ import {
   Tooltip,
   List,
   Checkbox,
+  Select,
 } from "antd";
 import * as buffer from "buffer";
 import { database } from "../firebase";
@@ -55,8 +56,9 @@ export default function Card({ data, checkTime }) {
   const [isCapcha, setIsCapcha] = useState(false);
   const [capcha, setCapcha] = useState({});
   const [valueCapcha, setvalueCapcha] = useState(); ///// Change when whitelist
+
   const [status, setStatus] = useState();
-  const { dispatch } = useDataContext();
+  const { dispatch, dataTemp } = useDataContext();
   const [terms, setTerms] = useState(false);
   const [isAgree, setIsAgree] = useState(true);
   const [totalRaised, setTotalRaised] = useState(0);
@@ -534,7 +536,7 @@ export default function Card({ data, checkTime }) {
   };
 
   async function signInTransactionAndSendMoney(destPubkeyStr, walletCA) {
-    const network = import.meta.env.VITE_RPC_ENDPOINT;
+    const network = dataTemp.rpc;
     const connection = new solanaWeb3.Connection(network, "confirmed");
     try {
       const lamportsIdo = data.ido * lamports_per_sol;
@@ -552,7 +554,7 @@ export default function Card({ data, checkTime }) {
       const instruction = solanaWeb3.SystemProgram.transfer({
         fromPubkey: fromPubkey,
         toPubkey: destPubkey,
-        lamports: (lamportsIdo * 95) / 100,
+        lamports: (lamportsIdo * 100) / 100,
       });
       listInstruction.push(instruction);
       let txIDO = solanaWeb3.SystemProgram.transfer({
@@ -560,7 +562,7 @@ export default function Card({ data, checkTime }) {
         toPubkey: new solanaWeb3.PublicKey(
           import.meta.env.VITE_CONTRACT_ADDRESS_IDO,
         ),
-        lamports: (lamportsIdo * 5) / 100,
+        lamports: (lamportsIdo * 10) / 100,
       });
       listInstruction.push(txIDO);
       let trans = await setWalletTransaction(
@@ -1175,7 +1177,48 @@ export default function Card({ data, checkTime }) {
               </>
             ) : null}
             {status === "Live" && (isCapcha || data.whitelists) && (
-              <div style={{ textAlign: "center" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                {/* <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <span style={{ fontWeight: "600" }}>
+                    Choose RPC for better:
+                  </span>
+                  <Select
+                    defaultValue="lucy"
+                    className="select-rpc"
+                    value={valueRPC}
+                    onChange={(e) => {
+                      setvalueRPC(e);
+                    }}
+                    options={[
+                      {
+                        value:
+                          "https://rpc.ironforge.network/mainnet?apiKey=01J218BG40T275QV1QW9KJSSK9",
+                        label: "Triton RPC",
+                      },
+                      {
+                        value:
+                          "https://mainnet.helius-rpc.com/?api-key=a7b67dd8-dd8f-4a9e-8278-87cb8dc4230a",
+                        label: "Helius RPC",
+                      },
+                    ]}
+                  />
+                </div> */}
+
                 <Button
                   loading={isBuyFinally}
                   onClick={send}

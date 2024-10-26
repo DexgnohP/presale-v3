@@ -23,6 +23,86 @@ code {
     monospace;
 }
 
+.socials-bigc {
+  /* position: absolute; */
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.socials-bigc-item {
+  display: inline-block;
+  box-shadow: 0 0 0 2px #D528FE;
+  border-radius: 50%;
+  padding: 8px;
+  transition: box-shadow 0.4s ease;
+}
+
+.popup-setting {
+  margin-left: 1rem;
+  display: inline-block;
+  box-shadow: 0 0 0 2px #D528FE;
+  border-radius: 50%;
+  padding: 8px;
+  transition: box-shadow 0.4s ease;
+}
+
+.popup-setting:hover {
+  background: linear-gradient(90deg, #0CEEAC 0%, #D528FE 100%);
+  box-shadow: 0 0 0 2px transparent;
+
+}
+
+.ant-popover-inner {
+  background: #1C1C1C !important;
+  color: white !important;
+}
+
+.setting-modal {
+  width: 100%;
+  color: white;
+  padding: 5px;
+}
+
+.popup-setting:hover img {
+  filter: brightness(0) invert(1);
+
+}
+
+.ant-popover-arrow {
+  display: none !important;
+}
+
+.ant-popconfirm-buttons {
+  display: none;
+}
+
+.ant-popover-content {
+  min-width: 300px;
+}
+
+.ant-popconfirm-message-icon {
+  display: none;
+}
+
+.socials-bigc-item:hover {
+  background: linear-gradient(90deg, #0CEEAC 0%, #D528FE 100%);
+  box-shadow: 0 0 0 2px transparent;
+}
+
+
+
+.socials-bigc-item img {
+  width: 20px;
+  height: 20px;
+}
+
+.title-big-coming {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+}
+
 .container {
   color: white;
   max-width: 100vw;
@@ -599,12 +679,15 @@ code {
 }
 
 
+
+
 .card-ads {
   display: flex !important;
-  padding: 20px 30px;
+  padding: 30px;
+  height: 100%;
   border-radius: 12px;
   background: linear-gradient(105.54deg, rgba(12, 238, 172, 0.1) -7.44%, rgba(213, 40, 254, 0.1) 103.67%);
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .card-ads-ref {
@@ -629,6 +712,10 @@ code {
   flex-basis: 55%;
   display: flex;
   align-items: center;
+}
+
+.card-ads-img img {
+  border-radius: 12px;
 }
 
 .card-ads-img-ref {
@@ -673,6 +760,7 @@ code {
 }
 
 @media only screen and (max-width: 768px) {
+
   .container-modal {
     flex-direction: column;
   }
@@ -955,7 +1043,7 @@ code {
 
 .scroll-item {
   display: inline-block;
-  margin-right: 2rem;
+  margin: 0 1rem;
   padding: 10px 20px;
   background: transparent;
   /* border: 1px solid #ddd; */
@@ -1012,4 +1100,34 @@ code {
   .scroll-content {
     width: 200%;
   }
+
+
+}
+
+.title-setting {
+  margin-bottom: 20px;
+  color: #60ff97 !important;
+}
+
+.ant-popconfirm-message-text {
+  flex-basis: 100%;
+}
+
+.select-rpc {
+  margin-left: 10px;
+  width: 100%;
+  height: auto;
+  color: white !important;
+}
+
+.select-rpc .ant-select-selector {
+  border: none !important;
+  padding: 8px 20px !important;
+  background-color: #313131 !important;
+  color: white !important;
+  border-radius: 32px;
+}
+
+.select-rpc .ant-select-arrow {
+  color: white !important;
 }

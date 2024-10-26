@@ -9,6 +9,9 @@ import filterIcon from "./images/icons/filter-icon.png";
 import iconSubmit from "./images/icons/iconSubmit.svg";
 import liveIcon from "./images/icons/live-icon.svg";
 import diamond from "./images/icons/diamond.svg";
+import xIcon from "./images/icons/xIcon.svg";
+import teleIcon from "./images/icons/teleIcon.svg";
+import webIcon from "./images/icons/webIcon.svg";
 
 import safuIcon from "./images/icons/safu-icon.svg";
 import auditIcon from "./images/icons/audit-icon.svg";
@@ -18,11 +21,13 @@ import dexPart from "./images/iconsPartners/dex.svg";
 import cmcPart from "./images/iconsPartners/cmc.svg";
 import vsbPart from "./images/iconsPartners/vsb.svg";
 import wifTradePart from "./images/iconsPartners/wiftrade.svg";
-import cgPart from "./images/iconsPartners/cg.svg";
+import totalcal from "./images/iconsPartners/totalcal.svg";
 import dextoolsPart from "./images/iconsPartners/dextools.svg";
 import endIcon from "./images/icons/end-icon.svg";
 import comingIcon from "./images/icons/coming-icon.svg";
 import ads1 from "./images/ads1.jpg";
+import adsWif from "./images/adsWif.png";
+import adsBigcoming from "./images/adsBigcoming.gif";
 import { useDataContext } from "./dataContext";
 import { sha512 } from "js-sha512";
 
@@ -62,7 +67,7 @@ export default function MyComponent() {
   const { dataTemp } = useDataContext();
   const [inputValue, setInputValue] = useState("");
   const [proxy, setProxy] = useState(false);
-  const [listPresale, setListPreSale] = useState(dataTemp);
+  const [listPresale, setListPreSale] = useState(dataTemp.listPresale);
   const [selectedTabIndex, setSelectedTabIndex] = useState(undefined);
   const handleChangeTab = (tabIndex) => {
     if (selectedTabIndex === tabIndex) {
@@ -96,7 +101,7 @@ export default function MyComponent() {
   };
 
   useEffect(() => {
-    let list = [...dataTemp];
+    let list = [...dataTemp.listPresale];
     list = list.filter((item) =>
       item.name.toLowerCase().includes(inputValue.toLowerCase()),
     );
@@ -131,7 +136,7 @@ export default function MyComponent() {
   };
 
   const handleInputChange = debounce((value) => {
-    let result = dataTemp.filter((item) =>
+    let result = dataTemp.listPresale.filter((item) =>
       item.name.toLowerCase().includes(value.toLowerCase()),
     );
     setListPreSale(result);
@@ -215,7 +220,139 @@ export default function MyComponent() {
         </div>
 
         <div className="middle">
-          <Carousel arrows infinite={false} className="carousel-ads">
+          <Carousel
+            arrows
+            className="carousel-ads"
+            autoplaySpeed={5000}
+            autoplay
+            style={{ height: "100%" }}
+          >
+            <div className="card-ads">
+              <div className="card-ads-content">
+                <div className="title-big-coming">
+                  BIG ALPHA IS COMING ... !
+                </div>
+                <div style={{ textAlign: "center", fontSize: "20px" }}>
+                  ⚡️ No Presale
+                  <br />
+                  ⚡️ No Airdrop
+                  <br />
+                  ⚡️ No DEV
+                  <br />
+                  ⚡️ Slerfy = Slerf
+                </div>
+                <div className="socials-bigc">
+                  <a
+                    className="socials-bigc-item"
+                    href="https://slerfy.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={webIcon} />
+                  </a>
+                  <a
+                    className="socials-bigc-item"
+                    style={{
+                      marginLeft: "40px",
+                    }}
+                    href="https://x.com/Slerfy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={xIcon} />
+                  </a>
+                  <a
+                    className="socials-bigc-item"
+                    style={{
+                      marginLeft: "40px",
+                    }}
+                    href="https://t.me/SlerfyPortal"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={teleIcon} />
+                  </a>
+                </div>
+              </div>
+
+              <div className="card-ads-img">
+                <img src={adsBigcoming} />
+              </div>
+            </div>
+            <div className="card-ads">
+              <div className="card-ads-content">
+                <Button
+                  style={{ width: "fit-content", pointerEvents: "none" }}
+                  className="ad-support-pc hover:bg-transparent!important flex h-11 items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px] "
+                >
+                  <div className="flex  justify-between rounded-full bg-black p-[10px] font-medium text-white">
+                    <span>SPONSORED</span>
+                  </div>
+                </Button>
+
+                <div
+                  className="ad-title"
+                  style={{
+                    marginBottom: "30px",
+                    marginTop: "15px",
+                    fontSize: "24px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Top Reasons to Use WIFtrade Bot for Trading 👑
+                </div>
+                <div
+                  style={{
+                    marginBottom: "20px",
+                    fontSize: "15px",
+                    fontWeight: "600",
+                  }}
+                >
+                  + Fastest Price Feed & New Pair Fetch on Solana
+                  <br />
+                  <br />+ Instant Swap Execution – Enjoy lightning-fast trades
+                  with no delays. ⚡️⚡️⚡️ <br />
+                  <br />+ Multi-Pool & DEX Support on Solana
+                  <br />
+                  <br />+ User-Friendly Interface – Simple and suitable for all
+                  traders. 👍👍👍
+                  <br />
+                  <br />
+                  Try it for free here!
+                </div>
+                <a
+                  href="https://t.me/wiftrade_bot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    border: "0",
+                    width: "25%",
+                    padding: "10px",
+                    flexDirection: "row",
+                  }}
+                  className="btn-visit inline-flex  flex-col items-center justify-center rounded-[20px] !bg-gradient-to-r !from-cyan-presale-theme !to-purple-presale-theme  text-xs font-semibold leading-[18px] !text-white hover:!text-white"
+                >
+                  <div style={{ width: "auto" }}> Access BOT </div>
+
+                  <ArrowRightOutlined
+                    style={{ display: "inline", marginLeft: "5px" }}
+                  />
+                </a>
+              </div>
+              <div className="card-ads-img">
+                <Button
+                  style={{ width: "fit-content", pointerEvents: "none" }}
+                  className="ad-support-mobile hover:bg-transparent!important flex h-11 items-center justify-center gap-2 rounded-full border-none bg-gradient-to-r from-cyan-presale-theme to-purple-presale-theme p-[1px] "
+                >
+                  <div className="flex  justify-between rounded-full bg-black p-[10px] font-medium text-white">
+                    <span className="ml-2">SPONSORED</span>
+                  </div>
+                </Button>
+                <img src={adsWif} />
+              </div>
+            </div>
             <div className="card-ads">
               <div className="card-ads-content">
                 <Button
@@ -310,11 +447,11 @@ export default function MyComponent() {
           </Button>
         </div>
 
-        <section class="scroll-container">
-          <div class="scroll-wrapper">
-            <div class="scroll-content">
+        <section className="scroll-container">
+          <div className="scroll-wrapper">
+            <div className="scroll-content">
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://dexscreener.com/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -322,7 +459,7 @@ export default function MyComponent() {
                 <img src={dexPart} />
               </a>
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://coinmarketcap.com/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -330,7 +467,7 @@ export default function MyComponent() {
                 <img src={cmcPart} />
               </a>
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://www.dextools.io/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -338,7 +475,7 @@ export default function MyComponent() {
                 <img src={dextoolsPart} />
               </a>
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://t.me/wiftrade_bot"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -346,7 +483,7 @@ export default function MyComponent() {
                 <img src={wifTradePart} />
               </a>
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://t.me/VolumeSolana_bot"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -354,17 +491,17 @@ export default function MyComponent() {
                 <img src={vsbPart} />
               </a>
               <a
-                class="scroll-item"
-                href="https://www.coingecko.com/"
+                className="scroll-item"
+                href="https://t.me/totalcaller"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={cgPart} />
+                <img src={totalcal} style={{ height: "55px" }} />
               </a>
             </div>
-            <div class="scroll-content">
+            <div className="scroll-content">
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://dexscreener.com/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -372,7 +509,7 @@ export default function MyComponent() {
                 <img src={dexPart} />
               </a>
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://coinmarketcap.com/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -380,7 +517,7 @@ export default function MyComponent() {
                 <img src={cmcPart} />
               </a>
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://www.dextools.io/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -388,7 +525,7 @@ export default function MyComponent() {
                 <img src={dextoolsPart} />
               </a>
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://t.me/wiftrade_bot"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -396,7 +533,7 @@ export default function MyComponent() {
                 <img src={wifTradePart} />
               </a>
               <a
-                class="scroll-item"
+                className="scroll-item"
                 href="https://t.me/VolumeSolana_bot"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -404,12 +541,12 @@ export default function MyComponent() {
                 <img src={vsbPart} />
               </a>
               <a
-                class="scroll-item"
-                href="https://www.coingecko.com/"
+                className="scroll-item"
+                href="https://t.me/totalcaller"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={cgPart} />
+                <img src={totalcal} style={{ height: "55px" }} />
               </a>
             </div>
           </div>

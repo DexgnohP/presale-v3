@@ -39,9 +39,9 @@ function App() {
           <BrowserRouter>
             <div className="App bg-black">
               <div className="relativ container">
-                <img src={background} className="background-fixed" />
-                <Header />
                 <DataProvider>
+                  <img src={background} className="background-fixed" />
+                  <Header />
                   <Routes>
                     <Route path="*" element={<MyComponent />} />
                     <Route path="referral" element={<ReferralPage />} />
